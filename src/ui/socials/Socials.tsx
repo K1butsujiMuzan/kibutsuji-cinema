@@ -8,9 +8,10 @@ export default function Socials() {
           'flex gap-y-1 gap-x-3 md:gap-6 flex-wrap justify-center items-center leading-4'
         }
       >
-        {socials.map(({ href, icon: Icon }) => (
+        {socials.map(({ href, label, icon: Icon }) => (
           <li key={href}>
             <a
+              aria-label={label}
               target={'_blank'}
               className={
                 'p-1 md:p-2 rounded-md hover:bg-pink-100 dark:hover:bg-gray-600 active:bg-pink-100 dark:active:bg-gray-600 active:scale-97 transition duration-300'

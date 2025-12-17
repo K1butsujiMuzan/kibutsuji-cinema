@@ -1,4 +1,4 @@
-import GuestHeader from '@/layout/GuestHeader'
+import GuestHeader from '@/layout/GuestHeader/GuestHeader'
 
 export default function WelcomeLayout({
   children,

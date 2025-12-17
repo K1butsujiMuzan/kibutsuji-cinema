@@ -6,7 +6,7 @@ export default function WelcomeHero() {
   return (
     <section
       className={
-        'container bg-gray-50 dark:bg-gray-800 rounded-2xl flex flex-col xl:grid xl:grid-cols-2 2xl:grid-cols-[1fr_auto] gap-5.5 xl:gap-4 xl:pl-11'
+        'container bg-gray-50 dark:bg-gray-800 rounded-2xl overflow-hidden flex flex-col xl:grid xl:grid-cols-2 2xl:grid-cols-[1fr_auto] gap-5.5 xl:gap-4 xl:pl-11'
       }
     >
       <div

@@ -7,7 +7,7 @@ export default function GuestHeader() {
   return (
     <header
       className={
-        'bg-pink-50 dark:bg-gray-750 px-4 sticky top-0 z-50 py-2 md:py-4'
+        'bg-pink-50 dark:bg-gray-750 px-4 sticky top-0 z-50 py-2 md:py-4 shadow-sm'
       }
     >
       <div
