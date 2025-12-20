@@ -10,8 +10,8 @@ export default function WelcomeWatchText({ title, paragraph, isLeft }: Props) {
   return (
     <div
       className={cn('flex flex-col justify-center gap-1 md:gap-3', {
-        'lg:pl-24': isLeft,
-        'lg:pr-24': !isLeft,
+        'xl:pl-24': isLeft,
+        'xl:pr-24': !isLeft,
       })}
     >
       <h2

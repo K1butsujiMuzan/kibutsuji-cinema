@@ -13,7 +13,7 @@ import downloadAndWatch from '../../../../../public/images/welcome/downloadAndWa
 import accountForKids from '../../../../../public/images/welcome/accountForKids.png'
 import onlineCinemaTV from '../../../../../public/images/welcome/onlineCinemaTV.png'
 import familyAccount from '../../../../../public/images/welcome/familyAccount.png'
-import pleaseDoNotDisturb from '../../../../../public/images/welcome/pleaseDoNotDisturb.png'
+import tanjiro from '../../../../../public/images/welcome/tanjiro.png'
 
 interface IImage {
   src: StaticImageData
@@ -139,8 +139,8 @@ export const welcomeContainer: IContainer[] = [
     paragraph: 'Content restriction for children. Player blocking function',
     isLeft: true,
     image: accountForKids,
-    width: 647,
-    height: 515,
+    width: 688,
+    height: 581,
   },
   {
     title: 'Online cinema on TV',
@@ -155,15 +155,15 @@ export const welcomeContainer: IContainer[] = [
     paragraph: 'Connect up to 3 accounts in one subscription',
     isLeft: true,
     image: familyAccount,
-    width: 661,
-    height: 268,
+    width: 760,
+    height: 383,
   },
   {
     title: 'Please do not disturb',
     paragraph: 'Missing commercials while watching',
     isLeft: false,
-    image: pleaseDoNotDisturb,
-    width: 647,
-    height: 327,
+    image: tanjiro,
+    width: 700,
+    height: 496,
   },
 ]
