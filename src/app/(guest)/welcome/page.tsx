@@ -5,9 +5,7 @@ export default function Welcome() {
   return (
     <main className={'mb-4 flex flex-col gap-12 md:gap-24'}>
       <WelcomeHero />
-      <div className={'container mx-auto'}>
-        <WelcomePremium />
-      </div>
+      <WelcomePremium />
     </main>
   )
 }

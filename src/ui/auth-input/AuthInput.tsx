@@ -18,7 +18,7 @@ export default function AuthInput({
       <input
         {...props}
         className={
-          'py-2 px-1.5 md:py-5 md:px-3 border border-gray-300/85 rounded-xl peer outline-none caret-gray-700 dark:caret-gray-100 w-full'
+          'py-2 px-1.5 md:py-5 md:px-3 border border-gray-700 dark:border-gray-300/85 rounded-xl peer outline-none caret-gray-700 dark:caret-gray-300 w-full'
         }
         id={id}
         placeholder={' '}

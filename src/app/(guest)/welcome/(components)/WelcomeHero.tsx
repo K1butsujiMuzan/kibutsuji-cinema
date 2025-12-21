@@ -6,7 +6,7 @@ export default function WelcomeHero() {
   return (
     <section
       className={
-        'text-white overflow-hidden relative px-3 md:pb-55 w-full before:content-[""] before:absolute before:inset-0 before:block before:bg-black/75 md:before:bg-black/0 md:before:bg-linear-to-l before:from-[-15%] before:from-black/0 before:via-40% before:via-black/75 before:to-75% before:to-black before:z-10'
+        'overflow-hidden relative px-3 md:pb-55 w-full before:content-[""] before:absolute before:inset-0 before:block before:bg-gray-50/50 dark:before:bg-gray-950/75 md:before:bg-black/0 md:before:bg-linear-to-l before:from-[-15%] before:from-black/0 before:via-40% before:via-gray-50/75 dark:before:via-black/75 before:to-75% before:to-gray-50 dark:before:to-gray-950 before:z-10'
       }
     >
       <Image
