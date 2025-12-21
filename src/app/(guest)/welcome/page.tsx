@@ -1,12 +1,12 @@
 import WelcomeHero from '@/app/(guest)/welcome/(components)/WelcomeHero'
-import WelcomeContainer from './(components)/WelcomeContainer'
+import WelcomePremium from "@/app/(guest)/welcome/(components)/WelcomePremium";
 
 export default function Welcome() {
   return (
-    <main className={'my-2 md:my-4'}>
-      <div className={'px-3 flex flex-col items-center gap-5'}>
-        <WelcomeHero />
-        <WelcomeContainer />
+    <main className={'mb-4 flex flex-col gap-12 md:gap-24'}>
+      <WelcomeHero />
+      <div className={'container mx-auto'}>
+        <WelcomePremium />
       </div>
     </main>
   )
