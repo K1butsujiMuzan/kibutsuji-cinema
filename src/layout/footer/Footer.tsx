@@ -1,36 +1,46 @@
-import Socials from '@/ui/socials/Socials'
-import { footerLinks } from '@/layout/footer/footer.data'
 import Link from 'next/link'
-import UploadSocials from '@/ui/upload-socials/UploadSocials'
-import Logo from '@/ui/logo/Logo'
+import { footerLinks } from '@/layout/footer/footer.data'
+import {MiniLogo} from "@/ui/logo/Logo";
 
 export default function Footer() {
   return (
-    <footer className={'bg-pink-50 dark:bg-gray-750'}>
+    <footer className={'bg-pink-50 dark:bg-gray-800'}>
       <div
         className={
-          'container mx-auto flex flex-col items-center gap-5 md:gap-12 py-5 md:py-12 px-4'
+          'container mx-auto flex justify-center lg:justify-between items-center p-3 xl:py-4 text-sm text-center'
         }
       >
-        <Socials />
-        <div
-          className={'flex gap-y-2 gap-x-6 md:gap-12 flex-wrap justify-center'}
-        >
-          {footerLinks.map((link) => (
-            <Link
+        <div className={'flex flex-col gap-2.5 xl:gap-1.5'}>
+          <div>
+            In case of copyright infringement, please contact{' '}
+            <a
               className={
-                'whitespace-nowrap hover:text-pink-400 hover:dark:text-pink-200 text-base md:text-18 transition duration-300'
+                'border-b hover:text-pink-400 hover:dark:text-pink-200 active:text-pink-400 active:dark:text-pink-200 transition duration-300 whitespace-nowrap'
               }
-              href={link.href}
-              key={link.text}
+              href={'mailto:information@kibutsuji.me'}
             >
-              {link.text}
-            </Link>
-          ))}
+              information@kibutsuji.me
+            </a>
+          </div>
+          <nav>
+            <ul className={'flex justify-center lg:justify-start gap-4'}>
+              {footerLinks.map((link) => (
+                <li key={link.name}>
+                  <Link
+                    className={
+                      'border-b whitespace-nowrap hover:text-pink-400 hover:dark:text-pink-200 active:text-pink-400 active:dark:text-pink-200 transition duration-300'
+                    }
+                    href={link.href}
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
-        <UploadSocials />
-        <div className={'flex justify-end w-full'}>
-          <Logo />
+        <div className={'hidden lg:block'}>
+          <MiniLogo/>
         </div>
       </div>
     </footer>

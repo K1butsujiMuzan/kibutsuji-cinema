@@ -10,12 +10,14 @@ export default function WelcomeContainer() {
   return (
     <section
       className={
-        'container bg-gray-50 dark:bg-gray-800 rounded-2xl flex flex-col items-center gap-6 lg:gap-4 p-4'
+        'container bg-gray-50 dark:bg-gray-800 rounded-2xl flex flex-col items-center gap-6 lg:gap-4 p-3'
       }
     >
       {welcomeContainer.map((container) => (
         <div
-          className={'w-full flex flex-col-reverse lg:grid lg:grid-cols-2 gap-4 lg:items-center'}
+          className={
+            'w-full flex flex-col-reverse lg:grid lg:grid-cols-2 gap-4 lg:items-center'
+          }
           key={container.title}
         >
           <Image

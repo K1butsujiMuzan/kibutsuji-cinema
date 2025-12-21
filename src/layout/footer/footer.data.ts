@@ -1,29 +1,17 @@
 import { PAGES } from '@/configs/links'
 
 interface IFooterLink {
-  text: string
+  name: string
   href: string
 }
 
 export const footerLinks: IFooterLink[] = [
   {
-    text: 'Home',
-    href: PAGES.MAIN,
-  },
-  {
-    text: 'Info',
+    name: 'Information',
     href: PAGES.INFO,
   },
   {
-    text: 'Contact us',
-    href: PAGES.CONTACTS,
-  },
-  {
-    text: 'FAQ',
+    name: 'FAQ',
     href: PAGES.FAQ,
-  },
-  {
-    text: 'Account',
-    href: PAGES.PROFILE,
   },
 ]
