@@ -1,6 +1,6 @@
 import WelcomeRegistration from '@/app/(guest)/welcome/(components)/WelcomeRegistration'
 import authBackground from '../../../../../public/images/auth/authbackground.jpg'
-import Image from "next/image";
+import Image from 'next/image'
 
 export default function WelcomeHero() {
   return (
@@ -10,12 +10,18 @@ export default function WelcomeHero() {
       }
     >
       <Image
-        className={'absolute inset-0 w-full min-h-[200%] md:min-h-full object-cover'}
+        className={
+          'absolute inset-0 w-full min-h-[200%] md:min-h-full object-cover'
+        }
         src={authBackground}
         priority={true}
         alt={''}
       />
-      <div className={'z-20 relative py-30 flex flex-col gap-5 mx-auto items-center text-center md:text-left md:items-start max-w-140 md:max-w-200'}>
+      <div
+        className={
+          'z-20 relative py-30 flex flex-col gap-5 mx-auto items-center text-center md:text-left md:items-start max-w-140 md:max-w-200'
+        }
+      >
         <h1 className={'text-40 md:text-80 font-bold'}>
           The largest collection of anime
         </h1>

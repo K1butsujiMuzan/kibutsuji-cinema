@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { footerLinks } from '@/layout/footer/footer.data'
-import {MiniLogo} from "@/ui/logo/Logo";
+import { MiniLogo } from '@/ui/logo/Logo'
 
 export default function Footer() {
   return (
@@ -40,7 +40,7 @@ export default function Footer() {
           </nav>
         </div>
         <div className={'hidden lg:block'}>
-          <MiniLogo/>
+          <MiniLogo />
         </div>
       </div>
     </footer>

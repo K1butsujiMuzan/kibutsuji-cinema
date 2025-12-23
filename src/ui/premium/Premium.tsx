@@ -1,56 +1,58 @@
 'use client'
 
-import {useState} from "react";
-import {cn} from "../../../lib/utils";
-import Link from "next/link";
-import {PAGES} from "@/configs/links";
-import {premium} from "@/ui/premium/premium.data";
+import { useState } from 'react'
+import { cn } from '../../../lib/utils'
+import Link from 'next/link'
+import { PAGES } from '@/configs/links'
+import { premium } from '@/ui/premium/premium.data'
 
 export default function Premium() {
   const [isMonthly, setIsMonthly] = useState(true)
 
   return (
     <div className={'flex flex-col gap-6 md:gap-8 items-center w-full'}>
-      <div className={'grid grid-cols-2 p-3 border border-pink-400 rounded-100 font-semibold'}>
+      <div
+        className={
+          'grid grid-cols-2 p-3 border border-pink-400 rounded-100 font-semibold'
+        }
+      >
         <button
           onClick={() => setIsMonthly(true)}
-          className={cn(
-            'px-6 py-1 transition duration-300 rounded-100',
-            {
-              'text-white bg-pink-400 hover:bg-pink-450 active:bg-pink-500': isMonthly
-            }
-          )}
+          className={cn('px-6 py-1 transition duration-300 rounded-100', {
+            'text-white bg-pink-400 hover:bg-pink-450 active:bg-pink-500':
+              isMonthly,
+          })}
           type="button"
         >
-          <span className={'text-sm'}>
-            Monthly
-          </span>
+          <span className={'text-sm'}>Monthly</span>
         </button>
         <button
           onClick={() => setIsMonthly(false)}
           className={cn(
             'px-6 py-1 transition duration-300 rounded-100 flex flex-col',
             {
-              'text-white bg-pink-400 hover:bg-pink-450 active:bg-pink-500': !isMonthly
-            }
+              'text-white bg-pink-400 hover:bg-pink-450 active:bg-pink-500':
+                !isMonthly,
+            },
           )}
           type="button"
         >
-          <span className={'text-sm leading-4.5'}>
-            Annually
-          </span>
-          <span className={'text-10 text-nowrap'}>
-            Save 25%
-          </span>
+          <span className={'text-sm leading-4.5'}>Annually</span>
+          <span className={'text-10 text-nowrap'}>Save 25%</span>
         </button>
       </div>
-      <div className={'flex justify-center flex-col md:flex-row mx-auto gap-5 text-center w-full overflow-auto'}>
-        {premium.map(container => (
+      <div
+        className={
+          'flex justify-center flex-col md:flex-row mx-auto gap-5 text-center w-full overflow-auto'
+        }
+      >
+        {premium.map((container) => (
           <div
             className={cn(
-              'border border-pink-400 px-4.5 pt-5 pb-8 rounded-2xl w-84 mx-auto md:m-0',{
-                'pt-15': !container.isMostPopular
-              }
+              'border border-pink-400 px-4.5 pt-5 pb-8 rounded-2xl w-84 mx-auto md:m-0',
+              {
+                'pt-15': !container.isMostPopular,
+              },
             )}
             key={container.title}
           >
@@ -104,28 +106,40 @@ export default function Premium() {
                   </div>
                 </>
               )}
-              <small className={'text-10 uppercase opacity-75 font-semibold mb-4'}>Value Added Tax inclusive</small>
+              <small
+                className={'text-10 uppercase opacity-75 font-semibold mb-4'}
+              >
+                Value Added Tax inclusive
+              </small>
               <Link
                 href={PAGES.AUTH}
                 className={cn(
-                  'py-2 border border-pink-400 rounded-md justify-center font-semibold', {
-                    'text-white bg-pink-400 hover:bg-pink-450 active:bg-pink-500': container.isMostPopular,
-                    'dark:text-white hover:border-pink-450 active:border-pink-500': !container.isMostPopular
-                  }
+                  'py-2 border border-pink-400 rounded-md justify-center font-semibold',
+                  {
+                    'text-white bg-pink-400 hover:bg-pink-450 active:bg-pink-500':
+                      container.isMostPopular,
+                    'dark:text-white hover:border-pink-450 active:border-pink-500':
+                      !container.isMostPopular,
+                  },
                 )}
               >
                 Start a 7-day trial
               </Link>
               <Link
                 href={PAGES.AUTH}
-                className={'py-2 border border-transparent dark:text-white rounded-md justify-center font-semibold'}
+                className={
+                  'py-2 border border-transparent dark:text-white rounded-md justify-center font-semibold'
+                }
               >
                 Skip the trial period
               </Link>
             </div>
             <ul className={'w-full text-left flex flex-col gap-2'}>
-              {container.advantages.map(advantage => (
-                <li key={advantage} className={'flex gap-2.5 text-sm items-start'}>
+              {container.advantages.map((advantage) => (
+                <li
+                  key={advantage}
+                  className={'flex gap-2.5 text-sm items-start'}
+                >
                   <svg
                     className={'fill-pink-400 shrink-0 mt-0.25'}
                     xmlns="http://www.w3.org/2000/svg"
@@ -144,7 +158,10 @@ export default function Premium() {
         ))}
       </div>
       <small className={'text-center text-xs max-w-167 px-3'}>
-        This offer is valid for new subscribers only. Your subscription automatically renews after the trial period at the price you selected when comparing plans. You can cancel at any time. Restrictions and other terms apply, including changes to price, content, and features.
+        This offer is valid for new subscribers only. Your subscription
+        automatically renews after the trial period at the price you selected
+        when comparing plans. You can cancel at any time. Restrictions and other
+        terms apply, including changes to price, content, and features.
       </small>
     </div>
   )

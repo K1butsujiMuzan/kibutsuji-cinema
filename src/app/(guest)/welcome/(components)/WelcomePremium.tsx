@@ -1,4 +1,4 @@
-import Premium from "@/ui/premium/Premium";
+import Premium from '@/ui/premium/Premium'
 
 export default function WelcomePremium() {
   return (

@@ -1,6 +1,6 @@
 import WelcomeHero from '@/app/(guest)/welcome/(components)/WelcomeHero'
-import WelcomePopular from "@/app/(guest)/welcome/(components)/WelcomePopular";
-import WelcomePremium from "@/app/(guest)/welcome/(components)/WelcomePremium";
+import WelcomePopular from '@/app/(guest)/welcome/(components)/WelcomePopular'
+import WelcomePremium from '@/app/(guest)/welcome/(components)/WelcomePremium'
 
 export default function Welcome() {
   return (

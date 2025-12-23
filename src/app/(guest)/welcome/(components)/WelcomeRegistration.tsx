@@ -6,7 +6,9 @@ export default function WelcomeRegistration() {
     <div className={'flex flex-col gap-1 md:gap-4 w-full'}>
       <form
         action=""
-        className={'flex gap-3 md:gap-4.5 flex-col items-center md:items-start md:flex-row'}
+        className={
+          'flex gap-3 md:gap-4.5 flex-col items-center md:items-start md:flex-row'
+        }
       >
         <AuthInput
           labelText={'email'}

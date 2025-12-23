@@ -1,4 +1,4 @@
-import WelcomeSlider from "@/app/(guest)/welcome/(components)/WelcomeSlider";
+import WelcomeSlider from '@/app/(guest)/welcome/(components)/WelcomeSlider'
 
 export default function WelcomePopular() {
   return (
@@ -8,7 +8,8 @@ export default function WelcomePopular() {
           Watch first
         </h2>
         <p className={'max-w-128 text-base md:text-18'}>
-          Watch full seasons of the best anime, ongoing series, Kibutsuji Originals, and more!
+          Watch full seasons of the best anime, ongoing series, Kibutsuji
+          Originals, and more!
         </p>
       </div>
       <WelcomeSlider />

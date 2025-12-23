@@ -61,15 +61,41 @@ export function MiniLogo() {
       <svg
         aria-hidden={true}
         className={' text-pink-300 h-full w-auto'}
-        width="65" height="65" viewBox="0 0 65 65" fill="none" xmlns="http://www.w3.org/2000/svg"
+        width="65"
+        height="65"
+        viewBox="0 0 65 65"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
       >
         <path
           className={'text-gray-700 dark:text-gray-100'}
-          d="M19.456 49V15.592H27.28V28.552L39.232 15.592H48.448L33.616 31.528L49.216 49H39.328L27.28 35.368V49H19.456Z" fill="#BFBFBF"/>
-        <rect x="58" y="65" width="30" height="7" transform="rotate(-90 58 65)" fill="#7E57C2"/>
-        <rect x="65" y="65" width="30" height="7" transform="rotate(-180 65 65)" fill="#7E57C2"/>
-        <rect x="7" width="30" height="7" transform="rotate(90 7 0)" fill="#7E57C2"/>
-        <rect width="30" height="7" fill="#7E57C2"/>
+          d="M19.456 49V15.592H27.28V28.552L39.232 15.592H48.448L33.616 31.528L49.216 49H39.328L27.28 35.368V49H19.456Z"
+          fill="#BFBFBF"
+        />
+        <rect
+          x="58"
+          y="65"
+          width="30"
+          height="7"
+          transform="rotate(-90 58 65)"
+          fill="#7E57C2"
+        />
+        <rect
+          x="65"
+          y="65"
+          width="30"
+          height="7"
+          transform="rotate(-180 65 65)"
+          fill="#7E57C2"
+        />
+        <rect
+          x="7"
+          width="30"
+          height="7"
+          transform="rotate(90 7 0)"
+          fill="#7E57C2"
+        />
+        <rect width="30" height="7" fill="#7E57C2" />
       </svg>
     </Link>
   )
