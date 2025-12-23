@@ -17,7 +17,7 @@ main{
 
 @theme inline {
   --font-main: var(--font-poppins);
-  --breakpoint-sn: 30.5rem;
+  --breakpoint-sn: 30rem;
 
   --text-5: 0.3125rem;
   --text-6: 0.375rem;
@@ -47,4 +47,8 @@ main{
   --color-gray-750: #252527;
   --color-gray-800: #1c1c1c;
   --color-gray-950: #0a0a0a;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
 }
