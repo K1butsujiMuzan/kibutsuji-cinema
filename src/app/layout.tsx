@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import '../styles/globals.css'
-import { fontPoppins } from '@/constants/fonts'
+import { fontAtyp } from '@/constants/fonts'
 import ThemeProvider from '@/providers/ThemeProvider'
 import Footer from '@/layout/footer/Footer'
 
@@ -24,7 +24,7 @@ export default function RootLayout({
       suppressHydrationWarning
       className={'bg-gray-50 text-gray-700 dark:bg-gray-950 dark:text-gray-100'}
     >
-      <body className={`${fontPoppins.variable} antialiased font-main`}>
+      <body className={`${fontAtyp.variable} antialiased font-main`}>
         <ThemeProvider>
           {children}
           <Footer />

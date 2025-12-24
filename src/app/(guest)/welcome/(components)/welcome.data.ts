@@ -26,6 +26,8 @@ export interface ISlide {
   href: string
 }
 
+export const WELCOME_PREMIUM_ANCHOR: string = 'WelcomePremium'
+
 export const sliderImages: ISlide[] = [
   {
     image: soloLeveling,

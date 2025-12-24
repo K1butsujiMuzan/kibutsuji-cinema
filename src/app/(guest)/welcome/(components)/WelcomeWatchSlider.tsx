@@ -1,11 +1,10 @@
 'use client'
 import { sliderImages } from '@/app/(guest)/welcome/(components)/welcome.data'
-import Image from 'next/image'
 import { useRef, useState, useEffect } from 'react'
-import WelcomeSliderButton from '@/app/(guest)/welcome/(components)/WelcomeSliderButton'
-import WelcomeSlide from '@/app/(guest)/welcome/(components)/WelcomeSlide'
+import WelcomeWatchSliderButton from '@/app/(guest)/welcome/(components)/WelcomeWatchSliderButton'
+import WelcomeWatchSlide from '@/app/(guest)/welcome/(components)/WelcomeWatchSlide'
 
-export default function WelcomeSlider() {
+export default function WelcomeWatchSlider() {
   const sliderRef = useRef<HTMLUListElement>(null)
   const [positionLeft, setPositionLeft] = useState(0)
   const [maxScrollWidth, setMaxScrollWidth] = useState(0)
@@ -41,7 +40,7 @@ export default function WelcomeSlider() {
     <div className={'px-3 sm:px-10 w-full'}>
       <div className={'max-w-270 relative w-full mx-auto'}>
         {positionLeft > 0 && (
-          <WelcomeSliderButton
+          <WelcomeWatchSliderButton
             isLeft={true}
             onClick={() => scrollSlider('left')}
           />
@@ -54,11 +53,11 @@ export default function WelcomeSlider() {
           className={'flex overflow-x-auto snap-x snap-mandatory no-scrollbar'}
         >
           {sliderImages.map((slide) => (
-            <WelcomeSlide slide={slide} key={slide.title} />
+            <WelcomeWatchSlide slide={slide} key={slide.title} />
           ))}
         </ul>
         {positionLeft < maxScrollWidth && (
-          <WelcomeSliderButton
+          <WelcomeWatchSliderButton
             isLeft={false}
             onClick={() => scrollSlider('right')}
           />

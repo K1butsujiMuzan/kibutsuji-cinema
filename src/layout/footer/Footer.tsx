@@ -39,7 +39,7 @@ export default function Footer() {
             </ul>
           </nav>
         </div>
-        <div className={'hidden lg:block'}>
+        <div className={'hidden lg:flex'}>
           <MiniLogo />
         </div>
       </div>

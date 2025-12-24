@@ -6,7 +6,7 @@ interface Props {
   onClick: () => void
 }
 
-export default function WelcomeSliderButton({ isLeft, onClick }: Props) {
+export default function WelcomeWatchSliderButton({ isLeft, onClick }: Props) {
   return (
     <button
       onClick={onClick}

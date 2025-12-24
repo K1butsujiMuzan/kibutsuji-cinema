@@ -5,7 +5,7 @@ interface Props {
   slide: ISlide
 }
 
-export default function WelcomeSlide({ slide }: Props) {
+export default function WelcomeWatchSlide({ slide }: Props) {
   return (
     <li
       className={

@@ -18,7 +18,7 @@ export default function Premium() {
       >
         <button
           onClick={() => setIsMonthly(true)}
-          className={cn('px-6 py-1 transition duration-300 rounded-100', {
+          className={cn('px-6.5 py-1 transition duration-300 rounded-100', {
             'text-white bg-pink-400 hover:bg-pink-450 active:bg-pink-500':
               isMonthly,
           })}
@@ -29,7 +29,7 @@ export default function Premium() {
         <button
           onClick={() => setIsMonthly(false)}
           className={cn(
-            'px-6 py-1 transition duration-300 rounded-100 flex flex-col',
+            'px-6.5 py-1 transition duration-300 rounded-100 flex flex-col',
             {
               'text-white bg-pink-400 hover:bg-pink-450 active:bg-pink-500':
                 !isMonthly,
@@ -73,7 +73,7 @@ export default function Premium() {
                       fill="#FF5E00"
                     ></path>
                   </svg>
-                  <span>MOST POPULAR</span>
+                  <span className={'uppercase'}>most popular</span>
                   <svg
                     className={'text-pink-400 -rotate-60'}
                     aria-hidden={true}
@@ -90,7 +90,9 @@ export default function Premium() {
                   </svg>
                 </div>
               )}
-              <h3 className={'text-32 font-semibold'}>{container.title}</h3>
+              <h3 className={'text-34 leading-11 pb-1 font-bold'}>
+                {container.title}
+              </h3>
               {isMonthly && (
                 <div className={'text-2xl font-medium'}>
                   {container.cost[0]}
@@ -101,20 +103,22 @@ export default function Premium() {
                   <div className={'text-2xl font-medium'}>
                     {container.cost[1]}
                   </div>
-                  <div className={'text-xl font-medium opacity-75'}>
-                    {container.annually}
+                  <div className={'text-xl leading-6.5 font-medium opacity-75'}>
+                    ( {container.annually} )
                   </div>
                 </>
               )}
               <small
-                className={'text-10 uppercase opacity-75 font-semibold mb-4'}
+                className={
+                  'text-10 leading-4 uppercase opacity-75 font-semibold mb-4'
+                }
               >
                 Value Added Tax inclusive
               </small>
               <Link
                 href={PAGES.AUTH}
                 className={cn(
-                  'py-2 border border-pink-400 rounded-md justify-center font-semibold',
+                  'py-1.75 border border-pink-400 rounded-md justify-center font-semibold',
                   {
                     'text-white bg-pink-400 hover:bg-pink-450 active:bg-pink-500':
                       container.isMostPopular,
@@ -123,22 +127,22 @@ export default function Premium() {
                   },
                 )}
               >
-                Start a 7-day trial
+                Start A 7-Day Trial
               </Link>
               <Link
                 href={PAGES.AUTH}
                 className={
-                  'py-2 border border-transparent dark:text-white rounded-md justify-center font-semibold'
+                  'py-1.75 border border-transparent dark:text-white rounded-md justify-center font-semibold'
                 }
               >
-                Skip the trial period
+                Skip The Trial Period
               </Link>
             </div>
-            <ul className={'w-full text-left flex flex-col gap-2'}>
+            <ul className={'w-full text-left flex flex-col gap-3'}>
               {container.advantages.map((advantage) => (
                 <li
                   key={advantage}
-                  className={'flex gap-2.5 text-sm items-start'}
+                  className={'flex gap-2.5 text-sm items-start leading-4.5'}
                 >
                   <svg
                     className={'fill-pink-400 shrink-0 mt-0.25'}
@@ -157,7 +161,7 @@ export default function Premium() {
           </div>
         ))}
       </div>
-      <small className={'text-center text-xs max-w-167 px-3'}>
+      <small className={'text-center text-xs max-w-167.5 mx-3 font-semibold'}>
         This offer is valid for new subscribers only. Your subscription
         automatically renews after the trial period at the price you selected
         when comparing plans. You can cancel at any time. Restrictions and other

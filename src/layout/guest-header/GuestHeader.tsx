@@ -7,7 +7,7 @@ export default function GuestHeader() {
   return (
     <header
       className={
-        'bg-pink-50 dark:bg-gray-750 sticky top-0 z-50 px-3 py-2 shadow-sm'
+        'bg-pink-50/60 dark:bg-gray-750/60 fixed w-full top-0 z-50 px-3 py-2 shadow-sm'
       }
     >
       <div
@@ -18,7 +18,11 @@ export default function GuestHeader() {
         <Logo />
         <div className={'flex gap-4 items-center'}>
           <ThemeSwitch />
-          <AccentLink href={PAGES.AUTH} text={'Sign in'} />
+          <AccentLink
+            href={PAGES.PROFILE}
+            text={'Login'}
+            className={'px-4 md:px-5 py-1 md:py-2'}
+          />
         </div>
       </div>
     </header>
