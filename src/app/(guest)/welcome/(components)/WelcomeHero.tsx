@@ -2,6 +2,7 @@ import authBackground from '../../../../../public/images/auth/authbackground.jpg
 import Image from 'next/image'
 import AccentLink from '@/ui/accent-link/AccentLink'
 import { WELCOME_PREMIUM_ANCHOR } from '@/app/(guest)/welcome/(components)/welcome.data'
+import WelcomeHeroButton from '@/app/(guest)/welcome/(components)/WelcomeHeroButton'
 
 export default function WelcomeHero() {
   return (
@@ -12,8 +13,10 @@ export default function WelcomeHero() {
     >
       <Image
         className={
-          'absolute inset-0 w-full min-h-[200%] md:min-h-full object-cover'
+          'w-full min-h-[200%] md:min-h-full object-cover absolute inset-0'
         }
+        width={3441}
+        height={2344}
         src={authBackground}
         priority={true}
         alt={''}
@@ -31,17 +34,13 @@ export default function WelcomeHero() {
           The largest collection of anime
         </h1>
         <p
-          className={'text-xl leading-6 md:leading-9 md:text-4xl font-semibold'}
+          className={
+            'text-xl leading-6 md:leading-9 md:text-4xl font-semibold order-3 md:order-2'
+          }
         >
           Join Kibutsuji and discover a world of anime
         </p>
-        <AccentLink
-          text={'Start a free trial'}
-          href={`#${WELCOME_PREMIUM_ANCHOR}`}
-          className={
-            'uppercase font-bold px-13.5 sm:px-8 py-3 md:py-7 md:text-xl'
-          }
-        />
+        <WelcomeHeroButton />
       </div>
     </section>
   )

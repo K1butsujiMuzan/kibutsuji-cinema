@@ -19,16 +19,33 @@ import steinsGate from '../../../../../public/images/welcome/steins-gate.png'
 import kimetsuNoYaibaEntertainmentDistrictArc from '../../../../../public/images/welcome/kimetsu-no-yaiba-entertainment-districtArc.png'
 import mashle from '../../../../../public/images/welcome/mashle.png'
 import swordArtOnline from '../../../../../public/images/welcome/sword-art-online.png'
+import type { FC, SVGProps } from 'react'
+import {
+  WelcomeMoreIconAccess,
+  WelcomeMoreIconDevices,
+  WelcomeMoreIconDownload,
+  WelcomeMoreIconEpisodes,
+  WelcomeMoreIconOffers,
+  WelcomeMoreIconStore,
+  WelcomeMoreIconVault,
+  WelcomeMoreIconView,
+} from '@/app/(guest)/welcome/(components)/WelcomeMoreIcons'
 
-export interface ISlide {
+export interface IImageSlide {
   image: StaticImageData
   title: string
   href: string
 }
 
-export const WELCOME_PREMIUM_ANCHOR: string = 'WelcomePremium'
+interface IIconSlide {
+  icon: FC<SVGProps<SVGSVGElement>>
+  text: string
+}
 
-export const sliderImages: ISlide[] = [
+export const WELCOME_PREMIUM_ANCHOR: string = 'welcome-premium'
+export const WELCOME_PREMIUM_TITLE: string = 'premium-title'
+
+export const sliderImages: IImageSlide[] = [
   {
     image: soloLeveling,
     title: 'Solo Leveling',
@@ -128,5 +145,40 @@ export const sliderImages: ISlide[] = [
     image: madeInAbyss,
     title: 'Made in Abyss',
     href: '#',
+  },
+]
+
+export const sliderIcons: IIconSlide[] = [
+  {
+    icon: WelcomeMoreIconView,
+    text: 'View without ads',
+  },
+  {
+    icon: WelcomeMoreIconAccess,
+    text: 'Full access to the Kibutsuji library',
+  },
+  {
+    icon: WelcomeMoreIconEpisodes,
+    text: 'New episodes coming soon after release in Japan',
+  },
+  {
+    icon: WelcomeMoreIconStore,
+    text: 'Get 15% off select items at the Kibutsuji Store',
+  },
+  {
+    icon: WelcomeMoreIconVault,
+    text: 'Access to the Kibutsuji Vault',
+  },
+  {
+    icon: WelcomeMoreIconOffers,
+    text: 'Exclusive offers and early access to sales',
+  },
+  {
+    icon: WelcomeMoreIconDevices,
+    text: 'View on 6 devices simultaneously',
+  },
+  {
+    icon: WelcomeMoreIconDownload,
+    text: 'Download HD video',
   },
 ]

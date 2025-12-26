@@ -1,7 +1,8 @@
-interface IPremium {
+export interface IPremium {
   isMostPopular: boolean
   title: string
-  cost: [string, string]
+  month: string
+  year: string
   annually: string
   advantages: string[]
 }
@@ -10,7 +11,8 @@ export const premium: IPremium[] = [
   {
     isMostPopular: false,
     title: 'Fan',
-    cost: ['4.99 USD/per month', '49.99 USD/per year'],
+    month: '4.99 USD/per month',
+    year: '49.99 USD/per year',
     annually: '4.16 USD/per month',
     advantages: [
       'No ads',
@@ -22,7 +24,8 @@ export const premium: IPremium[] = [
   {
     isMostPopular: true,
     title: 'Mega Fan',
-    cost: ['9.99 USD/per month', '99.99 USD/per year'],
+    month: '9.99 USD/per month',
+    year: '99.99 USD/per year',
     annually: '8.33 USD/per month',
     advantages: [
       'No ads, plus access to all content',

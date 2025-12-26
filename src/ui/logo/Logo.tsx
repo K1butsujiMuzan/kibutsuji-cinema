@@ -9,6 +9,7 @@ export function Logo() {
       className={'h-9 md:h-12.5'}
     >
       <svg
+        role={'img'}
         aria-hidden={true}
         className={' text-pink-300 h-full w-auto'}
         width="285"

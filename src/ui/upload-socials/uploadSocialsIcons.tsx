@@ -1,6 +1,7 @@
 export function AppStore() {
   return (
     <svg
+      role={'img'}
       className={'shrink-0 w-7.5 h-7.5 md:w-10 md:h-10'}
       aria-hidden={true}
       width="40"
@@ -22,6 +23,7 @@ export function AppStore() {
 export function GooglePlay() {
   return (
     <svg
+      role={'img'}
       className={'shrink-0 w-7.5 h-7.5 md:w-10 md:h-10'}
       aria-hidden={true}
       width="40"

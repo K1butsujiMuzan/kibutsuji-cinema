@@ -1,7 +1,8 @@
 export const PAGES = {
   MAIN: '/',
   WELCOME: '/welcome',
-  AUTH: '/auth',
+  LOGIN: '/login',
+  REGISTER: '/register',
   PROFILE: '/profile',
   INFO: '/info',
   FAQ: '/faq',

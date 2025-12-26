@@ -3,10 +3,10 @@ import { PAGES } from '@/configs/links'
 
 export default function WelcomeSubscription() {
   return (
-    <section className={'flex flex-col items-center gap-4.5'}>
+    <section className={'flex flex-col items-center gap-4.5 px-5'}>
       <h2
         className={
-          'text-2xl md:text-54 leading-8 md:leading-16 text-center font-bold px-3'
+          'text-28 md:text-54 leading-9 md:leading-16 text-center font-bold px-3'
         }
       >
         Already have a subscription?

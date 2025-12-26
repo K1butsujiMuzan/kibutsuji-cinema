@@ -4,14 +4,23 @@ import { cn } from '../../../../../lib/utils'
 interface Props {
   isLeft: boolean
   onClick: () => void
+  className?: string
+  ariaLabel: string
 }
 
-export default function WelcomeWatchSliderButton({ isLeft, onClick }: Props) {
+export default function WelcomeSliderButton({
+  isLeft,
+  onClick,
+  className,
+  ariaLabel,
+}: Props) {
   return (
     <button
+      aria-label={ariaLabel}
       onClick={onClick}
       className={cn(
-        'hidden sm:block absolute top-1/3 z-10 text-black dark:text-white hover:bg-pink-100 dark:hover:bg-gray-600 active:bg-pink-100 dark:active:bg-gray-600 transition duration-300',
+        'absolute top-1/3 z-10 text-black dark:text-white hover:bg-pink-100 dark:hover:bg-gray-600 active:bg-pink-100 dark:active:bg-gray-600 transition duration-300',
+        className,
         {
           'left-0 -translate-x-full': isLeft,
           'right-0 translate-x-full scale-x-[-1]': !isLeft,
@@ -20,6 +29,7 @@ export default function WelcomeWatchSliderButton({ isLeft, onClick }: Props) {
       type="button"
     >
       <svg
+        role={'img'}
         className={'h-10 w-10'}
         aria-hidden={true}
         width="24"

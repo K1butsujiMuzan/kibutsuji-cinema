@@ -1,15 +1,22 @@
 import Image from 'next/image'
-import type { ISlide } from '@/app/(guest)/welcome/(components)/welcome.data'
+import {
+  type IImageSlide,
+  sliderImages,
+} from '@/app/(guest)/welcome/(components)/welcome.data'
 
 interface Props {
-  slide: ISlide
+  slide: IImageSlide
+  index: number
 }
 
-export default function WelcomeWatchSlide({ slide }: Props) {
+export default function WelcomeWatchSlide({ slide, index }: Props) {
   return (
     <li
+      aria-roledescription={'slide'}
+      role={'group'}
+      aria-label={`${index + 1} of ${sliderImages.length}`}
       className={
-        'min-w-36.25 w-[calc(50%-0.75rem)] sn:w-[calc((100%/3)-0.75rem)] sm:w-1/4 lg:w-1/6 shrink-0 snap-start px-1.25 pt-1.5 sm:px-2.25'
+        'min-w-36.25 w-[calc(50%-0.75rem)] sn:w-[calc((100%/3)-0.75rem)] sm:w-1/4 lg:w-1/6 shrink-0 snap-start px-1.25 py-1.5 sm:px-2.25'
       }
     >
       <a
@@ -25,7 +32,7 @@ export default function WelcomeWatchSlide({ slide }: Props) {
           src={slide.image}
           alt={slide.title}
         />
-        <h3 className={'text-sm pt-3'}>{slide.title}</h3>
+        <h3 className={'text-sm pt-3 font-medium'}>{slide.title}</h3>
       </a>
     </li>
   )

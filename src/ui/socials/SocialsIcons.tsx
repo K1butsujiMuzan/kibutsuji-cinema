@@ -1,6 +1,7 @@
 export function InstagramIcon() {
   return (
     <svg
+      role={'img'}
       aria-hidden={true}
       width="24"
       height="24"
@@ -34,6 +35,7 @@ export function InstagramIcon() {
 export function TwitterIcon() {
   return (
     <svg
+      role={'img'}
       aria-hidden={true}
       width="24"
       height="24"
@@ -52,6 +54,7 @@ export function TwitterIcon() {
 export function FacebookIcon() {
   return (
     <svg
+      role={'img'}
       aria-hidden={true}
       width="24"
       height="24"
@@ -70,6 +73,7 @@ export function FacebookIcon() {
 export function TelegramIcon() {
   return (
     <svg
+      role={'img'}
       aria-hidden={true}
       width="24"
       height="24"

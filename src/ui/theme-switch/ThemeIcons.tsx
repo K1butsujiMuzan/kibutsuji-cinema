@@ -1,6 +1,7 @@
 export function ThemeIconDark() {
   return (
     <svg
+      role={'img'}
       aria-hidden={true}
       width="24"
       height="24"
@@ -22,6 +23,7 @@ export function ThemeIconDark() {
 export function ThemeIconLight() {
   return (
     <svg
+      role={'img'}
       aria-hidden={true}
       width="24"
       height="24"
@@ -43,6 +45,7 @@ export function ThemeIconLight() {
 export function ThemeIconSystem() {
   return (
     <svg
+      role={'img'}
       aria-hidden={true}
       width="24"
       height="24"
