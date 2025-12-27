@@ -9,7 +9,7 @@ export default function WelcomeQuestions() {
           Contact us{' '}
           <a
             className={
-              'text-pink-400 hover:text-gray-700 dark:hover:text-gray-100 hover:underline active:text-gray-700 dark:active:text-gray-100 transition duration-300'
+              'text-pink-400 hover:text-gray-700 dark:hover:text-gray-100 hover:underline active:text-gray-700 dark:active:text-gray-100 active:underline transition duration-300'
             }
             href="mailto:information@kibutsuji.me"
           >

@@ -8,7 +8,7 @@ export default function WelcomePremium() {
   return (
     <section
       id={WELCOME_PREMIUM_ANCHOR}
-      className={'mx-5 flex flex-col items-center gap-8 md:gap-14'}
+      className={'flex flex-col items-center gap-8 md:gap-14'}
     >
       <h2
         id={WELCOME_PREMIUM_TITLE}
