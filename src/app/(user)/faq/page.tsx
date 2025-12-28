@@ -24,7 +24,9 @@ export default function Faq() {
           <li key={item.question} className={'w-full'}>
             <details className={'group flex flex-col open:gap-3 border-b pb-4'}>
               <summary
-                className={'list-none flex justify-between cursor-pointer'}
+                className={
+                  'list-none flex justify-between items-center cursor-pointer'
+                }
               >
                 <h2 className={'text-xl md:text-2xl leading-8 font-medium'}>
                   {item.question}
@@ -32,7 +34,7 @@ export default function Faq() {
                 <svg
                   role={'img'}
                   aria-hidden={true}
-                  className="w-6 h-6 fill-gray-700 dark:fill-gray-100 group-open:hidden"
+                  className="w-6 h-6 fill-gray-700 dark:fill-gray-100 group-open:hidden shrink-0"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                   data-t="add-svg"
