@@ -4,6 +4,11 @@ import WelcomePremium from '@/app/(guest)/welcome/(components)/WelcomePremium'
 import WelcomeSubscription from '@/app/(guest)/welcome/(components)/WelcomeSubscription'
 import WelcomeMore from '@/app/(guest)/welcome/(components)/WelcomeMore'
 import WelcomeQuestions from '@/app/(guest)/welcome/(components)/WelcomeQuestions'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Welcome',
+}
 
 export default function Welcome() {
   return (

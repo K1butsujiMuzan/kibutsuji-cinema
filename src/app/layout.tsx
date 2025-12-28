@@ -5,7 +5,10 @@ import ThemeProvider from '@/providers/ThemeProvider'
 import Footer from '@/layout/footer/Footer'
 
 export const metadata: Metadata = {
-  title: 'Kibutsuji',
+  title: {
+    template: '%s - Kibutsuji',
+    default: 'Kibutsuji',
+  },
   description: 'Online-cinema Kibutsuji',
   robots: 'index follow',
   authors: [{ name: 'K1butsujiMuzan' }],
