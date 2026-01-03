@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useRef, useState, type KeyboardEvent } from 'react'
 import { cn } from '../../../lib/utils'
 import { premium } from '@/ui/premium/premium.data'
 import PremiumTab from '@/ui/premium/PremiumTab'
@@ -15,9 +15,7 @@ export default function Premium({ titleId }: Props) {
   const monthlyRef = useRef<HTMLButtonElement>(null)
   const annuallyRef = useRef<HTMLButtonElement>(null)
 
-  const onHandleKeyDown = (
-    event: React.KeyboardEvent<HTMLDivElement>,
-  ): void => {
+  const onHandleKeyDown = (event: KeyboardEvent<HTMLDivElement>): void => {
     if (
       event.key === KEYCODES.ARROW_LEFT ||
       event.key === KEYCODES.ARROW_RIGHT

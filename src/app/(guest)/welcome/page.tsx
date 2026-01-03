@@ -5,6 +5,7 @@ import WelcomeSubscription from '@/app/(guest)/welcome/(components)/WelcomeSubsc
 import WelcomeMore from '@/app/(guest)/welcome/(components)/WelcomeMore'
 import WelcomeQuestions from '@/app/(guest)/welcome/(components)/WelcomeQuestions'
 import type { Metadata } from 'next'
+import GuestHeader from '@/layout/guest-header/GuestHeader'
 
 export const metadata: Metadata = {
   title: 'Welcome',
@@ -12,20 +13,23 @@ export const metadata: Metadata = {
 
 export default function Welcome() {
   return (
-    <main className={'mb-4 flex flex-col gap-12 md:gap-24'}>
-      <WelcomeHero />
-      <WelcomePremium />
-      <WelcomeWatch />
-      <WelcomeSubscription />
-      <WelcomeMore />
-      <WelcomeQuestions />
-      <p
-        className={
-          'font-semibold text-center leading-4.5 text-sm md:text-base md:leading-6 px-5'
-        }
-      >
-        *Device and content availability may vary by country or region.
-      </p>
-    </main>
+    <>
+      <GuestHeader />
+      <main className={'mb-4 flex flex-col gap-12 md:gap-24'}>
+        <WelcomeHero />
+        <WelcomePremium />
+        <WelcomeWatch />
+        <WelcomeSubscription />
+        <WelcomeMore />
+        <WelcomeQuestions />
+        <p
+          className={
+            'font-semibold text-center leading-4.5 text-sm md:text-base md:leading-6 px-5'
+          }
+        >
+          *Device and content availability may vary by country or region.
+        </p>
+      </main>
+    </>
   )
 }

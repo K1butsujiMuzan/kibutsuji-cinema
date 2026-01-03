@@ -25,7 +25,7 @@ export default function Faq() {
             <details className={'group flex flex-col open:gap-3 border-b pb-4'}>
               <summary
                 className={
-                  'list-none flex justify-between items-center cursor-pointer'
+                  'list-none flex justify-between items-center cursor-pointer gap-6'
                 }
               >
                 <h2 className={'text-xl md:text-2xl leading-8 font-medium'}>

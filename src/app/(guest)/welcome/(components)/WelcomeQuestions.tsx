@@ -5,7 +5,7 @@ export default function WelcomeQuestions() {
         <h2 className={'font-bold text-2xl md:text-34 leading-8 md:leading-11'}>
           Any questions?
         </h2>
-        <div className={'text-18 leading-6.5 font-medium'}>
+        <div className={'md:text-18 md:leading-6.5 font-medium'}>
           Contact us{' '}
           <a
             className={

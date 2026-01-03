@@ -7,8 +7,8 @@ interface IFooterLink {
 
 export const footerLinks: IFooterLink[] = [
   {
-    name: 'Information',
-    href: PAGES.INFO,
+    name: 'Terms of Use',
+    href: PAGES.TOS,
   },
   {
     name: 'FAQ',

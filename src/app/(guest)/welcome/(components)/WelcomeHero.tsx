@@ -1,7 +1,5 @@
 import authBackground from '../../../../../public/images/auth/authbackground.jpg'
 import Image from 'next/image'
-import AccentLink from '@/ui/accent-link/AccentLink'
-import { WELCOME_PREMIUM_ANCHOR } from '@/app/(guest)/welcome/(components)/welcome.data'
 import WelcomeHeroButton from '@/app/(guest)/welcome/(components)/WelcomeHeroButton'
 
 export default function WelcomeHero() {

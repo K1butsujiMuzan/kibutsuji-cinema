@@ -3,18 +3,6 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-body {
-  background-color: inherit;
-  color: inherit;
-  transition: inherit;
-  display: flex;
-  flex-direction: column;
-}
-
-main {
-  flex: 1;
-}
-
 @theme inline {
   --font-main: var(--font-atyp);
   --breakpoint-sn: 30rem;
@@ -45,7 +33,9 @@ main {
   --color-pink-500: #513094;
 
   --color-gray-50: #f2f2f3;
+  --color-gray-75: #a0a0a0;
   --color-gray-100: #bfbfbf;
+  --color-gray-200: #59595b;
   --color-gray-600: #3a3a3c;
   --color-gray-700: #212529;
   --color-gray-750: #252527;

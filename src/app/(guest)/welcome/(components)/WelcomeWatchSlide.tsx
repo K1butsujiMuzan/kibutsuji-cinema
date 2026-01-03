@@ -33,7 +33,7 @@ export default function WelcomeWatchSlide({ slide, index }: Props) {
             src={slide.image}
             alt={''}
           />
-          <figcaption className={'text-sm pt-3 font-medium'}>
+          <figcaption className={'leading-4.5 text-sm pt-3 font-medium'}>
             {slide.title}
           </figcaption>
         </figure>

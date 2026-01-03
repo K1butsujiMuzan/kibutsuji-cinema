@@ -3,7 +3,9 @@ export const PAGES = {
   WELCOME: '/welcome',
   LOGIN: '/login',
   REGISTER: '/register',
+  RESET: 'reset-password',
   PROFILE: '/profile',
-  INFO: '/info',
+  TOS: 'tos',
   FAQ: '/faq',
+  PRIVACY: 'privacy-policy',
 } as const
