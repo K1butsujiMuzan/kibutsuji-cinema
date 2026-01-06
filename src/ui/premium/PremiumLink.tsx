@@ -1,6 +1,6 @@
 import Link from 'next/link'
-import { PAGES } from '@/configs/links'
-import { cn } from '../../../lib/utils'
+import { PAGES } from '@/configs/pages.config'
+import { cn } from '@/lib/utils'
 
 interface Props {
   children: React.ReactNode

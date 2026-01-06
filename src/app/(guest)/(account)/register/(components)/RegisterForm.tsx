@@ -1,5 +1,6 @@
 'use client'
 
+import {signUp} from '@/lib/auth-client'
 import LoginInput from '@/ui/login-input/LoginInput'
 import LoginButton from '@/ui/login-button/LoginButton'
 import LoginOptions from '@/ui/login-options/LoginOptions'
@@ -11,12 +12,17 @@ import {
 } from '@/shared/schemes/register.scheme'
 import { zodResolver } from '@hookform/resolvers/zod'
 import LoginPassword from '@/ui/login-password/LoginPassword'
+import {useState} from "react";
+import {ERRORS} from "@/constants/errors";
+import {useRouter} from "next/navigation";
+import {PAGES} from "@/configs/pages.config";
+import ErrorMessage from "@/ui/error-message/ErrorMessage";
 
 export default function RegisterForm() {
   const {
     control,
     handleSubmit,
-    formState: { isValid, errors, dirtyFields },
+    formState: { isValid, errors, dirtyFields, isSubmitting },
   } = useForm<TRegister>({
     resolver: zodResolver(registerScheme),
     mode: 'onChange',
@@ -26,9 +32,24 @@ export default function RegisterForm() {
       agreement: false,
     },
   })
+  const [registerErrors, setRegisterErrors] = useState<string | null>(null)
+  const router = useRouter()
 
-  const onFormSubmit: SubmitHandler<TRegister> = (data) => {
-    console.log(data)
+  const onFormSubmit: SubmitHandler<TRegister> = async (data) => {
+    setRegisterErrors(null)
+
+    const response = await signUp.email({
+      name: 'guest',
+      email: data.email,
+      password: data.password,
+      callbackURL: PAGES.MAIN
+    })
+
+    if(response.error) {
+      setRegisterErrors(response.error.message || ERRORS.SOMETHING_WRONG)
+    } else {
+      router.push(PAGES.MAIN)
+    }
   }
 
   return (
@@ -50,6 +71,7 @@ export default function RegisterForm() {
             />
           )}
         />
+        {registerErrors && <ErrorMessage message={registerErrors} />}
         <Controller
           name={'password'}
           control={control}
@@ -64,7 +86,7 @@ export default function RegisterForm() {
           )}
         />
         <small className={'text-xs leading-4 font-semibold py-1'}>
-          The password must contain at least 6 characters without spaces.
+          The password must contain at least 8 characters without spaces.
         </small>
         <div className={'pt-4 w-full flex'}>
           <Controller
@@ -86,7 +108,10 @@ export default function RegisterForm() {
         </div>
       </div>
       <LoginOptions />
-      <LoginButton text={'Create an Account'} disabled={!isValid} />
+      <LoginButton
+        text={isSubmitting ? 'Creating...' : 'Create an Account'}
+        disabled={!isValid || isSubmitting}
+      />
     </form>
   )
 }

@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef, useState, type KeyboardEvent } from 'react'
-import { cn } from '../../../lib/utils'
+import { cn } from '@/lib/utils'
 import { premium } from '@/ui/premium/premium.data'
 import PremiumTab from '@/ui/premium/PremiumTab'
 import { KEYCODES } from '@/constants/keycodes'

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { PAGES } from '@/configs/links'
+import { PAGES } from '@/configs/pages.config'
 
 export default function RegisterLinks() {
   return (

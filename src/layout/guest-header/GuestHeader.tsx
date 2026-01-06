@@ -1,6 +1,6 @@
 import AccentLink from '@/ui/accent-link/AccentLink'
 import ThemeSwitch from '@/ui/theme-switch/ThemeSwitch'
-import { PAGES } from '@/configs/links'
+import { PAGES } from '@/configs/pages.config'
 import { Logo } from '@/ui/logo/Logo'
 
 export default function GuestHeader() {

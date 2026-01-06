@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import ResetForm from '@/app/(guest)/(account)/reset-password/ResetForm'
 import LoginLinks from '@/ui/login-links/LoginLinks'
-import { PAGES } from '@/configs/links'
+import { PAGES } from '@/configs/pages.config'
 
 export const metadata: Metadata = {
   title: 'Reset Password',

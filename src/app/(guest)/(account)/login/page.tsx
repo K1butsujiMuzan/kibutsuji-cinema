@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import LoginForm from '@/app/(guest)/(account)/login/LoginForm'
 import LoginLinks from '@/ui/login-links/LoginLinks'
-import { PAGES } from '@/configs/links'
+import { PAGES } from '@/configs/pages.config'
 
 export const metadata: Metadata = {
   title: 'Login',

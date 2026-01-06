@@ -1,5 +1,5 @@
 import AccentLink from '@/ui/accent-link/AccentLink'
-import { PAGES } from '@/configs/links'
+import { PAGES } from '@/configs/pages.config'
 
 export default function WelcomeSubscription() {
   return (

@@ -1,4 +1,4 @@
-import { cn } from '../../../lib/utils'
+import { cn } from '@/lib/utils'
 import { PremiumAdvantage, PremiumMostPopular } from '@/ui/premium/PremiumIcons'
 import type { IPremium } from '@/ui/premium/premium.data'
 import PremiumLink from '@/ui/premium/PremiumLink'
