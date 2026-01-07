@@ -10,10 +10,7 @@ export const auth = betterAuth({
     enabled: true,
   },
   trustedOrigins: [
-    'http://localhost:3000/welcome',
+    'http://localhost:3000',
     'https://kibutsuji-cinema.vercel.app'
-  ],
-  experimental: {
-    joins: false
-  }
+  ]
 })
