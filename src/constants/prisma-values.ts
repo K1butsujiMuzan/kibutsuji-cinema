@@ -1,0 +1,1 @@
+export const PRISMA_DEFAULT_NAME: string = 'guest'

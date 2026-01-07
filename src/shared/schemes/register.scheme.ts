@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 export const registerScheme = z.object({
   email: z.email(),
-  password: z.string().min(8),
+  password: z.string().min(6),
   agreement: z.boolean(),
 })
 

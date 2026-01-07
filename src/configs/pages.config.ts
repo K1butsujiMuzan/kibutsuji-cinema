@@ -1,11 +1,11 @@
 export const PAGES = {
   MAIN: '/',
-  WELCOME: '/welcome',
-  LOGIN: '/login',
-  REGISTER: '/register',
+  WELCOME: 'welcome',
+  LOGIN: 'login',
+  REGISTER: 'register',
   RESET: 'reset-password',
-  PROFILE: '/profile',
+  PROFILE: 'profile',
   TOS: 'tos',
-  FAQ: '/faq',
+  FAQ: 'faq',
   PRIVACY: 'privacy-policy',
 } as const

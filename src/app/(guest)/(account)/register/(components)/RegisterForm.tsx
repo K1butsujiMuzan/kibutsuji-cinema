@@ -17,6 +17,7 @@ import {ERRORS} from "@/constants/errors";
 import {useRouter} from "next/navigation";
 import {PAGES} from "@/configs/pages.config";
 import ErrorMessage from "@/ui/error-message/ErrorMessage";
+import {PRISMA_DEFAULT_NAME} from "@/constants/prisma-values";
 
 export default function RegisterForm() {
   const {
@@ -32,21 +33,21 @@ export default function RegisterForm() {
       agreement: false,
     },
   })
-  const [registerErrors, setRegisterErrors] = useState<string | null>(null)
+  const [registerError, setRegisterError] = useState<string | null>(null)
   const router = useRouter()
 
   const onFormSubmit: SubmitHandler<TRegister> = async (data) => {
-    setRegisterErrors(null)
+    setRegisterError(null)
 
     const response = await signUp.email({
-      name: 'guest',
+      name: PRISMA_DEFAULT_NAME,
       email: data.email,
       password: data.password,
       callbackURL: PAGES.MAIN
     })
 
     if(response.error) {
-      setRegisterErrors(response.error.message || ERRORS.SOMETHING_WRONG)
+      setRegisterError(response.error.message || ERRORS.SOMETHING_WRONG)
     } else {
       router.push(PAGES.MAIN)
     }
@@ -71,7 +72,7 @@ export default function RegisterForm() {
             />
           )}
         />
-        {registerErrors && <ErrorMessage message={registerErrors} />}
+        {registerError && <ErrorMessage message={registerError} />}
         <Controller
           name={'password'}
           control={control}
@@ -86,7 +87,7 @@ export default function RegisterForm() {
           )}
         />
         <small className={'text-xs leading-4 font-semibold py-1'}>
-          The password must contain at least 8 characters without spaces.
+          The password must contain at least 6 characters without spaces.
         </small>
         <div className={'pt-4 w-full flex'}>
           <Controller

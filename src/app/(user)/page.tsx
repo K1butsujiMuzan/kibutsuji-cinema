@@ -1,13 +1,14 @@
-'use client'
+import {getServerSession} from "@/lib/get-session";
 
-import {useSession} from "@/lib/auth-client";
+export default async function Home() {
+  const session = await getServerSession()
+  const user = session?.user
 
-export default function Home() {
-  const { data: session } = useSession()
-
-  console.log(session)
+  if(!user) {
+    return <>Sign in to continue</>
+  }
 
   return <>
-    <p>Привет, {session?.user && session.user.email}</p>
+    {user.email}
   </>
 }
