@@ -12,12 +12,10 @@ export const auth = betterAuth({
     enabled: true,
     requireEmailVerification: true,
     sendResetPassword: async ({ user, url }, request) => {
-      console.log('aboba')
-      void sendEmail(user.email, 'Reset the password', url)
+      await sendEmail(user.email, 'Reset the password', url)
     },
     resetPasswordTokenExpiresIn: 3600,
     onPasswordReset: async ({ user }) => {
-      console.log(user.email + ' sdssd')
     },
     minPasswordLength: 6,
   },
