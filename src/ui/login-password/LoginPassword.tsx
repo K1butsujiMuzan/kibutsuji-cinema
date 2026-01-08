@@ -24,7 +24,7 @@ export default function LoginPassword({
   return (
     <div
       className={cn(
-        'relative flex gap-2 w-full text-18 leading-6.5 font-medium pt-6 border-b-2 border-current has-focus:border-pink-400 not-has-placeholder-shown:border-pink-400 transition duration-300',
+        'relative overflow-x-hidden flex gap-2 w-full text-18 leading-6.5 font-medium pt-6 border-b-2 border-current has-focus:border-pink-400 not-has-placeholder-shown:border-pink-400 transition duration-300',
         className,
         {
           'border-pink-400': isValid,
@@ -55,7 +55,7 @@ export default function LoginPassword({
       <label
         htmlFor={id}
         className={cn(
-          'absolute left-0.5 pointer-events-none top-1/2 peer-focus:-translate-y-full peer-focus:scale-65 peer-not-placeholder-shown:-translate-y-full origin-left peer-not-placeholder-shown:scale-65 transition duration-300',
+          'text-nowrap absolute left-0.5 pointer-events-none top-1/2 peer-focus:-translate-y-full peer-focus:scale-65 peer-not-placeholder-shown:-translate-y-full origin-left peer-not-placeholder-shown:scale-65 transition duration-300',
           {
             'text-pink-400': isValid,
           },

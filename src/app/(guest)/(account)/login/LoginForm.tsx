@@ -7,12 +7,12 @@ import { Controller, type SubmitHandler, useForm } from 'react-hook-form'
 import { loginScheme, type TLogin } from '@/shared/schemes/register.scheme'
 import { zodResolver } from '@hookform/resolvers/zod'
 import LoginPassword from '@/ui/login-password/LoginPassword'
-import {useState} from "react";
-import {useRouter} from "next/navigation";
-import {signIn} from "@/lib/auth-client";
-import {ERRORS} from "@/constants/errors";
-import {PAGES} from "@/configs/pages.config";
-import ErrorMessage from "@/ui/error-message/ErrorMessage";
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { signIn } from '@/lib/auth-client'
+import { ERRORS } from '@/constants/errors'
+import { PAGES } from '@/configs/pages.config'
+import ErrorMessage from '@/ui/error-message/ErrorMessage'
 
 export default function LoginForm() {
   const {
@@ -34,9 +34,9 @@ export default function LoginForm() {
     setLoginError(null)
     const response = await signIn.email({
       email: data.email,
-      password: data.password
+      password: data.password,
     })
-    if(response.error) {
+    if (response.error) {
       setLoginError(response.error.message || ERRORS.SOMETHING_WRONG)
     } else {
       router.push(PAGES.MAIN)
@@ -78,7 +78,10 @@ export default function LoginForm() {
         />
       </div>
       <LoginOptions />
-      <LoginButton text={isSubmitting ? 'Logging in...' : 'Login'} disabled={!isValid || isSubmitting} />
+      <LoginButton
+        text={isSubmitting ? 'Logging in...' : 'Login'}
+        disabled={!isValid || isSubmitting}
+      />
     </form>
   )
 }

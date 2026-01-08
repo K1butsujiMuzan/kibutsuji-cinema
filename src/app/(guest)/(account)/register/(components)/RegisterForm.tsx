@@ -1,6 +1,6 @@
 'use client'
 
-import {signUp} from '@/lib/auth-client'
+import { signUp } from '@/lib/auth-client'
 import LoginInput from '@/ui/login-input/LoginInput'
 import LoginButton from '@/ui/login-button/LoginButton'
 import LoginOptions from '@/ui/login-options/LoginOptions'
@@ -12,12 +12,12 @@ import {
 } from '@/shared/schemes/register.scheme'
 import { zodResolver } from '@hookform/resolvers/zod'
 import LoginPassword from '@/ui/login-password/LoginPassword'
-import {useState} from "react";
-import {ERRORS} from "@/constants/errors";
-import {useRouter} from "next/navigation";
-import {PAGES} from "@/configs/pages.config";
-import ErrorMessage from "@/ui/error-message/ErrorMessage";
-import {PRISMA_DEFAULT_NAME} from "@/constants/prisma-values";
+import { useState } from 'react'
+import { ERRORS } from '@/constants/errors'
+import { useRouter } from 'next/navigation'
+import { PAGES } from '@/configs/pages.config'
+import ErrorMessage from '@/ui/error-message/ErrorMessage'
+import { PRISMA_DEFAULT_NAME } from '@/constants/prisma-values'
 
 export default function RegisterForm() {
   const {
@@ -43,10 +43,10 @@ export default function RegisterForm() {
       name: PRISMA_DEFAULT_NAME,
       email: data.email,
       password: data.password,
-      callbackURL: PAGES.MAIN
+      callbackURL: PAGES.MAIN,
     })
 
-    if(response.error) {
+    if (response.error) {
       setRegisterError(response.error.message || ERRORS.SOMETHING_WRONG)
     } else {
       router.push(PAGES.MAIN)
@@ -87,7 +87,7 @@ export default function RegisterForm() {
           )}
         />
         <small className={'text-xs leading-4 font-semibold py-1'}>
-          The password must contain at least 6 characters without spaces.
+          The password must contain at least 6 characters without spaces
         </small>
         <div className={'pt-4 w-full flex'}>
           <Controller
