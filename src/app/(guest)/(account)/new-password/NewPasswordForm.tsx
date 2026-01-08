@@ -41,6 +41,8 @@ export default function NewPasswordForm() {
     })
     if (response.error) {
       setPasswordError(response.error?.message || ERRORS.SOMETHING_WRONG)
+    } else {
+
     }
   }
 
