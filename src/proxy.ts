@@ -7,7 +7,7 @@ const publicUrls: string[] = [
   '/login',
   '/register',
   '/reset-password',
-  'new-password',
+  '/new-password',
   '/tos',
   '/faq',
   '/privacy-policy',
