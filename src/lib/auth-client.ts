@@ -7,6 +7,7 @@ export const {
   signOut,
   useSession,
   requestPasswordReset,
+  sendVerificationEmail,
   resetPassword,
 } = createAuthClient({
   plugins: [nextCookies()],

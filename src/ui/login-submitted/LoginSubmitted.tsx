@@ -1,11 +1,12 @@
 import Image from 'next/image'
-import girl from '../../../../../../public/images/password-reset/girl.png'
+import girl from '../../../public/images/password-reset/girl.png'
 
 interface Props {
   email: string
+  text: string
 }
 
-export default function ResetSubmitted({ email }: Props) {
+export default function LoginSubmitted({ email, text }: Props) {
   return (
     <div className={'text-center pt-11 md:pt-0'}>
       <div className={'flex flex-col items-center relative mb-3'}>
@@ -31,9 +32,7 @@ export default function ResetSubmitted({ email }: Props) {
         height={348}
         className={'max-w-47 mx-auto mb-6'}
       />
-      <h2 className={'text-xl leading-6.5 font-semibold mb-2'}>
-        Password reset link sent
-      </h2>
+      <h2 className={'text-xl leading-6.5 font-semibold mb-2'}>{text}</h2>
       <p
         className={'leading-4.5 text-sm font-medium md:text-base md:leading-6'}
       >

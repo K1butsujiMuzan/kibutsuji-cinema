@@ -11,7 +11,7 @@ import { requestPasswordReset } from '@/lib/auth-client'
 import { ERRORS } from '@/constants/errors'
 import { PAGES } from '@/configs/pages.config'
 import LoginLinks from '@/ui/login-links/LoginLinks'
-import ResetSubmitted from '@/app/(guest)/(account)/reset-password/(components)/ResetSubmitted'
+import LoginSubmitted from '@/ui/login-submitted/LoginSubmitted'
 
 export default function ResetForm() {
   const {
@@ -43,7 +43,12 @@ export default function ResetForm() {
   }
 
   if (isSubmitted) {
-    return <ResetSubmitted email={getValues('email')} />
+    return (
+      <LoginSubmitted
+        email={getValues('email')}
+        text={'Password reset link sent'}
+      />
+    )
   }
 
   return (

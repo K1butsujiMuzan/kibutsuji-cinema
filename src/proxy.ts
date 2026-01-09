@@ -7,9 +7,18 @@ const publicUrls: string[] = [
   '/login',
   '/register',
   '/reset-password',
+  'new-password',
   '/tos',
   '/faq',
   '/privacy-policy',
+]
+
+const notAllowedAfterVerification: string[] = [
+  '/welcome',
+  '/login',
+  '/register',
+  '/reset-password',
+  '/new-password',
 ]
 
 export async function proxy(request: NextRequest) {
@@ -17,10 +26,15 @@ export async function proxy(request: NextRequest) {
   const session = await auth.api.getSession({
     headers: await headers(),
   })
+
   const isEmailVerified: boolean = session?.user?.emailVerified || false
 
   if (pathName.startsWith('/profile') && !isEmailVerified) {
     return NextResponse.redirect(new URL('/login', request.url))
+  }
+
+  if (notAllowedAfterVerification.includes(pathName) && isEmailVerified) {
+    return NextResponse.redirect(new URL('/', request.url))
   }
 
   if (!publicUrls.includes(pathName) && !isEmailVerified) {
@@ -31,5 +45,13 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/', '/profile/:path*'],
+  matcher: [
+    '/welcome',
+    '/',
+    '/profile/:path*',
+    '/login',
+    '/register',
+    '/reset-password',
+    '/new-password',
+  ],
 }

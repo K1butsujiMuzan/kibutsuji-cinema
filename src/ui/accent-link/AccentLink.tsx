@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils'
 interface Props {
   href: string
   text: string
-  className: string
+  className?: string
 }
 
 export default memo(function AccentLink({ href, text, className }: Props) {
