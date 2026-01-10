@@ -32,13 +32,13 @@ export default function LoginForm() {
   })
   const [loginError, setLoginError] = useState<string | null>(null)
   const [isVerificationSent, setIsVerificationSent] = useState<boolean>(false)
-  const router = useRouter()
 
   const onFormSubmit: SubmitHandler<TLogin> = async (data) => {
     setLoginError(null)
     const response = await signIn.email({
       email: data.email,
       password: data.password,
+      callbackURL: PAGES.MAIN
     })
     if (response.error) {
       if (response.error?.message === ERRORS.EMAIL_NOT_VERIFIED) {
@@ -56,8 +56,6 @@ export default function LoginForm() {
       } else {
         setLoginError(response.error.message || ERRORS.SOMETHING_WRONG)
       }
-    } else {
-      router.push(PAGES.MAIN)
     }
   }
 
