@@ -12,7 +12,11 @@ export const auth = betterAuth({
     enabled: true,
     requireEmailVerification: true,
     sendResetPassword: async ({ user, url }, request) => {
-      await sendEmail(user.email, 'Password Reset', url, true)
+      try {
+        await sendEmail(user.email, 'Password Reset', url, 'password-reset')
+      } catch (error) {
+        console.error(error)
+      }
     },
     resetPasswordTokenExpiresIn: 3600,
     minPasswordLength: 6,
@@ -22,7 +26,16 @@ export const auth = betterAuth({
     autoSignInAfterVerification: true,
     sendOnSignUp: true,
     sendVerificationEmail: async ({ user, url }) => {
-      await sendEmail(user.email, 'Email Verification', url, false)
+      try {
+        await sendEmail(
+          user.email,
+          'Email Verification',
+          url,
+          'email-verification',
+        )
+      } catch (error) {
+        console.error(error)
+      }
     },
     expiresIn: 86400,
   },
