@@ -1,26 +1,29 @@
-import { LoginGoogleIcon, LoginVKIcon } from '@/ui/login-options/LoginIcons'
+import LoginGoogle from '@/ui/login-options/LoginGoogle'
+import LoginVk from '@/ui/login-options/LoginVk'
+import { LOGIN_OPTIONS } from '@/ui/login-options/login-options.data'
+import { signIn } from '@/lib/auth-client'
+import { ERRORS } from '@/constants/errors'
+
+const onLoginGoogleClick = async (provider: string) => {
+  try {
+    const response = await signIn.social({
+      provider,
+    })
+    if (response.error) {
+      console.error(response.error.message || ERRORS.SOMETHING_WRONG)
+    }
+  } catch (error) {
+    console.error(ERRORS.PROVIDER_FAILED, error)
+  }
+}
 
 export default function LoginOptions() {
   return (
     <div className={'grid w-full grid-cols-1 md:grid-cols-2 gap-2'}>
-      <button
-        className={
-          'flex overflow-hidden gap-1 items-center justify-center text-sm py-1 rounded-md font-medium border border-pink-400 hover:border-pink-450 active:border-pink-500 active:scale-97 transition duration-300'
-        }
-        type="button"
-      >
-        <span>Continue with Google</span>
-        <LoginGoogleIcon />
-      </button>
-      <button
-        className={
-          'flex overflow-hidden gap-1 items-center justify-center text-sm py-1 rounded-md font-medium border border-pink-400 hover:border-pink-450 active:border-pink-500 active:scale-97 transition duration-300'
-        }
-        type="button"
-      >
-        <span>Continue with VK</span>
-        <LoginVKIcon />
-      </button>
+      <LoginGoogle
+        onLoginGoogleClick={() => onLoginGoogleClick(LOGIN_OPTIONS.GOOGLE)}
+      />
+      <LoginVk />
     </div>
   )
 }

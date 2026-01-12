@@ -36,7 +36,7 @@ export default function LoginSubmitted({ email, text }: Props) {
       <p
         className={'leading-4.5 text-sm font-medium md:text-base md:leading-6'}
       >
-        Check your email {email}.
+        Check your email {email}
       </p>
     </div>
   )

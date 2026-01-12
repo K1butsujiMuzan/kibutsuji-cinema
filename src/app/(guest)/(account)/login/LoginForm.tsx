@@ -38,7 +38,7 @@ export default function LoginForm() {
     const response = await signIn.email({
       email: data.email,
       password: data.password,
-      callbackURL: PAGES.MAIN
+      callbackURL: PAGES.MAIN,
     })
     if (response.error) {
       if (response.error?.message === ERRORS.EMAIL_NOT_VERIFIED) {
