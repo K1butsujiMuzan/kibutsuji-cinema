@@ -2,14 +2,14 @@ import { z } from 'zod'
 
 export const registerScheme = z.object({
   email: z.email(),
-  password: z.string().min(6),
-  agreement: z.boolean(),
+  password: z.string().min(6).max(50),
+  isReceiveNotifications: z.boolean(),
 })
 
 export const newPasswordSchema = z
   .object({
-    password: z.string().min(6),
-    passwordRepeat: z.string().min(6),
+    password: z.string().min(6).max(50),
+    passwordRepeat: z.string().min(6).max(50),
   })
   .refine((data) => data.password === data.passwordRepeat, {
     message: "Passwords don't match",

@@ -80,6 +80,7 @@ export default function NewPasswordForm() {
               render={({ field }) => (
                 <LoginPassword
                   {...field}
+                  maxLength={50}
                   isValid={!!errors.password?.message}
                   isDirty={!!dirtyFields.password}
                   labelText={'New password'}
@@ -95,6 +96,7 @@ export default function NewPasswordForm() {
             render={({ field }) => (
               <LoginPassword
                 {...field}
+                maxLength={50}
                 isValid={!!errors.passwordRepeat?.message}
                 isDirty={!!dirtyFields.passwordRepeat}
                 labelText={'Enter the new password again'}

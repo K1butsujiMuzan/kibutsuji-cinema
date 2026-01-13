@@ -28,6 +28,7 @@ export const auth = betterAuth({
     },
     resetPasswordTokenExpiresIn: 3600,
     minPasswordLength: 6,
+    maxPasswordLength: 50,
   },
 
   emailVerification: {
@@ -50,12 +51,14 @@ export const auth = betterAuth({
 
   user: {
     additionalFields: {
-      role: {
-        type: 'string',
-        input: false,
-      },
+      isReceiveNotifications: {
+        type: 'boolean',
+        input: true,
+        required: false
+      }
     },
   },
+
   trustedOrigins: [
     'http://localhost:3000',
     'https://kibutsuji-cinema.vercel.app',

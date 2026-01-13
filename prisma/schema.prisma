@@ -14,16 +14,16 @@ enum Role {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String    @default("guest")
-  email         String    @unique
-  role          Role      @default(USER)
-  emailVerified Boolean   @default(false)
-  image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  sessions      Session[]
-  accounts      Account[]
+  id                     String    @id @default(cuid())
+  name                   String    @default("guest")
+  email                  String    @unique
+  emailVerified          Boolean   @default(false)
+  isReceiveNotifications Boolean?  @default(false)
+  image                  String?
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
+  sessions               Session[]
+  accounts               Account[]
 
   @@map("user")
 }

@@ -102,6 +102,7 @@ export default function LoginForm() {
             render={({ field }) => (
               <LoginPassword
                 {...field}
+                maxLength={50}
                 isValid={!!errors.password?.message}
                 isDirty={!!dirtyFields.password}
                 labelText={'Password'}

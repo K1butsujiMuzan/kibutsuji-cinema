@@ -1,6 +1,6 @@
 'use client'
 
-import { sendVerificationEmail, signUp } from '@/lib/auth-client'
+import { signUp } from '@/lib/auth-client'
 import LoginInput from '@/ui/login-input/LoginInput'
 import LoginButton from '@/ui/login-button/LoginButton'
 import LoginOptions from '@/ui/login-options/LoginOptions'
@@ -32,7 +32,7 @@ export default function RegisterForm() {
     defaultValues: {
       email: '',
       password: '',
-      agreement: false,
+      isReceiveNotifications: false,
     },
   })
   const [registerError, setRegisterError] = useState<string | null>(null)
@@ -98,6 +98,7 @@ export default function RegisterForm() {
             render={({ field }) => (
               <LoginPassword
                 {...field}
+                maxLength={50}
                 isValid={!!errors.password?.message}
                 labelText={'Password'}
                 id={'password'}
@@ -110,7 +111,7 @@ export default function RegisterForm() {
           </small>
           <div className={'pt-4 w-full flex'}>
             <Controller
-              name={'agreement'}
+              name={'isReceiveNotifications'}
               control={control}
               render={({ field }) => {
                 const { value, ...rest } = field
