@@ -54,7 +54,8 @@ export const auth = betterAuth({
       isReceiveNotifications: {
         type: 'boolean',
         input: true,
-        required: false
+        required: false,
+        defaultValue: false
       }
     },
   },

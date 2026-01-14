@@ -45,6 +45,7 @@ export default function RegisterForm() {
       name: PRISMA_DEFAULT_NAME,
       email: data.email,
       password: data.password,
+      isReceiveNotifications: data.isReceiveNotifications,
       callbackURL: PAGES.MAIN,
     })
 
