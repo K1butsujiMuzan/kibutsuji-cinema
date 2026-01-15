@@ -3,7 +3,7 @@
 import { signUp } from '@/lib/auth-client'
 import LoginInput from '@/ui/login-input/LoginInput'
 import LoginButton from '@/ui/login-button/LoginButton'
-import LoginOptions from '@/ui/login-options/LoginOptions'
+import LoginGoogle from '@/ui/login-google/LoginGoogle'
 import LoginCheckbox from '@/ui/login-checkbox/LoginCheckbox'
 import { Controller, type SubmitHandler, useForm } from 'react-hook-form'
 import {
@@ -129,7 +129,7 @@ export default function RegisterForm() {
             />
           </div>
         </div>
-        <LoginOptions />
+        <LoginGoogle />
         <LoginButton
           text={isSubmitting ? 'Creating...' : 'Create an Account'}
           disabled={!isValid || isSubmitting}

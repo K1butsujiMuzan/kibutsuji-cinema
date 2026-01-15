@@ -2,7 +2,7 @@
 
 import LoginInput from '@/ui/login-input/LoginInput'
 import LoginButton from '@/ui/login-button/LoginButton'
-import LoginOptions from '@/ui/login-options/LoginOptions'
+import LoginGoogle from '@/ui/login-google/LoginGoogle'
 import { Controller, type SubmitHandler, useForm } from 'react-hook-form'
 import { loginScheme, type TLogin } from '@/shared/schemes/register.scheme'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -111,7 +111,7 @@ export default function LoginForm() {
             )}
           />
         </div>
-        <LoginOptions />
+        <LoginGoogle />
         <LoginButton
           text={isSubmitting ? 'Logging in...' : 'Login'}
           disabled={!isValid || isSubmitting}
