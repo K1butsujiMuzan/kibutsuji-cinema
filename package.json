@@ -17,6 +17,7 @@
     "@prisma/extension-accelerate": "^3.0.1",
     "@types/nodemailer": "^7.0.4",
     "@types/pg": "^8.16.0",
+    "bcrypt": "^6.0.0",
     "better-auth": "^1.4.10",
     "clsx": "^2.1.1",
     "dotenv": "^17.2.3",
@@ -36,6 +37,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/bcrypt": "^6.0.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

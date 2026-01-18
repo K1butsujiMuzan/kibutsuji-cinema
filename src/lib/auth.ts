@@ -58,6 +58,11 @@ export const auth = betterAuth({
         required: false,
         defaultValue: false,
       },
+      adminPassword: {
+        type: "string",
+        input: true,
+        required: false
+      }
     },
   },
 

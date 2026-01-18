@@ -17,6 +17,7 @@ model User {
   id                     String    @id @default(cuid())
   name                   String    @default("guest")
   email                  String    @unique
+  adminPassword          String
   emailVerified          Boolean   @default(false)
   isReceiveNotifications Boolean   @default(false)
   image                  String?
