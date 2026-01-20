@@ -1,24 +1,3 @@
-import type { StaticImageData } from 'next/image'
-import soloLeveling from '../../../../../public/images/welcome/solo-leveling.png'
-import theApothecaryDiaries from '../../../../../public/images/welcome/the-apothecary-diaries.png'
-import jujutsuKaisen from '../../../../../public/images/welcome/jujutsu-kaisen.png'
-import chainsawMan from '../../../../../public/images/welcome/chainsaw-man.png'
-import kimetsuNoYaiba from '../../../../../public/images/welcome/kimetsu-no-yaiba.png'
-import oshiNoKo from '../../../../../public/images/welcome/oshi-no-ko.png'
-import frieren from '../../../../../public/images/welcome/frieren.png'
-import naruto from '../../../../../public/images/welcome/naruto.png'
-import onePunchMan from '../../../../../public/images/welcome/one-punch-man.png'
-import thePromisedNeverland from '../../../../../public/images/welcome/the-promised-neverland.png'
-import hellsParadise from '../../../../../public/images/welcome/hells-paradise.png'
-import parasyte from '../../../../../public/images/welcome/parasyte.png'
-import kaijuNo8 from '../../../../../public/images/welcome/kaiju-no8.png'
-import violetEvergarden from '../../../../../public/images/welcome/violet-evergarden.png'
-import deathParade from '../../../../../public/images/welcome/death-parade.png'
-import madeInAbyss from '../../../../../public/images/welcome/made-in-abyss.png'
-import steinsGate from '../../../../../public/images/welcome/steins-gate.png'
-import kimetsuNoYaibaEntertainmentDistrictArc from '../../../../../public/images/welcome/kimetsu-no-yaiba-entertainment-districtArc.png'
-import mashle from '../../../../../public/images/welcome/mashle.png'
-import swordArtOnline from '../../../../../public/images/welcome/sword-art-online.png'
 import type { FC, SVGProps } from 'react'
 import {
   WelcomeMoreIconAccess,
@@ -32,7 +11,7 @@ import {
 } from '@/app/(guest)/welcome/(components)/WelcomeMoreIcons'
 
 export interface IImageSlide {
-  image: StaticImageData
+  image: string
   title: string
   href: string
 }
@@ -47,102 +26,102 @@ export const WELCOME_PREMIUM_TITLE: string = 'premium-title'
 
 export const sliderImages: IImageSlide[] = [
   {
-    image: soloLeveling,
+    image: '/images/welcome/solo-leveling.png',
     title: 'Solo Leveling',
     href: '#',
   },
   {
-    image: chainsawMan,
+    image: '/images/welcome/chainsaw-man.png',
     title: 'Chainsaw Man',
     href: '#',
   },
   {
-    image: kimetsuNoYaiba,
+    image: '/images/welcome/kimetsu-no-yaiba.png',
     title: 'Demon Slayer',
     href: '#',
   },
   {
-    image: jujutsuKaisen,
+    image: '/images/welcome/jujutsu-kaisen.png',
     title: 'Magic Battle',
     href: '#',
   },
   {
-    image: theApothecaryDiaries,
+    image: '/images/welcome/the-apothecary-diaries.png',
     title: 'The Apothecary Diaries',
     href: '#',
   },
   {
-    image: naruto,
+    image: '/images/welcome/naruto.png',
     title: 'Naruto',
     href: '#',
   },
   {
-    image: onePunchMan,
+    image: '/images/welcome/one-punch-man.png',
     title: 'One Punch Man',
     href: '#',
   },
   {
-    image: oshiNoKo,
+    image: '/images/welcome/oshi-no-ko.png',
     title: 'Star Child',
     href: '#',
   },
   {
-    image: mashle,
+    image: '/images/welcome/mashle.png',
     title: 'Mashle: Magic and Muscles',
     href: '#',
   },
   {
-    image: violetEvergarden,
+    image: '/images/welcome/violet-evergarden.png',
     title: 'Violet Evergarden',
     href: '#',
   },
   {
-    image: parasyte,
+    image: '/images/welcome/parasyte.png',
     title: 'Parasyte: The Maxim',
     href: '#',
   },
   {
-    image: kaijuNo8,
+    image: '/images/welcome/kaiju-no8.png',
     title: 'Kaiju No. 8',
     href: '#',
   },
   {
-    image: frieren,
+    image: '/images/welcome/frieren.png',
     title: "Frieren: Beyond Journey's End",
     href: '#',
   },
   {
-    image: hellsParadise,
+    image: '/images/welcome/hells-paradise.png',
     title: "Hell's Paradise",
     href: '#',
   },
   {
-    image: thePromisedNeverland,
+    image: '/images/welcome/the-promised-neverland.png',
     title: 'The Promised Neverland',
     href: '#',
   },
   {
-    image: deathParade,
+    image: '/images/welcome/death-parade.png',
     title: 'Death Parade',
     href: '#',
   },
   {
-    image: kimetsuNoYaibaEntertainmentDistrictArc,
+    image: '/images/welcome/kimetsu-no-yaiba-entertainment-districtArc.png',
     title: 'Demon Slayer: The Entertainment District',
     href: '#',
   },
   {
-    image: steinsGate,
+    image: '/images/welcome/steins-gate.png',
     title: 'Steins;Gate',
     href: '#',
   },
   {
-    image: swordArtOnline,
+    image: '/images/welcome/sword-art-online.png',
     title: 'Sword Art Online',
     href: '#',
   },
   {
-    image: madeInAbyss,
+    image: '/images/welcome/made-in-abyss.png',
     title: 'Made in Abyss',
     href: '#',
   },

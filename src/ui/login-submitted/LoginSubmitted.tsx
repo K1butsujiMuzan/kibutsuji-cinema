@@ -1,5 +1,4 @@
 import Image from 'next/image'
-import girl from '../../../public/images/password-reset/girl.png'
 
 interface Props {
   email: string
@@ -26,7 +25,7 @@ export default function LoginSubmitted({ email, text }: Props) {
         />
       </div>
       <Image
-        src={girl}
+        src={'/images/password-reset/girl.png'}
         alt={''}
         width={350}
         height={348}
