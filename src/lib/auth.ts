@@ -63,6 +63,11 @@ export const auth = betterAuth({
         input: true,
         required: false,
       },
+      role: {
+        type: "string",
+        input: false,
+        required: false
+      }
     },
   },
 
