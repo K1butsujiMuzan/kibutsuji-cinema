@@ -1,30 +1,32 @@
 'use client'
 
 import { signUp } from '@/lib/auth-client'
-import LoginInput from '@/ui/login-input/LoginInput'
-import LoginButton from '@/ui/login-button/LoginButton'
-import LoginGoogle from '@/ui/login-google/LoginGoogle'
-import LoginCheckbox from '@/ui/login-checkbox/LoginCheckbox'
+import LoginInput from '@/components/ui/login-input/LoginInput'
+import LoginButton from '@/components/ui/login-button/LoginButton'
+import LoginGoogle from '@/components/ui/login-google/LoginGoogle'
+import LoginCheckbox from '@/components/ui/login-checkbox/LoginCheckbox'
 import { Controller, type SubmitHandler, useForm } from 'react-hook-form'
 import {
   registerScheme,
   type TRegister,
 } from '@/shared/schemes/register.scheme'
 import { zodResolver } from '@hookform/resolvers/zod'
-import LoginPassword from '@/ui/login-password/LoginPassword'
+import LoginPassword from '@/components/ui/login-password/LoginPassword'
 import { useState } from 'react'
 import { ERRORS } from '@/constants/errors'
 import { PAGES } from '@/configs/pages.config'
-import ErrorMessage from '@/ui/error-message/ErrorMessage'
+import ErrorMessage from '@/components/ui/error-message/ErrorMessage'
 import { PRISMA_DEFAULT_NAME } from '@/constants/prisma-values'
 import RegisterLinks from '@/app/(guest)/(account)/register/(components)/RegisterLinks'
-import LoginSubmitted from '@/ui/login-submitted/LoginSubmitted'
+import LoginSubmitted from '@/components/ui/login-submitted/LoginSubmitted'
 
 export default function RegisterForm() {
   const {
     control,
     handleSubmit,
     getValues,
+    clearErrors,
+    setError,
     formState: { isValid, errors, dirtyFields, isSubmitting },
   } = useForm<TRegister>({
     resolver: zodResolver(registerScheme),
@@ -35,11 +37,10 @@ export default function RegisterForm() {
       isReceiveNotifications: false,
     },
   })
-  const [registerError, setRegisterError] = useState<string | null>(null)
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false)
 
   const onFormSubmit: SubmitHandler<TRegister> = async (data) => {
-    setRegisterError(null)
+    clearErrors('root')
 
     const response = await signUp.email({
       name: PRISMA_DEFAULT_NAME,
@@ -51,7 +52,9 @@ export default function RegisterForm() {
     })
 
     if (response.error) {
-      setRegisterError(response.error.message || ERRORS.SOMETHING_WRONG)
+      setError('root', {
+        message: response.error.message || ERRORS.SOMETHING_WRONG,
+      })
     } else {
       setIsSubmitted(true)
     }
@@ -87,19 +90,23 @@ export default function RegisterForm() {
               <LoginInput
                 {...field}
                 isValid={!!errors.email?.message}
+                autoComplete={'email'}
                 labelText={'Email'}
                 id={'email'}
                 type={'email'}
               />
             )}
           />
-          {registerError && <ErrorMessage message={registerError} />}
+          {errors.root?.message && (
+            <ErrorMessage message={errors.root.message} />
+          )}
           <Controller
             name={'password'}
             control={control}
             render={({ field }) => (
               <LoginPassword
                 {...field}
+                autoComplete={'new-password'}
                 maxLength={50}
                 isValid={!!errors.password?.message}
                 labelText={'Password'}

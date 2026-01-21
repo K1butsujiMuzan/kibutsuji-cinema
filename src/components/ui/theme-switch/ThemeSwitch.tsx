@@ -4,8 +4,8 @@ import {
   ThemeIconDark,
   ThemeIconLight,
   ThemeIconSystem,
-} from '@/ui/theme-switch/ThemeIcons'
-import { EThemes } from '@/ui/theme-switch/theme-switch.data'
+} from '@/components/ui/theme-switch/ThemeIcons'
+import { EThemes } from '@/components/ui/theme-switch/theme-switch.data'
 import { useTheme } from 'next-themes'
 import { useCallback, useEffect, useState } from 'react'
 

@@ -1,6 +1,6 @@
 import Link from 'next/link'
-import { footerLinks } from '@/layout/footer/footer.data'
-import { MiniLogo } from '@/ui/logo/Logo'
+import { footerLinks } from '@/components/layouts/footer/footer.data'
+import { MiniLogo } from '@/components/ui/logo/Logo'
 
 export default function Footer() {
   return (

@@ -1,4 +1,4 @@
-import Premium from '@/ui/premium/Premium'
+import Premium from '@/components/ui/premium/Premium'
 import {
   WELCOME_PREMIUM_ANCHOR,
   WELCOME_PREMIUM_TITLE,

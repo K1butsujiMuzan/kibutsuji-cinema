@@ -1,7 +1,10 @@
 import { cn } from '@/lib/utils'
-import { PremiumAdvantage, PremiumMostPopular } from '@/ui/premium/PremiumIcons'
-import type { IPremium } from '@/ui/premium/premium.data'
-import PremiumLink from '@/ui/premium/PremiumLink'
+import {
+  PremiumAdvantage,
+  PremiumMostPopular,
+} from '@/components/ui/premium/PremiumIcons'
+import type { IPremium } from '@/components/ui/premium/premium.data'
+import PremiumLink from '@/components/ui/premium/PremiumLink'
 
 interface Props {
   container: IPremium

@@ -4,7 +4,7 @@ import {
   InstagramIcon,
   TelegramIcon,
   TwitterIcon,
-} from '@/ui/socials/SocialsIcons'
+} from '@/components/ui/socials/SocialsIcons'
 
 interface ISocial {
   href: string

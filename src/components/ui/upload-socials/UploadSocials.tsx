@@ -1,4 +1,4 @@
-import { uploadSocials } from '@/ui/upload-socials/upload-socials.data'
+import { uploadSocials } from '@/components/ui/upload-socials/upload-socials.data'
 
 export default function UploadSocials() {
   return (

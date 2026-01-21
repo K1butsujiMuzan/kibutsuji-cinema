@@ -1,15 +1,15 @@
 'use client'
 
 import { Controller, type SubmitHandler, useForm } from 'react-hook-form'
-import ErrorMessage from '@/ui/error-message/ErrorMessage'
-import LoginButton from '@/ui/login-button/LoginButton'
+import ErrorMessage from '@/components/ui/error-message/ErrorMessage'
+import LoginButton from '@/components/ui/login-button/LoginButton'
 import {
   newPasswordSchema,
   type TNewPassword,
 } from '@/shared/schemes/register.scheme'
 import { zodResolver } from '@hookform/resolvers/zod'
-import LoginPassword from '@/ui/login-password/LoginPassword'
-import { Suspense, useState } from 'react'
+import LoginPassword from '@/components/ui/login-password/LoginPassword'
+import { useState } from 'react'
 import { resetPassword } from '@/lib/auth-client'
 import { useSearchParams } from 'next/navigation'
 import { ERRORS } from '@/constants/errors'
@@ -22,6 +22,8 @@ export default function NewPasswordForm() {
     control,
     formState: { isValid, errors, isSubmitting, dirtyFields },
     handleSubmit,
+    clearErrors,
+    setError,
   } = useForm<TNewPassword>({
     defaultValues: {
       password: '',
@@ -31,18 +33,19 @@ export default function NewPasswordForm() {
     resolver: zodResolver(newPasswordSchema),
   })
 
-  const [passwordError, setPasswordError] = useState<string | null>(null)
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false)
 
   const onFormSubmit: SubmitHandler<TNewPassword> = async (data) => {
-    setPasswordError(null)
+    clearErrors('root')
 
     const response = await resetPassword({
       newPassword: data.password,
       token: params.get('token') || '',
     })
     if (response.error) {
-      setPasswordError(response.error?.message || ERRORS.SOMETHING_WRONG)
+      setError('root', {
+        message: response.error?.message || ERRORS.SOMETHING_WRONG,
+      })
     } else {
       setIsSubmitted(true)
     }
@@ -80,6 +83,7 @@ export default function NewPasswordForm() {
               render={({ field }) => (
                 <LoginPassword
                   {...field}
+                  autoComplete={'new-password'}
                   maxLength={50}
                   isValid={!!errors.password?.message}
                   isDirty={!!dirtyFields.password}
@@ -88,7 +92,9 @@ export default function NewPasswordForm() {
                 />
               )}
             />
-            {passwordError && <ErrorMessage message={passwordError} />}
+            {errors.root?.message && (
+              <ErrorMessage message={errors.root.message} />
+            )}
           </div>
           <Controller
             name={'passwordRepeat'}
@@ -96,6 +102,7 @@ export default function NewPasswordForm() {
             render={({ field }) => (
               <LoginPassword
                 {...field}
+                autoComplete={'new-password'}
                 maxLength={50}
                 isValid={!!errors.passwordRepeat?.message}
                 isDirty={!!dirtyFields.passwordRepeat}

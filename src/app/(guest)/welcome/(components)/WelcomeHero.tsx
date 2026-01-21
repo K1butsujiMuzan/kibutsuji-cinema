@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import WelcomeHeroButton from '@/app/(guest)/welcome/(components)/WelcomeHeroButton'
+import authBackground from '../../../../../public/images/auth/authbackground.jpg'
 
 export default function WelcomeHero() {
   return (
@@ -14,7 +15,7 @@ export default function WelcomeHero() {
         }
         width={3441}
         height={2344}
-        src={'/images/auth/authbackground.jpg'}
+        src={authBackground}
         priority={true}
         alt={''}
       />

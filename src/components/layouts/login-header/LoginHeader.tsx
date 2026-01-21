@@ -1,4 +1,4 @@
-import { Logo } from '@/ui/logo/Logo'
+import { Logo } from '@/components/ui/logo/Logo'
 
 export default function LoginHeader() {
   return (

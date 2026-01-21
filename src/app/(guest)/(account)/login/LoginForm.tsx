@@ -1,25 +1,27 @@
 'use client'
 
-import LoginInput from '@/ui/login-input/LoginInput'
-import LoginButton from '@/ui/login-button/LoginButton'
-import LoginGoogle from '@/ui/login-google/LoginGoogle'
+import LoginInput from '@/components/ui/login-input/LoginInput'
+import LoginButton from '@/components/ui/login-button/LoginButton'
+import LoginGoogle from '@/components/ui/login-google/LoginGoogle'
 import { Controller, type SubmitHandler, useForm } from 'react-hook-form'
 import { loginScheme, type TLogin } from '@/shared/schemes/register.scheme'
 import { zodResolver } from '@hookform/resolvers/zod'
-import LoginPassword from '@/ui/login-password/LoginPassword'
+import LoginPassword from '@/components/ui/login-password/LoginPassword'
 import { useState } from 'react'
 import { sendVerificationEmail, signIn } from '@/lib/auth-client'
 import { ERRORS } from '@/constants/errors'
 import { PAGES } from '@/configs/pages.config'
-import ErrorMessage from '@/ui/error-message/ErrorMessage'
-import LoginLinks from '@/ui/login-links/LoginLinks'
-import LoginSubmitted from '@/ui/login-submitted/LoginSubmitted'
+import ErrorMessage from '@/components/ui/error-message/ErrorMessage'
+import LoginLinks from '@/components/ui/login-links/LoginLinks'
+import LoginSubmitted from '@/components/ui/login-submitted/LoginSubmitted'
 
 export default function LoginForm() {
   const {
     control,
     handleSubmit,
     getValues,
+    setError,
+    clearErrors,
     formState: { isValid, errors, dirtyFields, isSubmitting },
   } = useForm<TLogin>({
     resolver: zodResolver(loginScheme),
@@ -29,11 +31,10 @@ export default function LoginForm() {
       password: '',
     },
   })
-  const [loginError, setLoginError] = useState<string | null>(null)
   const [isVerificationSent, setIsVerificationSent] = useState<boolean>(false)
 
   const onFormSubmit: SubmitHandler<TLogin> = async (data) => {
-    setLoginError(null)
+    clearErrors('root')
     const response = await signIn.email({
       email: data.email,
       password: data.password,
@@ -46,14 +47,16 @@ export default function LoginForm() {
           callbackURL: PAGES.MAIN,
         })
         if (emailVerification.error) {
-          setLoginError(
-            emailVerification.error.message || ERRORS.SOMETHING_WRONG,
-          )
+          setError('root', {
+            message: emailVerification.error.message || ERRORS.SOMETHING_WRONG,
+          })
         } else {
           setIsVerificationSent(true)
         }
       } else {
-        setLoginError(response.error.message || ERRORS.SOMETHING_WRONG)
+        setError('root', {
+          message: response.error.message || ERRORS.SOMETHING_WRONG,
+        })
       }
     }
   }
@@ -87,6 +90,7 @@ export default function LoginForm() {
             render={({ field }) => (
               <LoginInput
                 {...field}
+                autoComplete={'email'}
                 isValid={!!errors.email?.message}
                 labelText={'Email'}
                 id={'email'}
@@ -94,13 +98,16 @@ export default function LoginForm() {
               />
             )}
           />
-          {loginError && <ErrorMessage message={loginError} />}
+          {errors.root?.message && (
+            <ErrorMessage message={errors.root.message} />
+          )}
           <Controller
             name={'password'}
             control={control}
             render={({ field }) => (
               <LoginPassword
                 {...field}
+                autoComplete={'current-password'}
                 maxLength={50}
                 isValid={!!errors.password?.message}
                 isDirty={!!dirtyFields.password}

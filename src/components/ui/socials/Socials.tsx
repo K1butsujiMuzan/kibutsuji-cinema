@@ -1,4 +1,4 @@
-import { socials } from '@/ui/socials/socials.data'
+import { socials } from '@/components/ui/socials/socials.data'
 
 export default function Socials() {
   return (

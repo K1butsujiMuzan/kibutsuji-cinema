@@ -5,7 +5,7 @@ import WelcomeSubscription from '@/app/(guest)/welcome/(components)/WelcomeSubsc
 import WelcomeMore from '@/app/(guest)/welcome/(components)/WelcomeMore'
 import WelcomeQuestions from '@/app/(guest)/welcome/(components)/WelcomeQuestions'
 import type { Metadata } from 'next'
-import GuestHeader from '@/layout/guest-header/GuestHeader'
+import GuestHeader from '@/components/layouts/guest-header/GuestHeader'
 
 export const metadata: Metadata = {
   title: 'Welcome',

@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import '../styles/globals.css'
 import { fontAtyp } from '@/constants/fonts'
 import ThemeProvider from '@/providers/ThemeProvider'
-import Footer from '@/layout/footer/Footer'
+import Footer from '@/components/layouts/footer/Footer'
 
 export const metadata: Metadata = {
   title: {

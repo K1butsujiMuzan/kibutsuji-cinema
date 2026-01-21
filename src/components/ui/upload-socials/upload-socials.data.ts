@@ -1,5 +1,8 @@
 import type { FC, SVGAttributes } from 'react'
-import { AppStore, GooglePlay } from '@/ui/upload-socials/uploadSocialsIcons'
+import {
+  AppStore,
+  GooglePlay,
+} from '@/components/ui/upload-socials/uploadSocialsIcons'
 
 interface ISocial {
   href: string

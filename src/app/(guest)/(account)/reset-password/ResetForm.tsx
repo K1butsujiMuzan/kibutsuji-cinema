@@ -1,23 +1,25 @@
 'use client'
 
-import LoginInput from '@/ui/login-input/LoginInput'
-import LoginButton from '@/ui/login-button/LoginButton'
+import LoginInput from '@/components/ui/login-input/LoginInput'
+import LoginButton from '@/components/ui/login-button/LoginButton'
 import { Controller, type SubmitHandler, useForm } from 'react-hook-form'
 import { resetScheme, type TReset } from '@/shared/schemes/register.scheme'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
-import ErrorMessage from '@/ui/error-message/ErrorMessage'
+import ErrorMessage from '@/components/ui/error-message/ErrorMessage'
 import { requestPasswordReset } from '@/lib/auth-client'
 import { ERRORS } from '@/constants/errors'
 import { PAGES } from '@/configs/pages.config'
-import LoginLinks from '@/ui/login-links/LoginLinks'
-import LoginSubmitted from '@/ui/login-submitted/LoginSubmitted'
+import LoginLinks from '@/components/ui/login-links/LoginLinks'
+import LoginSubmitted from '@/components/ui/login-submitted/LoginSubmitted'
 
 export default function ResetForm() {
   const {
     control,
     getValues,
     handleSubmit,
+    setError,
+    clearErrors,
     formState: { isValid, errors, isSubmitting },
   } = useForm<TReset>({
     defaultValues: {
@@ -26,17 +28,18 @@ export default function ResetForm() {
     mode: 'onChange',
     resolver: zodResolver(resetScheme),
   })
-  const [resetError, setResetError] = useState<string | null>(null)
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false)
 
   const onFormSubmit: SubmitHandler<TReset> = async (data) => {
-    setResetError(null)
+    clearErrors('root')
     const response = await requestPasswordReset({
       email: data.email,
       redirectTo: `${window.location.origin}/${PAGES.NEW_PASSWORD}`,
     })
     if (response.error) {
-      setResetError(response.error.message || ERRORS.SOMETHING_WRONG)
+      setError('root', {
+        message: response.error.message || ERRORS.SOMETHING_WRONG,
+      })
     } else {
       setIsSubmitted(true)
     }
@@ -79,6 +82,7 @@ export default function ResetForm() {
             render={({ field }) => (
               <LoginInput
                 {...field}
+                autoComplete={'email'}
                 isValid={!!errors.email?.message}
                 labelText={'Email'}
                 id={'email'}
@@ -86,7 +90,9 @@ export default function ResetForm() {
               />
             )}
           />
-          {resetError && <ErrorMessage message={resetError} />}
+          {errors.root?.message && (
+            <ErrorMessage message={errors.root.message} />
+          )}
         </div>
         <LoginButton
           text={isSubmitting ? 'Sending...' : 'Send'}
