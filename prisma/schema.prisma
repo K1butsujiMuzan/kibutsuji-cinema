@@ -14,11 +14,10 @@ enum Role {
 }
 
 model User {
-  id                     String    @id @default(cuid())
+  id                     String    @id @default(cuid(2))
   name                   String    @default("guest")
   email                  String    @unique
   role                   Role      @default(USER)
-  adminPassword          String
   emailVerified          Boolean   @default(false)
   isReceiveNotifications Boolean   @default(false)
   image                  String?
@@ -31,7 +30,7 @@ model User {
 }
 
 model Session {
-  id        String   @id @default(cuid())
+  id        String   @id @default(cuid(2))
   expiresAt DateTime
   token     String   @unique
   createdAt DateTime @default(now())
@@ -45,7 +44,7 @@ model Session {
 }
 
 model Account {
-  id                    String    @id @default(cuid())
+  id                    String    @id @default(cuid(2))
   accountId             String
   providerId            String
   userId                String
@@ -64,7 +63,7 @@ model Account {
 }
 
 model Verification {
-  id         String    @id @default(cuid())
+  id         String    @id @default(cuid(2))
   identifier String
   value      String
   expiresAt  DateTime
@@ -72,4 +71,45 @@ model Verification {
   updatedAt  DateTime? @updatedAt
 
   @@map("verification")
+}
+
+model Anime {
+  id            String  @id @default(cuid(2))
+  title         String
+  originalTitle String? @map("original_title")
+  ageLimit      Int     @map("age_limit")
+  tags          Tag[]
+  typeId        Int     @map("type_id")
+  releaseYearId Int     @map("release_year_id")
+
+  type        AnimeType   @relation(fields: [typeId], references: [id])
+  releaseYear ReleaseYear @relation(fields: [releaseYearId], references: [id])
+
+  @@index([releaseYearId])
+  @@index([typeId])
+  @@map("animes")
+}
+
+model ReleaseYear {
+  id     Int     @id @default(autoincrement())
+  year   Int     @unique
+  animes Anime[]
+
+  @@map("release_years")
+}
+
+model AnimeType {
+  id     Int     @id @default(autoincrement())
+  name   String  @unique
+  animes Anime[]
+
+  @@map("anime_types")
+}
+
+model Tag {
+  id    Int     @id @default(autoincrement())
+  name  String  @unique
+  anime Anime[]
+
+  @@map("tags")
 }

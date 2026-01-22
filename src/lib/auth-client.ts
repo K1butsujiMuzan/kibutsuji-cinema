@@ -1,6 +1,6 @@
 import { createAuthClient } from 'better-auth/react'
 import { nextCookies } from 'better-auth/next-js'
-import { inferAdditionalFields } from 'better-auth/client/plugins'
+import { inferAdditionalFields, jwtClient } from 'better-auth/client/plugins'
 import type { auth } from '@/lib/auth'
 
 export const {
