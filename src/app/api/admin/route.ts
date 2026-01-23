@@ -5,18 +5,9 @@ import { $Enums } from '@/generated/prisma'
 import Role = $Enums.Role
 import { ERRORS } from '@/constants/errors'
 import { sign } from 'jsonwebtoken'
+import { cors } from '@/lib/cors'
 
 export async function POST(request: NextRequest) {
-  const corsHeaders = {
-    'Access-Control-Allow-Origin': 'http://localhost:34115',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-  }
-
-  if (request.method === 'OPTIONS') {
-    return NextResponse.json({}, { headers: corsHeaders })
-  }
-
   const { email, password } = await request.json()
   try {
     const response = await auth.api.signInEmail({
@@ -46,17 +37,21 @@ export async function POST(request: NextRequest) {
         },
       )
 
-      return NextResponse.json(
-        {
-          token: jwtToken,
-          user: response.user,
-        },
-        { status: 200, headers: corsHeaders },
+      return cors(
+        NextResponse.json(
+          {
+            token: jwtToken,
+            user: response.user,
+          },
+          { status: 200 },
+        ),
       )
     } else {
-      return NextResponse.json(
-        { error: ERRORS.INSUFFICIENT_RIGHTS },
-        { status: 403, headers: corsHeaders },
+      return cors(
+        NextResponse.json(
+          { error: ERRORS.INSUFFICIENT_RIGHTS },
+          { status: 403 },
+        ),
       )
     }
   } catch (error: any) {
@@ -66,15 +61,23 @@ export async function POST(request: NextRequest) {
       ERRORS.EMAIL_NOT_VERIFIED,
     ]
     if (error?.body?.message && authErrors.includes(error?.body?.message)) {
-      return NextResponse.json(
-        { error: error?.body?.message || ERRORS.SOMETHING_WRONG },
-        { status: 401, headers: corsHeaders },
+      return cors(
+        NextResponse.json(
+          { error: error?.body?.message || ERRORS.SOMETHING_WRONG },
+          { status: 401 },
+        ),
       )
     }
 
-    return NextResponse.json(
-      { error: error?.body?.message || error || ERRORS.SOMETHING_WRONG },
-      { status: 500, headers: corsHeaders },
+    return cors(
+      NextResponse.json(
+        { error: error?.body?.message || error || ERRORS.SOMETHING_WRONG },
+        { status: 500 },
+      ),
     )
   }
+}
+
+export function OPTIONS() {
+  return cors(new NextResponse(null, { status: 204 }))
 }
