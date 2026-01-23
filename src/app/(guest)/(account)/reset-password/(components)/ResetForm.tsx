@@ -12,8 +12,7 @@ import { ERRORS } from '@/constants/errors'
 import { PAGES } from '@/configs/pages.config'
 import LoginLinks from '@/components/ui/login-links/LoginLinks'
 import LoginSubmitted from '@/components/ui/login-submitted/LoginSubmitted'
-import ResetTitle
-  from "@/app/(guest)/(account)/reset-password/(components)/ResetTitle";
+import ResetTitle from '@/app/(guest)/(account)/reset-password/(components)/ResetTitle'
 
 export default function ResetForm() {
   const {
@@ -75,9 +74,7 @@ export default function ResetForm() {
               />
             )}
           />
-          {error && (
-            <ErrorMessage message={error} />
-          )}
+          {error && <ErrorMessage message={error} />}
         </div>
         <LoginButton
           text={isSubmitting ? 'Sending...' : 'Send'}

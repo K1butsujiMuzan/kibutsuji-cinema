@@ -93,9 +93,7 @@ export default function LoginForm() {
               />
             )}
           />
-          {error && (
-            <ErrorMessage message={error} />
-          )}
+          {error && <ErrorMessage message={error} />}
           <Controller
             name={'password'}
             control={control}

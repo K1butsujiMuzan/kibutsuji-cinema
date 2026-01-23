@@ -14,8 +14,7 @@ import { resetPassword } from '@/lib/auth-client'
 import { useSearchParams } from 'next/navigation'
 import { ERRORS } from '@/constants/errors'
 import NewPasswordSubmitted from '@/app/(guest)/(account)/new-password/(components)/NewPasswordSubmitted'
-import NewPasswordTitle
-  from "@/app/(guest)/(account)/new-password/(components)/NewPasswordTitle";
+import NewPasswordTitle from '@/app/(guest)/(account)/new-password/(components)/NewPasswordTitle'
 
 export default function NewPasswordForm() {
   const params = useSearchParams()
@@ -78,9 +77,7 @@ export default function NewPasswordForm() {
                 />
               )}
             />
-            {error && (
-              <ErrorMessage message={error} />
-            )}
+            {error && <ErrorMessage message={error} />}
           </div>
           <Controller
             name={'passwordRepeat'}
