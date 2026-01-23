@@ -41,7 +41,13 @@ export async function POST(request: NextRequest) {
         NextResponse.json(
           {
             token: jwtToken,
-            user: response.user,
+            user: {
+              id: response.user.id,
+              email: response.user.email,
+              name: response.user.name,
+              role: response.user.role,
+              image: response.user.image,
+            },
           },
           { status: 200 },
         ),
@@ -71,7 +77,7 @@ export async function POST(request: NextRequest) {
 
     return cors(
       NextResponse.json(
-        { error: error?.body?.message || error || ERRORS.SOMETHING_WRONG },
+        { error: error?.body?.message || ERRORS.SOMETHING_WRONG },
         { status: 500 },
       ),
     )
