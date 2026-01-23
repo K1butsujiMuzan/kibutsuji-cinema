@@ -14,6 +14,8 @@ import { resetPassword } from '@/lib/auth-client'
 import { useSearchParams } from 'next/navigation'
 import { ERRORS } from '@/constants/errors'
 import NewPasswordSubmitted from '@/app/(guest)/(account)/new-password/(components)/NewPasswordSubmitted'
+import NewPasswordTitle
+  from "@/app/(guest)/(account)/new-password/(components)/NewPasswordTitle";
 
 export default function NewPasswordForm() {
   const params = useSearchParams()
@@ -22,8 +24,6 @@ export default function NewPasswordForm() {
     control,
     formState: { isValid, errors, isSubmitting, dirtyFields },
     handleSubmit,
-    clearErrors,
-    setError,
   } = useForm<TNewPassword>({
     defaultValues: {
       password: '',
@@ -34,18 +34,17 @@ export default function NewPasswordForm() {
   })
 
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false)
+  const [error, setError] = useState<string | null>(null)
 
   const onFormSubmit: SubmitHandler<TNewPassword> = async (data) => {
-    clearErrors('root')
+    setError(null)
 
     const response = await resetPassword({
       newPassword: data.password,
       token: params.get('token') || '',
     })
     if (response.error) {
-      setError('root', {
-        message: response.error?.message || ERRORS.SOMETHING_WRONG,
-      })
+      setError(response.error?.message || ERRORS.SOMETHING_WRONG)
     } else {
       setIsSubmitted(true)
     }
@@ -57,20 +56,7 @@ export default function NewPasswordForm() {
 
   return (
     <>
-      <h1
-        className={
-          'text-2xl leading-8 md:text-34 md:leading-11 font-medium mb-5 text-center'
-        }
-      >
-        Create a new password
-      </h1>
-      <p
-        className={
-          'md:leading-6.5 md:text-18 max-w-104 text-center font-medium'
-        }
-      >
-        For security, your password must be 6 or more characters long.
-      </p>
+      <NewPasswordTitle />
       <form
         className={'w-full max-w-104 flex flex-col gap-5'}
         onSubmit={handleSubmit(onFormSubmit)}
@@ -92,8 +78,8 @@ export default function NewPasswordForm() {
                 />
               )}
             />
-            {errors.root?.message && (
-              <ErrorMessage message={errors.root.message} />
+            {error && (
+              <ErrorMessage message={error} />
             )}
           </div>
           <Controller

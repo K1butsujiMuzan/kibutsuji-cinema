@@ -17,8 +17,6 @@ export async function POST(request: NextRequest) {
       headers: await headers(),
     })
 
-    console.log(response)
-
     if (
       response.user.role === Role.ADMIN ||
       response.user.role === Role.MODERATOR

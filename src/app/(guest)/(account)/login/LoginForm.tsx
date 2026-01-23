@@ -20,8 +20,6 @@ export default function LoginForm() {
     control,
     handleSubmit,
     getValues,
-    setError,
-    clearErrors,
     formState: { isValid, errors, dirtyFields, isSubmitting },
   } = useForm<TLogin>({
     resolver: zodResolver(loginScheme),
@@ -32,9 +30,10 @@ export default function LoginForm() {
     },
   })
   const [isVerificationSent, setIsVerificationSent] = useState<boolean>(false)
+  const [error, setError] = useState<string | null>(null)
 
   const onFormSubmit: SubmitHandler<TLogin> = async (data) => {
-    clearErrors('root')
+    setError(null)
     const response = await signIn.email({
       email: data.email,
       password: data.password,
@@ -47,16 +46,12 @@ export default function LoginForm() {
           callbackURL: PAGES.MAIN,
         })
         if (emailVerification.error) {
-          setError('root', {
-            message: emailVerification.error.message || ERRORS.SOMETHING_WRONG,
-          })
+          setError(emailVerification.error.message || ERRORS.SOMETHING_WRONG)
         } else {
           setIsVerificationSent(true)
         }
       } else {
-        setError('root', {
-          message: response.error.message || ERRORS.SOMETHING_WRONG,
-        })
+        setError(response.error.message || ERRORS.SOMETHING_WRONG)
       }
     }
   }
@@ -98,8 +93,8 @@ export default function LoginForm() {
               />
             )}
           />
-          {errors.root?.message && (
-            <ErrorMessage message={errors.root.message} />
+          {error && (
+            <ErrorMessage message={error} />
           )}
           <Controller
             name={'password'}

@@ -25,8 +25,6 @@ export default function RegisterForm() {
     control,
     handleSubmit,
     getValues,
-    clearErrors,
-    setError,
     formState: { isValid, errors, dirtyFields, isSubmitting },
   } = useForm<TRegister>({
     resolver: zodResolver(registerScheme),
@@ -38,9 +36,10 @@ export default function RegisterForm() {
     },
   })
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false)
+  const [error, setError] = useState<string | null>(null)
 
   const onFormSubmit: SubmitHandler<TRegister> = async (data) => {
-    clearErrors('root')
+    setError(null)
 
     const response = await signUp.email({
       name: PRISMA_DEFAULT_NAME,
@@ -51,9 +50,7 @@ export default function RegisterForm() {
     })
 
     if (response.error) {
-      setError('root', {
-        message: response.error.message || ERRORS.SOMETHING_WRONG,
-      })
+      setError(response.error.message || ERRORS.SOMETHING_WRONG)
     } else {
       setIsSubmitted(true)
     }
@@ -96,8 +93,8 @@ export default function RegisterForm() {
               />
             )}
           />
-          {errors.root?.message && (
-            <ErrorMessage message={errors.root.message} />
+          {error && (
+            <ErrorMessage message={error} />
           )}
           <Controller
             name={'password'}
