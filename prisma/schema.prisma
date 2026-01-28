@@ -74,28 +74,61 @@ model Verification {
 }
 
 model Anime {
-  id            String  @id @default(cuid(2))
-  title         String
-  originalTitle String? @map("original_title")
-  ageLimit      Int     @map("age_limit")
-  tags          Tag[]
-  typeId        Int     @map("type_id")
-  releaseYearId Int     @map("release_year_id")
+  id               String         @id @default(cuid(2))
+  slug             String         @unique
+  title            String
+  image            String?
+  originalTitle    String?        @map("original_title")
+  description      String         @db.Text
+  ageLimitId       Int            @map("age_limit_id")
+  genres           AnimeGenre[]
+  typeId           Int            @map("type_id")
+  releaseYear      Int            @map("release_year")
+  episodesReleased Int            @map("episodes_released")
+  episodesCount    Int            @map("episodes_count")
+  episodesLength   Int            @map("episodes_length")
+  statusId         Int            @map("status_id")
+  views            Int            @default(0)
+  episodes         AnimeEpisode[]
 
-  type        AnimeType   @relation(fields: [typeId], references: [id])
-  releaseYear ReleaseYear @relation(fields: [releaseYearId], references: [id])
+  ageLimit AnimeAgeLimit @relation(fields: [ageLimitId], references: [id])
+  status   AnimeStatus   @relation(fields: [statusId], references: [id])
+  type     AnimeType     @relation(fields: [typeId], references: [id])
 
-  @@index([releaseYearId])
+  @@index([title])
+  @@index([releaseYear])
+  @@index([ageLimitId])
+  @@index([statusId])
   @@index([typeId])
-  @@map("animes")
+  @@map("anime")
 }
 
-model ReleaseYear {
+model AnimeEpisode {
+  id            String @id @default(cuid(2))
+  url           String @unique
+  episodeNumber Int    @map("episode_number")
+  animeId       String @map("anime_id")
+
+  anime Anime @relation(fields: [animeId], references: [id])
+
+  @@unique([animeId, episodeNumber])
+  @@map("anime_episodes")
+}
+
+model AnimeAgeLimit {
   id     Int     @id @default(autoincrement())
-  year   Int     @unique
+  age    Int     @unique
   animes Anime[]
 
-  @@map("release_years")
+  @@map("anime_age_limits")
+}
+
+model AnimeStatus {
+  id     Int     @id @default(autoincrement())
+  name   String  @unique
+  animes Anime[]
+
+  @@map("anime_statuses")
 }
 
 model AnimeType {
@@ -106,10 +139,10 @@ model AnimeType {
   @@map("anime_types")
 }
 
-model Tag {
+model AnimeGenre {
   id    Int     @id @default(autoincrement())
   name  String  @unique
   anime Anime[]
 
-  @@map("tags")
+  @@map("anime_genres")
 }

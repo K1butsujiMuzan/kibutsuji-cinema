@@ -1,30 +1,11 @@
 import { type NextRequest, NextResponse } from 'next/server'
 import { ERRORS } from '@/constants/errors'
-import { verify } from 'jsonwebtoken'
 import { cors } from '@/lib/cors'
+import { tokenCheck } from '@/lib/token-check'
 
 export async function GET(request: NextRequest) {
-  const authHeader = request.headers.get('Authorization')
-
-  if (!authHeader?.startsWith('Bearer ')) {
-    return cors(
-      NextResponse.json(
-        {
-          error: ERRORS.UNAUTHORIZED,
-        },
-        { status: 401 },
-      ),
-    )
-  }
-
-  const token = authHeader?.substring(7)
-
   try {
-    verify(token, process.env.JWT_SECRET || 'wails-secret-123', {
-      issuer: 'kibutsuji-cinema',
-      audience: 'wails',
-    })
-
+    tokenCheck(request)
     return cors(
       NextResponse.json(
         {
