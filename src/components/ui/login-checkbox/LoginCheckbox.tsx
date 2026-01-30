@@ -46,7 +46,7 @@ export default function LoginCheckbox({
         <input
           checked={inputValue}
           {...props}
-          className={'absolute inset-0 opacity-0 peer'}
+          className={'absolute inset-0 opacity-0 peer cursor-pointer'}
           type={'checkbox'}
           id={id}
           tabIndex={-1}
