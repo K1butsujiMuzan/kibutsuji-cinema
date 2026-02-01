@@ -6,6 +6,7 @@ export const ERRORS = {
   DELETE_YOURSELF: 'Cannot delete yourself',
 
   INVALID_EMAIL: 'Invalid email',
+  USER_EXISTS: 'User already exists. Use another email',
   INVALID_PASSWORD: 'Invalid email or password',
   EMAIL_NOT_VERIFIED: 'Email not verified',
   UNAUTHORIZED: 'Invalid jwt',

@@ -3,6 +3,8 @@ import { cors } from '@/lib/cors'
 import { tokenCheck } from '@/lib/token-check'
 import { ERRORS } from '@/constants/errors'
 import prisma from '@/lib/prisma'
+import { auth } from '@/lib/auth'
+import { PRISMA_DEFAULT_NAME } from '@/constants/prisma-values'
 
 export async function GET(request: NextRequest) {
   try {
@@ -22,6 +24,51 @@ export async function GET(request: NextRequest) {
     const users = await prisma.user.findMany()
 
     return cors(NextResponse.json({ users }, { status: 200 }))
+  } catch (error) {
+    return cors(
+      NextResponse.json({ error: ERRORS.UNAUTHORIZED }, { status: 401 }),
+    )
+  }
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    const user = tokenCheck(request)
+
+    if (user.role !== 'MODERATOR' && user.role !== 'ADMIN') {
+      return cors(
+        NextResponse.json(
+          {
+            error: ERRORS.INSUFFICIENT_RIGHTS,
+          },
+          { status: 403 },
+        ),
+      )
+    }
+
+    const { email, isReceiveNotifications, name, password } =
+      await request.json()
+
+    const existingUser = await prisma.user.findUnique({
+      where: { email },
+    })
+
+    if (existingUser) {
+      return cors(
+        NextResponse.json({ error: ERRORS.USER_EXISTS }, { status: 409 }),
+      )
+    }
+
+    await auth.api.signUpEmail({
+      body: {
+        email,
+        password,
+        isReceiveNotifications,
+        name: name || PRISMA_DEFAULT_NAME,
+      },
+    })
+
+    return cors(NextResponse.json({ error: null }, { status: 201 }))
   } catch (error) {
     return cors(
       NextResponse.json({ error: ERRORS.UNAUTHORIZED }, { status: 401 }),
