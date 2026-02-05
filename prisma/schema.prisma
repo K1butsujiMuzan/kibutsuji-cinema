@@ -13,20 +13,75 @@ enum Role {
   MODERATOR
 }
 
+enum List {
+  WATCHING
+  PLANNED
+  COMPLETED
+  ABANDONED
+  FAVORITE
+}
+
 model User {
-  id                     String    @id @default(cuid(2))
-  name                   String    @default("guest")
-  email                  String    @unique
-  role                   Role      @default(USER)
-  emailVerified          Boolean   @default(false)
-  isReceiveNotifications Boolean   @default(false)
+  id                     String        @id @default(cuid(2))
+  name                   String        @default("guest")
+  email                  String        @unique
+  role                   Role          @default(USER)
+  emailVerified          Boolean       @default(false)
+  isReceiveNotifications Boolean       @default(false)
   image                  String?
-  createdAt              DateTime  @default(now())
-  updatedAt              DateTime  @updatedAt
+  createdAt              DateTime      @default(now())
+  updatedAt              DateTime      @updatedAt
   sessions               Session[]
   accounts               Account[]
+  comments               Comment[]
+  ratings                AnimeRating[]
+  lists                  UserList[]
+  likes                  CommentLike[]
 
   @@map("user")
+}
+
+model UserList {
+  id      String @id @default(cuid(2))
+  userId  String @map("user_id")
+  animeId String @map("anime_id")
+  list    List
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  anime Anime @relation(fields: [animeId], references: [id], onDelete: Cascade)
+
+  @@unique([animeId, userId])
+  @@map("lists")
+}
+
+model CommentLike {
+  id        String @id @default(cuid(2))
+  commentId String @map("comment_id")
+  userId    String @map("user_id")
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comment Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  @@unique([commentId, userId])
+  @@map("comment_likes")
+}
+
+model Comment {
+  id         String        @id @default(cuid(2))
+  text       String        @db.Text
+  userId     String        @map("user_id")
+  episodeId  String        @map("episode_id")
+  likesCount Int           @default(0) @map("likes_count")
+  likes      CommentLike[]
+  createdAt  DateTime      @default(now()) @map("created_at")
+  updatedAt  DateTime      @updatedAt @map("updated_at")
+
+  episode AnimeEpisode @relation(fields: [episodeId], references: [id], onDelete: Cascade)
+  user    User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([episodeId])
+  @@index([userId])
+  @@map("comments")
 }
 
 model Session {
@@ -90,6 +145,10 @@ model Anime {
   statusId         Int            @map("status_id")
   views            Int            @default(0)
   episodes         AnimeEpisode[]
+  rating           Float          @default(0.0)
+  ratingCount      Int            @default(0) @map("rating_count")
+  ratings          AnimeRating[]
+  list             UserList[]
 
   ageLimit AnimeAgeLimit @relation(fields: [ageLimitId], references: [id])
   status   AnimeStatus   @relation(fields: [statusId], references: [id])
@@ -103,13 +162,31 @@ model Anime {
   @@map("anime")
 }
 
-model AnimeEpisode {
-  id            String @id @default(cuid(2))
-  url           String @unique
-  episodeNumber Int    @map("episode_number")
-  animeId       String @map("anime_id")
+model AnimeRating {
+  id        String   @id @default(cuid(2))
+  animeId   String   @map("anime_id")
+  userId    String   @map("user_id")
+  rating    Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  anime Anime @relation(fields: [animeId], references: [id])
+  @@unique([animeId, userId])
+  anime Anime @relation(fields: [animeId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([animeId])
+  @@index([userId])
+  @@map("anime_ratings")
+}
+
+model AnimeEpisode {
+  id            String    @id @default(cuid(2))
+  url           String    @unique
+  episodeNumber Int       @map("episode_number")
+  animeId       String    @map("anime_id")
+  comments      Comment[]
+
+  anime Anime @relation(fields: [animeId], references: [id], onDelete: Cascade)
 
   @@unique([animeId, episodeNumber])
   @@map("anime_episodes")

@@ -4,6 +4,8 @@ export const ERRORS = {
   INSUFFICIENT_RIGHTS: 'Insufficient rights',
   TRANSMITTED_DATA: 'Incorrectly transmitted data',
   DELETE_YOURSELF: 'Cannot delete yourself',
+  ROLE_YOURSELF: 'You cannot change your role',
+  USER_NOT_FOUND: 'User not found',
 
   INVALID_EMAIL: 'Invalid email',
   USER_EXISTS: 'User already exists. Use another email',
