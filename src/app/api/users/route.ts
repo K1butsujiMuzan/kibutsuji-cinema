@@ -21,10 +21,17 @@ export async function GET(request: NextRequest) {
         ),
       )
     }
+    const pages = Number(request.nextUrl.searchParams.get('page')) || 1
+    const limit = Number(request.nextUrl.searchParams.get('limit')) || 10
 
-    const users = await prisma.user.findMany()
+    const users = await prisma.user.findMany({
+      skip: (pages - 1) * 10,
+      take: limit,
+      orderBy: { updatedAt: 'desc' },
+    })
+    const count = await prisma.user.count()
 
-    return cors(NextResponse.json({ users }, { status: 200 }))
+    return cors(NextResponse.json({ users, count }, { status: 200 }))
   } catch (error) {
     return cors(
       NextResponse.json({ error: ERRORS.UNAUTHORIZED }, { status: 401 }),
