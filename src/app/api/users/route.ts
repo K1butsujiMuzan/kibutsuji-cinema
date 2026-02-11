@@ -1,57 +1,43 @@
 import { type NextRequest, NextResponse } from 'next/server'
 import { cors } from '@/lib/cors'
-import { tokenCheck } from '@/lib/token-check'
 import { ERRORS } from '@/constants/errors'
 import prisma from '@/lib/prisma'
 import { auth } from '@/lib/auth'
-import { $Enums, type User } from '@/generated/prisma'
-import Role = $Enums.Role
+import { type User, Role } from '@/generated/prisma'
+import { userAccessCheck } from '@/lib/user-access-check'
 
 export async function GET(request: NextRequest) {
   try {
-    const user = tokenCheck(request)
+    const access = userAccessCheck(request)
 
-    if (user.role !== Role.MODERATOR && user.role !== Role.ADMIN) {
-      return cors(
-        NextResponse.json(
-          {
-            error: ERRORS.INSUFFICIENT_RIGHTS,
-          },
-          { status: 403 },
-        ),
-      )
+    if (access.error) {
+      return access.error
     }
+
     const pages = Number(request.nextUrl.searchParams.get('page')) || 1
     const limit = Number(request.nextUrl.searchParams.get('limit')) || 10
 
     const users = await prisma.user.findMany({
       skip: (pages - 1) * 10,
       take: limit,
-      orderBy: { updatedAt: 'desc' },
+      orderBy: { createdAt: 'desc' },
     })
     const count = await prisma.user.count()
 
     return cors(NextResponse.json({ users, count }, { status: 200 }))
   } catch (error) {
     return cors(
-      NextResponse.json({ error: ERRORS.UNAUTHORIZED }, { status: 401 }),
+      NextResponse.json({ error: ERRORS.SOMETHING_WRONG }, { status: 500 }),
     )
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const user = tokenCheck(request)
+    const access = userAccessCheck(request)
 
-    if (user.role !== Role.MODERATOR && user.role !== Role.ADMIN) {
-      return cors(
-        NextResponse.json(
-          {
-            error: ERRORS.INSUFFICIENT_RIGHTS,
-          },
-          { status: 403 },
-        ),
-      )
+    if (access.error) {
+      return access.error
     }
 
     const { email, isReceiveNotifications, name, password } =
@@ -79,25 +65,20 @@ export async function POST(request: NextRequest) {
     return cors(NextResponse.json({ error: null }, { status: 201 }))
   } catch (error) {
     return cors(
-      NextResponse.json({ error: ERRORS.UNAUTHORIZED }, { status: 401 }),
+      NextResponse.json({ error: ERRORS.SOMETHING_WRONG }, { status: 500 }),
     )
   }
 }
 
 export async function DELETE(request: NextRequest) {
   try {
-    const user = tokenCheck(request)
+    const access = userAccessCheck(request)
 
-    if (user.role !== Role.MODERATOR && user.role !== Role.ADMIN) {
-      return cors(
-        NextResponse.json(
-          {
-            error: ERRORS.INSUFFICIENT_RIGHTS,
-          },
-          { status: 403 },
-        ),
-      )
+    if (access.error || !access.user) {
+      return access.error
     }
+
+    const { user } = access
 
     const ids = await request.json()
     if (Array.isArray(ids) && ids.length > 0) {
@@ -146,25 +127,20 @@ export async function DELETE(request: NextRequest) {
     }
   } catch (error) {
     return cors(
-      NextResponse.json({ error: ERRORS.UNAUTHORIZED }, { status: 401 }),
+      NextResponse.json({ error: ERRORS.SOMETHING_WRONG }, { status: 500 }),
     )
   }
 }
 
 export async function PUT(request: NextRequest) {
   try {
-    const user = tokenCheck(request)
+    const access = userAccessCheck(request)
 
-    if (user.role !== Role.MODERATOR && user.role !== Role.ADMIN) {
-      return cors(
-        NextResponse.json(
-          {
-            error: ERRORS.INSUFFICIENT_RIGHTS,
-          },
-          { status: 403 },
-        ),
-      )
+    if (access.error || !access.user) {
+      return access.error
     }
+
+    const { user } = access
 
     const {
       id,
@@ -223,7 +199,7 @@ export async function PUT(request: NextRequest) {
       )
     }
 
-    const response = await prisma.user.update({
+    await prisma.user.update({
       where: {
         id,
       },
@@ -240,7 +216,7 @@ export async function PUT(request: NextRequest) {
     return cors(NextResponse.json({ error: null }, { status: 200 }))
   } catch (error) {
     return cors(
-      NextResponse.json({ error: ERRORS.UNAUTHORIZED }, { status: 401 }),
+      NextResponse.json({ error: ERRORS.SOMETHING_WRONG }, { status: 500 }),
     )
   }
 }

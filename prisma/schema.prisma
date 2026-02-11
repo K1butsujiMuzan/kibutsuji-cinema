@@ -37,65 +37,83 @@ enum AnimeType {
   CLIP
 }
 
+enum AgeLimit {
+  AGE_6  @map("6+")
+  AGE_12 @map("12+")
+  AGE_16 @map("16+")
+  AGE_18 @map("18+")
+}
+
 model User {
-  id                     String        @id @default(cuid(2))
-  name                   String        @default("guest")
-  email                  String        @unique
-  role                   Role          @default(USER)
-  emailVerified          Boolean       @default(false)
-  isReceiveNotifications Boolean       @default(false)
+  id                     String  @id @default(cuid())
+  name                   String  @default("guest")
+  email                  String  @unique
+  role                   Role    @default(USER)
+  emailVerified          Boolean @default(false)
+  isReceiveNotifications Boolean @default(false)
   image                  String?
-  createdAt              DateTime      @default(now())
-  updatedAt              DateTime      @updatedAt
-  sessions               Session[]
-  accounts               Account[]
-  comments               Comment[]
-  ratings                AnimeRating[]
-  lists                  UserList[]
-  likes                  CommentLike[]
+
+  sessions Session[]
+  accounts Account[]
+  comments Comment[]
+  ratings  AnimeRating[]
+  lists    UserList[]
+  likes    CommentLike[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("user")
 }
 
 model UserList {
-  id        String   @id @default(cuid(2))
-  userId    String   @map("user_id")
-  animeId   String   @map("anime_id")
-  list      List
-  addedAt   DateTime @default(now()) @map("added_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id   String @id @default(cuid())
+  list List
 
-  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
-  anime Anime @relation(fields: [animeId], references: [id], onDelete: Cascade)
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  animeId String @map("anime_id")
+  anime   Anime  @relation(fields: [animeId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@unique([animeId, userId])
   @@map("lists")
 }
 
 model CommentLike {
-  id        String  @id @default(cuid(2))
-  commentId String  @map("comment_id")
-  userId    String  @map("user_id")
-  isLiked   Boolean @map("is_liked")
+  id      String  @id @default(cuid())
+  isLiked Boolean @map("is_liked")
 
-  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  comment Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  commentId String  @map("comment_id")
+  comment   Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@unique([commentId, userId])
   @@map("comment_likes")
 }
 
 model Comment {
-  id        String        @id @default(cuid(2))
-  text      String        @db.Text
-  userId    String        @map("user_id")
-  episodeId String        @map("episode_id")
-  likes     CommentLike[]
-  createdAt DateTime      @default(now()) @map("created_at")
-  updatedAt DateTime      @updatedAt @map("updated_at")
+  id   String @id @default(cuid())
+  text String @db.Text
 
-  episode AnimeEpisode @relation(fields: [episodeId], references: [id], onDelete: Cascade)
-  user    User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  episodeId String       @map("episode_id")
+  episode   AnimeEpisode @relation(fields: [episodeId], references: [id], onDelete: Cascade)
+
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  likes CommentLike[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@index([episodeId])
   @@index([userId])
@@ -103,25 +121,25 @@ model Comment {
 }
 
 model Session {
-  id        String   @id @default(cuid(2))
+  id        String   @id @default(cuid())
   expiresAt DateTime
   token     String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
   ipAddress String?
   userAgent String?
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("session")
 }
 
 model Account {
-  id                    String    @id @default(cuid(2))
+  id                    String    @id @default(cuid())
   accountId             String
   providerId            String
-  userId                String
-  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   accessToken           String?
   refreshToken          String?
   idToken               String?
@@ -129,45 +147,54 @@ model Account {
   refreshTokenExpiresAt DateTime?
   scope                 String?
   password              String?
-  createdAt             DateTime  @default(now())
-  updatedAt             DateTime  @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("account")
 }
 
 model Verification {
-  id         String    @id @default(cuid(2))
+  id         String   @id @default(cuid())
   identifier String
   value      String
   expiresAt  DateTime
-  createdAt  DateTime? @default(now())
-  updatedAt  DateTime? @updatedAt
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
 
   @@map("verification")
 }
 
 model Anime {
-  id               String         @id @default(cuid(2))
-  slug             String         @unique
+  id               String      @id @default(cuid())
+  slug             String      @unique
   title            String
   image            String?
-  originalTitle    String?        @map("original_title")
-  description      String         @db.Text
-  ageLimit         Int            @map("age_limit")
-  genres           AnimeGenre[]
-  releaseYear      Int            @map("release_year")
-  episodesReleased Int            @map("episodes_released")
-  episodesCount    Int            @map("episodes_count")
-  episodesLength   Int            @map("episodes_length")
-  type             AnimeType      @default(TVSERIES)
-  status           AnimeStatus    @default(ANNOUNCEMENT)
-  views            Int            @default(0)
-  episodes         AnimeEpisode[]
-  ratings          AnimeRating[]
-  list             UserList[]
+  originalTitle    String?     @map("original_title")
+  description      String      @db.Text
+  ageLimit         AgeLimit
+  releaseDate      DateTime    @map("release_date")
+  episodesReleased Int         @map("episodes_released")
+  episodesCount    Int         @map("episodes_count")
+  episodesLength   Int         @map("episodes_length")
+  type             AnimeType   @default(TVSERIES)
+  status           AnimeStatus @default(ANNOUNCEMENT)
+  views            Int         @default(0)
+
+  genres   AnimeGenre[]
+  episodes AnimeEpisode[]
+  ratings  AnimeRating[]
+  list     UserList[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@index([title])
-  @@index([releaseYear])
+  @@index([releaseDate])
   @@index([ageLimit])
   @@index([status])
   @@index([type])
@@ -175,14 +202,17 @@ model Anime {
 }
 
 model AnimeRating {
-  id        String   @id @default(cuid(2))
-  animeId   String   @map("anime_id")
-  userId    String   @map("user_id")
-  rating    Float    @default(0.0)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  anime     Anime    @relation(fields: [animeId], references: [id], onDelete: Cascade)
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id     String @id @default(cuid())
+  rating Float  @default(0.0)
+
+  animeId String @map("anime_id")
+  anime   Anime  @relation(fields: [animeId], references: [id], onDelete: Cascade)
+
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@unique([animeId, userId])
   @@index([animeId])
@@ -191,23 +221,31 @@ model AnimeRating {
 }
 
 model AnimeEpisode {
-  id            String    @id @default(cuid(2))
-  url           String    @unique
-  episodeNumber Int       @map("episode_number")
-  views         Int       @default(0)
-  animeId       String    @map("anime_id")
-  comments      Comment[]
+  id            String @id @default(cuid())
+  url           String @unique
+  episodeNumber Int    @map("episode_number")
+  views         Int    @default(0)
 
-  anime Anime @relation(fields: [animeId], references: [id], onDelete: Cascade)
+  animeId String @map("anime_id")
+  anime   Anime  @relation(fields: [animeId], references: [id], onDelete: Cascade)
+
+  comments Comment[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@unique([animeId, episodeNumber])
   @@map("anime_episodes")
 }
 
 model AnimeGenre {
-  id    Int     @id @default(autoincrement())
-  name  String  @unique
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
   anime Anime[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("anime_genres")
 }
