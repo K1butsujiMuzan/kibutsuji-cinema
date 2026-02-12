@@ -3,6 +3,8 @@ import { type NextRequest, NextResponse } from 'next/server'
 import { ERRORS } from '@/constants/errors'
 import prisma from '@/lib/prisma'
 import { userAccessCheck } from '@/lib/user-access-check'
+import type { Anime } from '@/generated/prisma'
+import { slugCheck } from '@/lib/slug-check'
 
 export async function GET(request: NextRequest) {
   try {
@@ -16,9 +18,12 @@ export async function GET(request: NextRequest) {
     const limit = Number(request.nextUrl.searchParams.get('limit')) || 10
 
     const anime = await prisma.anime.findMany({
-      skip: (pages - 1) * 10,
+      skip: (pages - 1) * limit,
       take: limit,
       orderBy: { createdAt: 'desc' },
+      include: {
+        genres: true,
+      },
     })
     const count = await prisma.anime.count()
 
@@ -62,13 +67,169 @@ export async function DELETE(request: NextRequest) {
   }
 }
 
-export async function CREATE(request: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
     const access = userAccessCheck(request)
 
     if (access.error) {
       return access.error
     }
+
+    const data = await request.json()
+
+    const { genres }: { genres: number[] } = data
+    const {
+      ageLimit,
+      description,
+      episodesCount,
+      episodesLength,
+      episodesReleased,
+      image,
+      originalTitle,
+      releaseDate,
+      slug,
+      status,
+      title,
+      type,
+    }: Omit<Anime, 'views' | 'id' | 'createdAt' | 'updatedAt'> = data
+
+    const slugError = slugCheck(slug)
+
+    if (slugError) {
+      return slugError
+    }
+
+    const existingSlug = await prisma.anime.findUnique({ where: { slug } })
+
+    if (existingSlug) {
+      return cors(
+        NextResponse.json({ error: ERRORS.EXISTS('Slug') }, { status: 409 }),
+      )
+    }
+
+    const existingGenres = await prisma.animeGenre.findMany({
+      where: {
+        id: {
+          in: genres,
+        },
+      },
+    })
+
+    if (existingGenres.length !== genres.length) {
+      return cors(
+        NextResponse.json({ error: ERRORS.INVALID_GENRES }, { status: 400 }),
+      )
+    }
+
+    await prisma.anime.create({
+      data: {
+        ageLimit,
+        description,
+        episodesCount,
+        episodesLength,
+        episodesReleased,
+        image,
+        originalTitle,
+        releaseDate,
+        slug,
+        status,
+        title,
+        type,
+        genres: {
+          connect: genres.map((id) => ({ id })),
+        },
+      },
+    })
+
+    return cors(NextResponse.json({ error: null }, { status: 201 }))
+  } catch (error) {
+    return cors(
+      NextResponse.json({ error: ERRORS.SOMETHING_WRONG }, { status: 500 }),
+    )
+  }
+}
+
+export async function PUT(request: NextRequest) {
+  try {
+    const access = userAccessCheck(request)
+
+    if (access.error) {
+      return access.error
+    }
+
+    const data = await request.json()
+
+    const { genres }: { genres: number[] } = data
+    const {
+      id,
+      ageLimit,
+      description,
+      episodesCount,
+      episodesLength,
+      episodesReleased,
+      image,
+      originalTitle,
+      releaseDate,
+      slug,
+      status,
+      title,
+      type,
+      views,
+    }: Omit<Anime, 'createdAt' | 'updatedAt'> = data
+
+    const slugError = slugCheck(slug)
+
+    if (slugError) {
+      return slugError
+    }
+
+    const existingSlug = await prisma.anime.findUnique({ where: { slug } })
+
+    if (existingSlug && existingSlug.id !== id) {
+      return cors(
+        NextResponse.json({ error: ERRORS.EXISTS('Slug') }, { status: 409 }),
+      )
+    }
+
+    const existingGenres = await prisma.animeGenre.findMany({
+      where: {
+        id: {
+          in: genres,
+        },
+      },
+    })
+
+    if (existingGenres.length !== genres.length) {
+      return cors(
+        NextResponse.json({ error: ERRORS.INVALID_GENRES }, { status: 400 }),
+      )
+    }
+
+    await prisma.anime.update({
+      where: {
+        id,
+      },
+      data: {
+        ageLimit,
+        description,
+        episodesCount,
+        episodesLength,
+        episodesReleased,
+        image,
+        originalTitle,
+        releaseDate,
+        slug,
+        status,
+        title,
+        type,
+        views,
+        genres: {
+          set: genres.map((id) => ({ id })),
+        },
+      },
+    })
+
+    return cors(NextResponse.json({ error: null }, { status: 200 }))
   } catch (error) {
     return cors(
       NextResponse.json({ error: ERRORS.SOMETHING_WRONG }, { status: 500 }),

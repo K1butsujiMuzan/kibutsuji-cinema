@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
     const limit = Number(request.nextUrl.searchParams.get('limit')) || 10
 
     const users = await prisma.user.findMany({
-      skip: (pages - 1) * 10,
+      skip: (pages - 1) * limit,
       take: limit,
       orderBy: { createdAt: 'desc' },
     })

@@ -8,7 +8,10 @@ export const ERRORS = {
   USER_NOT_FOUND: 'User not found',
 
   INVALID_EMAIL: 'Invalid email',
+  INVALID_SLUG: 'Invalid slug format',
+  INVALID_GENRES: 'Invalid genres. Please enter existing ID.',
   USER_EXISTS: 'User already exists. Use another email',
+  EXISTS: (name: string) => `${name} already exists`,
   INVALID_PASSWORD: 'Invalid email or password',
   EMAIL_NOT_VERIFIED: 'Email not verified',
   UNAUTHORIZED: 'Invalid jwt',
