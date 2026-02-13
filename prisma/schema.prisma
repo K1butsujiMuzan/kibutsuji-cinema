@@ -175,7 +175,7 @@ model Anime {
   title            String
   image            String?
   originalTitle    String?     @map("original_title")
-  description      String      @db.Text
+  description      String?     @db.Text
   ageLimit         AgeLimit
   releaseDate      DateTime    @map("release_date")
   episodesReleased Int         @map("episodes_released")

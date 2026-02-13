@@ -91,7 +91,8 @@ export async function POST(request: NextRequest) {
       status,
       title,
       type,
-    }: Omit<Anime, 'views' | 'id' | 'createdAt' | 'updatedAt'> = data
+      views,
+    }: Omit<Anime, 'id' | 'createdAt' | 'updatedAt'> = data
 
     const slugError = slugCheck(slug)
 
@@ -135,6 +136,7 @@ export async function POST(request: NextRequest) {
         status,
         title,
         type,
+        views,
         genres: {
           connect: genres.map((id) => ({ id })),
         },
