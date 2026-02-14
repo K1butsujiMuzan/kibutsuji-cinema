@@ -5,6 +5,7 @@ import prisma from '@/lib/prisma'
 import { userAccessCheck } from '@/lib/user-access-check'
 import type { Anime } from '@/generated/prisma'
 import { slugCheck } from '@/lib/slug-check'
+import { genresCheck } from '@/lib/genres-check'
 
 export async function GET(request: NextRequest) {
   try {
@@ -77,7 +78,7 @@ export async function POST(request: NextRequest) {
 
     const data = await request.json()
 
-    const { genres }: { genres: number[] } = data
+    const { genres }: { genres: string } = data
     const {
       ageLimit,
       description,
@@ -108,18 +109,10 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const existingGenres = await prisma.animeGenre.findMany({
-      where: {
-        id: {
-          in: genres,
-        },
-      },
-    })
+    const genresArray = await genresCheck(genres)
 
-    if (existingGenres.length !== genres.length) {
-      return cors(
-        NextResponse.json({ error: ERRORS.INVALID_GENRES }, { status: 400 }),
-      )
+    if (genresArray.error) {
+      return genresArray.error
     }
 
     await prisma.anime.create({
@@ -138,7 +131,7 @@ export async function POST(request: NextRequest) {
         type,
         views,
         genres: {
-          connect: genres.map((id) => ({ id })),
+          connect: genresArray.data,
         },
       },
     })
@@ -161,7 +154,7 @@ export async function PUT(request: NextRequest) {
 
     const data = await request.json()
 
-    const { genres }: { genres: number[] } = data
+    const { genres }: { genres: string } = data
     const {
       id,
       ageLimit,
@@ -193,18 +186,10 @@ export async function PUT(request: NextRequest) {
       )
     }
 
-    const existingGenres = await prisma.animeGenre.findMany({
-      where: {
-        id: {
-          in: genres,
-        },
-      },
-    })
+    const genresArray = await genresCheck(genres)
 
-    if (existingGenres.length !== genres.length) {
-      return cors(
-        NextResponse.json({ error: ERRORS.INVALID_GENRES }, { status: 400 }),
-      )
+    if (genresArray.error) {
+      return genresArray.error
     }
 
     await prisma.anime.update({
@@ -226,7 +211,7 @@ export async function PUT(request: NextRequest) {
         type,
         views,
         genres: {
-          set: genres.map((id) => ({ id })),
+          set: genresArray.data,
         },
       },
     })
