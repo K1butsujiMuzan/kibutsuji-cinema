@@ -92,8 +92,7 @@ export async function POST(request: NextRequest) {
       status,
       title,
       type,
-      views,
-    }: Omit<Anime, 'id' | 'createdAt' | 'updatedAt'> = data
+    }: Omit<Anime, 'id' | 'createdAt' | 'updatedAt' | 'views'> = data
 
     const slugError = slugCheck(slug)
 
@@ -129,7 +128,6 @@ export async function POST(request: NextRequest) {
         status,
         title,
         type,
-        views,
         genres: {
           connect: genresArray.data,
         },
@@ -169,8 +167,7 @@ export async function PUT(request: NextRequest) {
       status,
       title,
       type,
-      views,
-    }: Omit<Anime, 'createdAt' | 'updatedAt'> = data
+    }: Omit<Anime, 'createdAt' | 'updatedAt' | 'views'> = data
 
     const slugError = slugCheck(slug)
 
@@ -209,7 +206,6 @@ export async function PUT(request: NextRequest) {
         status,
         title,
         type,
-        views,
         genres: {
           set: genresArray.data,
         },
