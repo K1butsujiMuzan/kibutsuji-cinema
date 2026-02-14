@@ -183,7 +183,7 @@ model Anime {
   episodesLength   Int         @map("episodes_length")
   type             AnimeType   @default(TVSERIES)
   status           AnimeStatus @default(ANNOUNCEMENT)
-  views            BigInt      @default(0)
+  views            Int         @default(0)
 
   genres   AnimeGenre[]
   episodes AnimeEpisode[]
