@@ -84,7 +84,6 @@ export async function POST(request: NextRequest) {
       description,
       episodesCount,
       episodesLength,
-      episodesReleased,
       image,
       originalTitle,
       releaseDate,
@@ -92,7 +91,7 @@ export async function POST(request: NextRequest) {
       status,
       title,
       type,
-    }: Omit<Anime, 'id' | 'createdAt' | 'updatedAt' | 'views'> = data
+    }: Omit<Anime, 'id' | 'createdAt' | 'updatedAt' | 'views' | 'episodesReleased'> = data
 
     const slugError = slugCheck(slug)
 
@@ -120,7 +119,7 @@ export async function POST(request: NextRequest) {
         description,
         episodesCount,
         episodesLength,
-        episodesReleased,
+        episodesReleased: 0,
         image,
         originalTitle,
         releaseDate,
@@ -159,7 +158,6 @@ export async function PUT(request: NextRequest) {
       description,
       episodesCount,
       episodesLength,
-      episodesReleased,
       image,
       originalTitle,
       releaseDate,
@@ -167,7 +165,7 @@ export async function PUT(request: NextRequest) {
       status,
       title,
       type,
-    }: Omit<Anime, 'createdAt' | 'updatedAt' | 'views'> = data
+    }: Omit<Anime, 'createdAt' | 'updatedAt' | 'views' | 'episodesReleased'> = data
 
     const slugError = slugCheck(slug)
 
@@ -198,7 +196,6 @@ export async function PUT(request: NextRequest) {
         description,
         episodesCount,
         episodesLength,
-        episodesReleased,
         image,
         originalTitle,
         releaseDate,
