@@ -6,6 +6,7 @@ export const ERRORS = {
   DELETE_YOURSELF: 'Cannot delete yourself',
   ROLE_YOURSELF: 'You cannot change your role',
   USER_NOT_FOUND: 'User not found',
+  ANIME_NOT_FOUND: 'Anime not found, please enter a valid id',
 
   INVALID_EMAIL: 'Invalid email',
   INVALID_SLUG: 'Invalid slug format',

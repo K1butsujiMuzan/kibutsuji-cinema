@@ -222,8 +222,8 @@ model AnimeRating {
 
 model AnimeEpisode {
   id            String @id @default(cuid())
-  url           String @unique
-  episodeNumber Int    @map("episode_number")
+  episodeNumber Int    @default(1) @map("episode_number")
+  title         String
   views         Int    @default(0)
 
   animeId String @map("anime_id")

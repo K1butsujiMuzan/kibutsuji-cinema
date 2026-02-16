@@ -3,7 +3,7 @@ import { cors } from '@/lib/cors'
 import { ERRORS } from '@/constants/errors'
 import prisma from '@/lib/prisma'
 import { auth } from '@/lib/auth'
-import { type User, Role } from '@/generated/prisma'
+import { type User, Role, type Account } from '@/generated/prisma'
 import { userAccessCheck } from '@/lib/user-access-check'
 
 export async function GET(request: NextRequest) {
@@ -40,8 +40,14 @@ export async function POST(request: NextRequest) {
       return access.error
     }
 
-    const { email, isReceiveNotifications, name, password } =
-      await request.json()
+    const {
+      email,
+      isReceiveNotifications,
+      name,
+      password,
+    }: Pick<User, 'email' | 'isReceiveNotifications' | 'name'> & {
+      password: string
+    } = await request.json()
 
     const existingUser = await prisma.user.findUnique({
       where: { email },
@@ -150,7 +156,7 @@ export async function PUT(request: NextRequest) {
       image,
       isReceiveNotifications,
       emailVerified,
-    }: User = await request.json()
+    }: Omit<User, 'createdAt' | 'updatedAt'> = await request.json()
 
     if (user.userId === id && role !== user.role) {
       return cors(
