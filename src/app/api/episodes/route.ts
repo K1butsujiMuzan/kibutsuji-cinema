@@ -4,6 +4,8 @@ import { userAccessCheck } from '@/lib/user-access-check'
 import prisma from '@/lib/prisma'
 import { ERRORS } from '@/constants/errors'
 import type { AnimeEpisode } from '@/generated/prisma'
+import { VIEWS_LIMIT } from '@/constants/views_limit'
+import { episodesCheck } from '@/lib/episodes-check'
 
 export async function GET(request: NextRequest) {
   try {
@@ -122,15 +124,20 @@ export async function POST(request: NextRequest) {
     }: Omit<AnimeEpisode, 'id' | 'createdAt' | 'updatedAt'> =
       await request.json()
 
-    const existingAnime = await prisma.anime.findUnique({
-      where: {
-        id: animeId,
-      },
-    })
+    const existingAnime = await episodesCheck(episodeNumber, animeId)
 
-    if (!existingAnime) {
+    if (existingAnime.error || !existingAnime.anime) {
+      return existingAnime.error
+    }
+
+    const { anime } = existingAnime
+
+    if (anime.episodesCount === anime.episodes.length) {
       return cors(
-        NextResponse.json({ error: ERRORS.ANIME_NOT_FOUND }, { status: 409 }),
+        NextResponse.json(
+          { error: ERRORS.MAX_ANIME_COUNT(anime.episodesCount) },
+          { status: 409 },
+        ),
       )
     }
 
@@ -166,18 +173,147 @@ export async function POST(request: NextRequest) {
           id: animeId,
         },
         data: {
-          episodesCount: {
+          episodesReleased: {
             increment: 1,
           },
           views:
-            existingAnime.views + views > 999999
-              ? 999999
-              : existingAnime.views + views,
+            anime.views + views > VIEWS_LIMIT
+              ? VIEWS_LIMIT
+              : anime.views + views,
         },
       })
     })
 
     return cors(NextResponse.json({ error: null }, { status: 201 }))
+  } catch (error) {
+    return cors(
+      NextResponse.json({ error: ERRORS.SOMETHING_WRONG }, { status: 500 }),
+    )
+  }
+}
+
+export async function PUT(request: NextRequest) {
+  try {
+    const access = userAccessCheck(request)
+
+    if (access.error) {
+      return access.error
+    }
+
+    const {
+      id,
+      episodeNumber,
+      title,
+      views,
+      animeId,
+    }: Omit<AnimeEpisode, 'createdAt' | 'updatedAt'> = await request.json()
+
+    const existingAnime = await episodesCheck(episodeNumber, animeId)
+
+    if (existingAnime.error || !existingAnime.anime) {
+      return existingAnime.error
+    }
+
+    const { anime } = existingAnime
+
+    const existingEpisode = await prisma.animeEpisode.findUnique({
+      where: {
+        animeId_episodeNumber: {
+          animeId,
+          episodeNumber,
+        },
+      },
+    })
+
+    if (existingEpisode && existingEpisode.id !== id) {
+      return cors(
+        NextResponse.json(
+          { error: ERRORS.EXISTS('An episode with this anime ID and number') },
+          { status: 409 },
+        ),
+      )
+    }
+
+    const currentEpisode = await prisma.animeEpisode.findUnique({
+      where: {
+        id,
+      },
+    })
+
+    if (!currentEpisode) {
+      return cors(
+        NextResponse.json(
+          { error: ERRORS.ANIME_EPISODE_NOT_FOUND },
+          { status: 404 },
+        ),
+      )
+    }
+
+    if (
+      anime.episodesCount === anime.episodes.length &&
+      currentEpisode.animeId !== animeId
+    ) {
+      return cors(
+        NextResponse.json(
+          { error: ERRORS.MAX_ANIME_COUNT(anime.episodesCount) },
+          { status: 409 },
+        ),
+      )
+    }
+
+    await prisma.$transaction(async (tx) => {
+      await tx.animeEpisode.update({
+        where: {
+          id,
+        },
+        data: {
+          episodeNumber,
+          title,
+          views,
+          animeId,
+        },
+      })
+
+      const currentAnimeStats = await tx.animeEpisode.aggregate({
+        where: {
+          animeId: currentEpisode.animeId,
+        },
+        _count: true,
+        _sum: { views: true },
+      })
+
+      await tx.anime.update({
+        where: {
+          id: currentEpisode.animeId,
+        },
+        data: {
+          episodesReleased: currentAnimeStats._count,
+          views: currentAnimeStats._sum.views ?? 0,
+        },
+      })
+
+      if (currentEpisode.animeId !== animeId) {
+        const newAnimeStats = await tx.animeEpisode.aggregate({
+          where: {
+            animeId,
+          },
+          _count: true,
+          _sum: { views: true },
+        })
+
+        await tx.anime.update({
+          where: {
+            id: animeId,
+          },
+          data: {
+            episodesReleased: newAnimeStats._count,
+            views: newAnimeStats._sum.views ?? 0,
+          },
+        })
+      }
+    })
+
+    return cors(NextResponse.json({ error: null }, { status: 200 }))
   } catch (error) {
     return cors(
       NextResponse.json({ error: ERRORS.SOMETHING_WRONG }, { status: 500 }),

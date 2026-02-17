@@ -179,10 +179,10 @@ model Anime {
   ageLimit         AgeLimit
   releaseDate      DateTime    @map("release_date")
   episodesCount    Int         @map("episodes_count")
+  episodesReleased Int         @default(0) @map("episodes_released")
   episodesLength   Int         @map("episodes_length")
   type             AnimeType   @default(TVSERIES)
   status           AnimeStatus @default(ANNOUNCEMENT)
-  episodesReleased Int         @default(0) @map("episodes_released")
   views            Int         @default(0)
 
   genres   AnimeGenre[]
