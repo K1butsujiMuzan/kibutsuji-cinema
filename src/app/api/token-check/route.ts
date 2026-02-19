@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from 'next/server'
 import { ERRORS } from '@/constants/errors'
-import { cors } from '@/lib/cors'
-import { tokenCheck } from '@/lib/token-check'
+import { cors } from '@/lib/routes-helpers/cors'
+import { tokenCheck } from '@/lib/routes-helpers/token-check'
 
 export async function GET(request: NextRequest) {
   try {

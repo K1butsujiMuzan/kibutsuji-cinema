@@ -1,22 +1,25 @@
-import { cors } from '@/lib/cors'
+import { cors } from '@/lib/routes-helpers/cors'
 import { type NextRequest, NextResponse } from 'next/server'
 import { ERRORS } from '@/constants/errors'
 import prisma from '@/lib/prisma'
-import { userAccessCheck } from '@/lib/user-access-check'
+import { userAccessCheck } from '@/lib/routes-helpers/user-access-check'
 import type { Anime } from '@/generated/prisma'
-import { slugCheck } from '@/lib/slug-check'
-import { genresCheck } from '@/lib/genres-check'
+import { slugCheck } from '@/lib/routes-helpers/slug-check'
+import { genresCheck } from '@/lib/routes-helpers/genres-check'
+import { getPageParams } from '@/lib/routes-helpers/get-page-params'
+import { idsCheck } from '@/lib/routes-helpers/ids-check'
+import { spacesCheck } from '@/lib/routes-helpers/spaces-check'
+import { nullTransform } from '@/lib/routes-helpers/null-transform'
 
 export async function GET(request: NextRequest) {
   try {
     const access = userAccessCheck(request)
 
-    if (access.error) {
+    if (!access.success) {
       return access.error
     }
 
-    const pages = Number(request.nextUrl.searchParams.get('page')) || 1
-    const limit = Number(request.nextUrl.searchParams.get('limit')) || 10
+    const [pages, limit] = getPageParams(request)
 
     const anime = await prisma.anime.findMany({
       skip: (pages - 1) * limit,
@@ -40,27 +43,25 @@ export async function DELETE(request: NextRequest) {
   try {
     const access = userAccessCheck(request)
 
-    if (access.error) {
+    if (!access.success) {
       return access.error
     }
 
-    const ids = await request.json()
+    const checkedData = await idsCheck<string>(request, 'string')
 
-    if (Array.isArray(ids) && ids.length > 0) {
-      await prisma.anime.deleteMany({
-        where: {
-          id: {
-            in: ids,
-          },
-        },
-      })
-
-      return cors(NextResponse.json({ error: null }, { status: 200 }))
-    } else {
-      return cors(
-        NextResponse.json({ error: ERRORS.TRANSMITTED_DATA }, { status: 400 }),
-      )
+    if (!checkedData.success) {
+      return checkedData.error
     }
+
+    await prisma.anime.deleteMany({
+      where: {
+        id: {
+          in: checkedData.ids,
+        },
+      },
+    })
+
+    return cors(NextResponse.json({ error: null }, { status: 200 }))
   } catch (error) {
     return cors(
       NextResponse.json({ error: ERRORS.SOMETHING_WRONG }, { status: 500 }),
@@ -72,7 +73,7 @@ export async function POST(request: NextRequest) {
   try {
     const access = userAccessCheck(request)
 
-    if (access.error) {
+    if (!access.success) {
       return access.error
     }
 
@@ -96,13 +97,23 @@ export async function POST(request: NextRequest) {
       'id' | 'createdAt' | 'updatedAt' | 'views' | 'episodesReleased'
     > = data
 
-    const slugError = slugCheck(slug)
+    const trimCheck = spacesCheck([slug, title])
+
+    if (!trimCheck.success) {
+      return trimCheck.error
+    }
+
+    const [trimmedSlug, trimmedTitle] = trimCheck.data
+
+    const slugError = slugCheck(trimmedSlug)
 
     if (slugError) {
       return slugError
     }
 
-    const existingSlug = await prisma.anime.findUnique({ where: { slug } })
+    const existingSlug = await prisma.anime.findUnique({
+      where: { slug: trimmedSlug },
+    })
 
     if (existingSlug) {
       return cors(
@@ -112,24 +123,24 @@ export async function POST(request: NextRequest) {
 
     const genresArray = await genresCheck(genres)
 
-    if (genresArray.error) {
+    if (!genresArray.success) {
       return genresArray.error
     }
 
     await prisma.anime.create({
       data: {
         ageLimit,
-        description,
         episodesCount,
         episodesLength,
-        episodesReleased: 0,
-        image,
-        originalTitle,
         releaseDate,
-        slug,
         status,
-        title,
         type,
+        title: trimmedTitle,
+        slug: trimmedSlug,
+        episodesReleased: 0,
+        description: nullTransform(description),
+        image: nullTransform(image),
+        originalTitle: nullTransform(originalTitle),
         genres: {
           connect: genresArray.data,
         },
@@ -148,7 +159,7 @@ export async function PUT(request: NextRequest) {
   try {
     const access = userAccessCheck(request)
 
-    if (access.error) {
+    if (!access.success) {
       return access.error
     }
 
@@ -171,13 +182,34 @@ export async function PUT(request: NextRequest) {
     }: Omit<Anime, 'createdAt' | 'updatedAt' | 'views' | 'episodesReleased'> =
       data
 
-    const slugError = slugCheck(slug)
+    const trimCheck = spacesCheck([slug, title])
+
+    if (!trimCheck.success) {
+      return trimCheck.error
+    }
+
+    const [trimmedSlug, trimmedTitle] = trimCheck.data
+
+    const slugError = slugCheck(trimmedSlug)
 
     if (slugError) {
       return slugError
     }
 
-    const existingSlug = await prisma.anime.findUnique({ where: { slug } })
+    const animeById = await prisma.anime.findUnique({ where: { id } })
+
+    if (!animeById) {
+      return cors(
+        NextResponse.json(
+          { error: ERRORS.NOT_FOUND('Anime') },
+          { status: 404 },
+        ),
+      )
+    }
+
+    const existingSlug = await prisma.anime.findUnique({
+      where: { slug: trimmedSlug },
+    })
 
     if (existingSlug && existingSlug.id !== id) {
       return cors(
@@ -187,7 +219,7 @@ export async function PUT(request: NextRequest) {
 
     const genresArray = await genresCheck(genres)
 
-    if (genresArray.error) {
+    if (!genresArray.success) {
       return genresArray.error
     }
 
@@ -197,16 +229,16 @@ export async function PUT(request: NextRequest) {
       },
       data: {
         ageLimit,
-        description,
         episodesCount,
         episodesLength,
-        image,
-        originalTitle,
         releaseDate,
-        slug,
         status,
-        title,
         type,
+        slug: trimmedSlug,
+        title: trimmedTitle,
+        description: nullTransform(description),
+        image: nullTransform(image),
+        originalTitle: nullTransform(originalTitle),
         genres: {
           set: genresArray.data,
         },

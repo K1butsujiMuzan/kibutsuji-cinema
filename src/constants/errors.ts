@@ -3,11 +3,13 @@ export const ERRORS = {
   PROVIDER_FAILED: 'Error logging in through the provider',
   INSUFFICIENT_RIGHTS: 'Insufficient rights',
   TRANSMITTED_DATA: 'Incorrectly transmitted data',
+  DELETE_DATA_LIMIT: 'You can only delete 10 records per request',
   DELETE_YOURSELF: 'Cannot delete yourself',
   ROLE_YOURSELF: 'You cannot change your role',
-  USER_NOT_FOUND: 'User not found',
-  ANIME_NOT_FOUND: 'Anime not found, please enter a valid id',
+  NOT_FOUND: (label: string) => `${label} not found, please use existing id`,
   ANIME_EPISODE_NOT_FOUND: 'Anime episode not found',
+  MIN_LENGTH: (length: number) =>
+    `Minimum field length is ${length} characters`,
   MAX_ANIME_COUNT: (limit: number) =>
     `This anime has a maximum anime count of ${limit} episode(s)`,
 

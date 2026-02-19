@@ -1,21 +1,24 @@
 import { type NextRequest, NextResponse } from 'next/server'
-import { cors } from '@/lib/cors'
+import { cors } from '@/lib/routes-helpers/cors'
 import { ERRORS } from '@/constants/errors'
 import prisma from '@/lib/prisma'
 import { auth } from '@/lib/auth'
-import { type User, Role, type Account } from '@/generated/prisma'
-import { userAccessCheck } from '@/lib/user-access-check'
+import { type User, Role } from '@/generated/prisma'
+import { userAccessCheck } from '@/lib/routes-helpers/user-access-check'
+import { getPageParams } from '@/lib/routes-helpers/get-page-params'
+import { idsCheck } from '@/lib/routes-helpers/ids-check'
+import { spacesCheck } from '@/lib/routes-helpers/spaces-check'
+import { nullTransform } from '@/lib/routes-helpers/null-transform'
 
 export async function GET(request: NextRequest) {
   try {
     const access = userAccessCheck(request)
 
-    if (access.error) {
+    if (!access.success) {
       return access.error
     }
 
-    const pages = Number(request.nextUrl.searchParams.get('page')) || 1
-    const limit = Number(request.nextUrl.searchParams.get('limit')) || 10
+    const [pages, limit] = getPageParams(request)
 
     const users = await prisma.user.findMany({
       skip: (pages - 1) * limit,
@@ -32,11 +35,74 @@ export async function GET(request: NextRequest) {
   }
 }
 
+export async function DELETE(request: NextRequest) {
+  try {
+    const access = userAccessCheck(request)
+
+    if (!access.success) {
+      return access.error
+    }
+
+    const { user } = access
+
+    const checkedData = await idsCheck<string>(request, 'string')
+
+    if (!checkedData.success) {
+      return checkedData.error
+    }
+
+    const { ids } = checkedData
+
+    if (ids.includes(user.userId)) {
+      return cors(
+        NextResponse.json({ error: ERRORS.DELETE_YOURSELF }, { status: 403 }),
+      )
+    }
+
+    const deleteUsers = await prisma.user.findMany({
+      where: {
+        id: {
+          in: ids,
+        },
+      },
+    })
+
+    if (
+      (user.role === Role.MODERATOR &&
+        deleteUsers.some(
+          (item) => item.role === Role.MODERATOR || item.role === Role.ADMIN,
+        )) ||
+      (user.role === Role.ADMIN &&
+        deleteUsers.some((item) => item.role === Role.ADMIN))
+    ) {
+      return cors(
+        NextResponse.json(
+          { error: ERRORS.INSUFFICIENT_RIGHTS },
+          { status: 403 },
+        ),
+      )
+    }
+
+    await prisma.user.deleteMany({
+      where: {
+        id: {
+          in: ids,
+        },
+      },
+    })
+    return cors(NextResponse.json({ error: null }, { status: 200 }))
+  } catch (error) {
+    return cors(
+      NextResponse.json({ error: ERRORS.SOMETHING_WRONG }, { status: 500 }),
+    )
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     const access = userAccessCheck(request)
 
-    if (access.error) {
+    if (!access.success) {
       return access.error
     }
 
@@ -49,8 +115,22 @@ export async function POST(request: NextRequest) {
       password: string
     } = await request.json()
 
+    const trimNameCheck = spacesCheck([name])
+    const trimCheck = spacesCheck([email, password], 6)
+
+    if (!trimNameCheck.success) {
+      return trimNameCheck.error
+    }
+
+    if (!trimCheck.success) {
+      return trimCheck.error
+    }
+
+    const [trimmedName] = trimNameCheck.data
+    const [trimmedEmail, trimmedPassword] = trimCheck.data
+
     const existingUser = await prisma.user.findUnique({
-      where: { email },
+      where: { email: trimmedEmail },
     })
 
     if (existingUser) {
@@ -61,10 +141,10 @@ export async function POST(request: NextRequest) {
 
     await auth.api.signUpEmail({
       body: {
-        name,
-        email,
-        password,
         isReceiveNotifications,
+        name: trimmedName,
+        email: trimmedEmail,
+        password: trimmedPassword,
       },
     })
 
@@ -76,73 +156,11 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function DELETE(request: NextRequest) {
-  try {
-    const access = userAccessCheck(request)
-
-    if (access.error || !access.user) {
-      return access.error
-    }
-
-    const { user } = access
-
-    const ids = await request.json()
-    if (Array.isArray(ids) && ids.length > 0) {
-      if (ids.includes(user.userId)) {
-        return cors(
-          NextResponse.json({ error: ERRORS.DELETE_YOURSELF }, { status: 403 }),
-        )
-      }
-
-      const deleteUsers = await prisma.user.findMany({
-        where: {
-          id: {
-            in: ids,
-          },
-        },
-      })
-
-      if (
-        (user.role === Role.MODERATOR &&
-          deleteUsers.some(
-            (item) => item.role === Role.MODERATOR || item.role === Role.ADMIN,
-          )) ||
-        (user.role === Role.ADMIN &&
-          deleteUsers.some((item) => item.role === Role.ADMIN))
-      ) {
-        return cors(
-          NextResponse.json(
-            { error: ERRORS.INSUFFICIENT_RIGHTS },
-            { status: 403 },
-          ),
-        )
-      }
-
-      await prisma.user.deleteMany({
-        where: {
-          id: {
-            in: ids,
-          },
-        },
-      })
-      return cors(NextResponse.json({ error: null }, { status: 200 }))
-    } else {
-      return cors(
-        NextResponse.json({ error: ERRORS.TRANSMITTED_DATA }, { status: 400 }),
-      )
-    }
-  } catch (error) {
-    return cors(
-      NextResponse.json({ error: ERRORS.SOMETHING_WRONG }, { status: 500 }),
-    )
-  }
-}
-
 export async function PUT(request: NextRequest) {
   try {
     const access = userAccessCheck(request)
 
-    if (access.error || !access.user) {
+    if (!access.success) {
       return access.error
     }
 
@@ -158,6 +176,20 @@ export async function PUT(request: NextRequest) {
       emailVerified,
     }: Omit<User, 'createdAt' | 'updatedAt'> = await request.json()
 
+    const trimNameCheck = spacesCheck([name])
+    const trimCheck = spacesCheck([email], 6)
+
+    if (!trimNameCheck.success) {
+      return trimNameCheck.error
+    }
+
+    if (!trimCheck.success) {
+      return trimCheck.error
+    }
+
+    const [trimmedName] = trimNameCheck.data
+    const [trimmedEmail] = trimCheck.data
+
     if (user.userId === id && role !== user.role) {
       return cors(
         NextResponse.json({ error: ERRORS.ROLE_YOURSELF }, { status: 403 }),
@@ -168,16 +200,19 @@ export async function PUT(request: NextRequest) {
 
     if (!changeUser) {
       return cors(
-        NextResponse.json({ error: ERRORS.USER_NOT_FOUND }, { status: 404 }),
+        NextResponse.json({ error: ERRORS.NOT_FOUND('User') }, { status: 404 }),
       )
     }
 
-    if (changeUser.email !== email) {
+    if (changeUser.email !== trimmedEmail) {
       const existingUserWithEmail = await prisma.user.findUnique({
-        where: { email },
+        where: { email: trimmedEmail },
       })
 
-      if (existingUserWithEmail && existingUserWithEmail.email === email) {
+      if (
+        existingUserWithEmail &&
+        existingUserWithEmail.email === trimmedEmail
+      ) {
         return cors(
           NextResponse.json({ error: ERRORS.USER_EXISTS }, { status: 409 }),
         )
@@ -210,12 +245,12 @@ export async function PUT(request: NextRequest) {
         id,
       },
       data: {
-        name,
-        email,
         role,
-        image,
         isReceiveNotifications,
         emailVerified,
+        name: trimmedName,
+        email: trimmedEmail,
+        image: nullTransform(image),
       },
     })
 

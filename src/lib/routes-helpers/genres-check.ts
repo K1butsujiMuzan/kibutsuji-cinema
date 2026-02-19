@@ -1,14 +1,17 @@
-import { cors } from '@/lib/cors'
+import { cors } from '@/lib/routes-helpers/cors'
 import { NextResponse } from 'next/server'
 import { ERRORS } from '@/constants/errors'
 import prisma from '@/lib/prisma'
 
 export const genresCheck = async (
   genres: string,
-): Promise<{ error?: NextResponse; data?: { id: number }[] }> => {
+): Promise<
+  | { success: false; error: NextResponse }
+  | { success: true; data: { id: number }[] }
+> => {
   const trimmedGenres = genres.trim()
   if (!trimmedGenres) {
-    return { data: [] }
+    return { success: true, data: [] }
   }
 
   const genresArray: number[] = trimmedGenres
@@ -17,6 +20,7 @@ export const genresCheck = async (
 
   if (genresArray.some(isNaN) || genresArray.includes(0)) {
     return {
+      success: false,
       error: cors(
         NextResponse.json({ error: ERRORS.INVALID_GENRES }, { status: 400 }),
       ),
@@ -33,11 +37,12 @@ export const genresCheck = async (
 
   if (existingGenres.length !== genresArray.length) {
     return {
+      success: false,
       error: cors(
         NextResponse.json({ error: ERRORS.INVALID_GENRES }, { status: 400 }),
       ),
     }
   }
 
-  return { data: genresArray.map((id) => ({ id })) }
+  return { success: true, data: genresArray.map((id) => ({ id })) }
 }

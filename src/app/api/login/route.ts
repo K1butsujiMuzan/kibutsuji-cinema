@@ -5,7 +5,7 @@ import { $Enums } from '@/generated/prisma'
 import Role = $Enums.Role
 import { ERRORS } from '@/constants/errors'
 import { sign } from 'jsonwebtoken'
-import { cors } from '@/lib/cors'
+import { cors } from '@/lib/routes-helpers/cors'
 
 export async function POST(request: NextRequest) {
   const { email, password } = await request.json()
