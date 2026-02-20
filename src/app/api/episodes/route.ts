@@ -224,7 +224,7 @@ export async function PUT(request: NextRequest) {
       return trimCheck.error
     }
 
-    const [trimmedAnimeId, trimmedTitle] = trimCheck.data
+    const [trimmedTitle, trimmedAnimeId] = trimCheck.data
 
     const episodeById = await prisma.animeEpisode.findUnique({ where: { id } })
 
