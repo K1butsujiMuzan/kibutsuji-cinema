@@ -16,7 +16,7 @@ export const episodesCheck = async (
       success: false,
       error: cors(
         NextResponse.json(
-          { error: ERRORS.INVALID_EPISODE_NUMBER },
+          { error: ERRORS.NEGATIVE_VALUE('Episode number') },
           { status: 400 },
         ),
       ),

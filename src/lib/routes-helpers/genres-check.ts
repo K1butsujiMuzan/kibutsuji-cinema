@@ -18,7 +18,7 @@ export const genresCheck = async (
     .split(' ')
     .map((item) => Number(item))
 
-  if (genresArray.some(isNaN) || genresArray.includes(0)) {
+  if (genresArray.some((item) => !isFinite(item)) || genresArray.includes(0)) {
     return {
       success: false,
       error: cors(

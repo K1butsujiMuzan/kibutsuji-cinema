@@ -3,12 +3,14 @@ import { type NextRequest, NextResponse } from 'next/server'
 import { userAccessCheck } from '@/lib/routes-helpers/user-access-check'
 import prisma from '@/lib/prisma'
 import { ERRORS } from '@/constants/errors'
-import type { AnimeEpisode } from '@/generated/prisma'
-import { VIEWS_LIMIT } from '@/constants/views_limit'
+import { MAX_INT } from '@/constants/views_limit'
 import { episodesCheck } from '@/lib/routes-helpers/episodes-check'
 import { getPageParams } from '@/lib/routes-helpers/get-page-params'
 import { idsCheck } from '@/lib/routes-helpers/ids-check'
-import { spacesCheck } from '@/lib/routes-helpers/spaces-check'
+import {
+  createEpisodesSchema,
+  updateEpisodesSchema,
+} from '@/shared/schemes/endpoints/episodes.schema'
 
 export async function GET(request: NextRequest) {
   try {
@@ -95,7 +97,7 @@ export async function DELETE(request: NextRequest) {
             id: animeId,
           },
           data: {
-            views: currentAnime._sum.views ?? 0,
+            views: Math.min(currentAnime._sum.views ?? 0, MAX_INT),
             episodesReleased: currentAnime._count,
           },
         })
@@ -118,23 +120,22 @@ export async function POST(request: NextRequest) {
       return access.error
     }
 
-    const {
-      episodeNumber,
-      title,
-      views,
-      animeId,
-    }: Omit<AnimeEpisode, 'id' | 'createdAt' | 'updatedAt'> =
-      await request.json()
+    const data = await request.json()
 
-    const trimCheck = spacesCheck([animeId, title])
+    const parsedData = createEpisodesSchema.safeParse(data)
 
-    if (!trimCheck.success) {
-      return trimCheck.error
+    if (!parsedData.success) {
+      return cors(
+        NextResponse.json(
+          { error: parsedData.error.issues[0].message },
+          { status: 400 },
+        ),
+      )
     }
 
-    const [trimmedAnimeId, trimmedTitle] = trimCheck.data
+    const { animeId, title, views, episodeNumber } = parsedData.data
 
-    const existingAnime = await episodesCheck(episodeNumber, trimmedAnimeId)
+    const existingAnime = await episodesCheck(episodeNumber, animeId)
 
     if (!existingAnime.success) {
       return existingAnime.error
@@ -154,7 +155,7 @@ export async function POST(request: NextRequest) {
     const existingEpisode = await prisma.animeEpisode.findUnique({
       where: {
         animeId_episodeNumber: {
-          animeId: trimmedAnimeId,
+          animeId,
           episodeNumber,
         },
       },
@@ -174,22 +175,19 @@ export async function POST(request: NextRequest) {
         data: {
           episodeNumber,
           views,
-          title: trimmedTitle,
-          animeId: trimmedAnimeId,
+          title,
+          animeId,
         },
       })
       await tx.anime.update({
         where: {
-          id: trimmedAnimeId,
+          id: animeId,
         },
         data: {
           episodesReleased: {
             increment: 1,
           },
-          views:
-            anime.views + views > VIEWS_LIMIT
-              ? VIEWS_LIMIT
-              : anime.views + views,
+          views: Math.min(anime.views + views, MAX_INT),
         },
       })
     })
@@ -210,21 +208,20 @@ export async function PUT(request: NextRequest) {
       return access.error
     }
 
-    const {
-      id,
-      episodeNumber,
-      title,
-      views,
-      animeId,
-    }: Omit<AnimeEpisode, 'createdAt' | 'updatedAt'> = await request.json()
+    const data = await request.json()
 
-    const trimCheck = spacesCheck([title, animeId])
+    const parsedData = updateEpisodesSchema.safeParse(data)
 
-    if (!trimCheck.success) {
-      return trimCheck.error
+    if (!parsedData.success) {
+      return cors(
+        NextResponse.json(
+          { error: parsedData.error.issues[0].message },
+          { status: 400 },
+        ),
+      )
     }
 
-    const [trimmedTitle, trimmedAnimeId] = trimCheck.data
+    const { id, animeId, title, views, episodeNumber } = parsedData.data
 
     const episodeById = await prisma.animeEpisode.findUnique({ where: { id } })
 
@@ -237,7 +234,7 @@ export async function PUT(request: NextRequest) {
       )
     }
 
-    const existingAnime = await episodesCheck(episodeNumber, trimmedAnimeId)
+    const existingAnime = await episodesCheck(episodeNumber, animeId)
 
     if (!existingAnime.success) {
       return existingAnime.error
@@ -249,7 +246,7 @@ export async function PUT(request: NextRequest) {
       where: {
         animeId_episodeNumber: {
           episodeNumber,
-          animeId: trimmedAnimeId,
+          animeId,
         },
       },
     })
@@ -265,7 +262,7 @@ export async function PUT(request: NextRequest) {
 
     if (
       anime.episodesCount === anime.episodes.length &&
-      episodeById.animeId !== trimmedAnimeId
+      episodeById.animeId !== animeId
     ) {
       return cors(
         NextResponse.json(
@@ -283,8 +280,8 @@ export async function PUT(request: NextRequest) {
         data: {
           episodeNumber,
           views,
-          title: trimmedTitle,
-          animeId: trimmedAnimeId,
+          title,
+          animeId,
         },
       })
 
@@ -302,14 +299,14 @@ export async function PUT(request: NextRequest) {
         },
         data: {
           episodesReleased: currentAnimeStats._count,
-          views: currentAnimeStats._sum.views ?? 0,
+          views: Math.min(currentAnimeStats._sum.views ?? 0, MAX_INT),
         },
       })
 
-      if (episodeById.animeId !== trimmedAnimeId) {
+      if (episodeById.animeId !== animeId) {
         const newAnimeStats = await tx.animeEpisode.aggregate({
           where: {
-            animeId: trimmedAnimeId,
+            animeId,
           },
           _count: true,
           _sum: { views: true },
@@ -317,11 +314,11 @@ export async function PUT(request: NextRequest) {
 
         await tx.anime.update({
           where: {
-            id: trimmedAnimeId,
+            id: animeId,
           },
           data: {
             episodesReleased: newAnimeStats._count,
-            views: newAnimeStats._sum.views ?? 0,
+            views: Math.min(newAnimeStats._sum.views ?? 0, MAX_INT),
           },
         })
       }

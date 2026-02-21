@@ -38,10 +38,10 @@ enum AnimeType {
 }
 
 enum AgeLimit {
-  AGE_6  @map("6+")
-  AGE_12 @map("12+")
-  AGE_16 @map("16+")
-  AGE_18 @map("18+")
+  AGE_6
+  AGE_12
+  AGE_16
+  AGE_18
 }
 
 model User {

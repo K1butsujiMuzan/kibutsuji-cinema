@@ -22,7 +22,9 @@ export const idsCheck = async <T>(
         ),
       }
     }
-    const isCorrectData = ids.every((item) => typeof item === type)
+    const isCorrectData = ids.every((item) =>
+      type === 'number' ? Number.isFinite(item) : typeof item === type,
+    )
     if (!isCorrectData) {
       return {
         success: false,

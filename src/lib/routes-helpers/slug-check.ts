@@ -1,4 +1,4 @@
-import { SLUG_REGEXP } from '@/constants/slug-regexp'
+import { SLUG_REGEXP } from '@/constants/regexp'
 import { cors } from '@/lib/routes-helpers/cors'
 import { NextResponse } from 'next/server'
 import { ERRORS } from '@/constants/errors'

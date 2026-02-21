@@ -1,1 +1,1 @@
-export const VIEWS_LIMIT = 999_999_999
+export const MAX_INT = 999_999_999

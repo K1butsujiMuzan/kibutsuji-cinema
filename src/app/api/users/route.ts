@@ -7,8 +7,11 @@ import { type User, Role } from '@/generated/prisma'
 import { userAccessCheck } from '@/lib/routes-helpers/user-access-check'
 import { getPageParams } from '@/lib/routes-helpers/get-page-params'
 import { idsCheck } from '@/lib/routes-helpers/ids-check'
-import { spacesCheck } from '@/lib/routes-helpers/spaces-check'
 import { nullTransform } from '@/lib/routes-helpers/null-transform'
+import {
+  createUsersSchema,
+  updateUsersSchema,
+} from '@/shared/schemes/endpoints/users.schema'
 
 export async function GET(request: NextRequest) {
   try {
@@ -59,6 +62,8 @@ export async function DELETE(request: NextRequest) {
       )
     }
 
+    await prisma.$transaction(async (tx) => {})
+
     const deleteUsers = await prisma.user.findMany({
       where: {
         id: {
@@ -106,31 +111,23 @@ export async function POST(request: NextRequest) {
       return access.error
     }
 
-    const {
-      email,
-      isReceiveNotifications,
-      name,
-      password,
-    }: Pick<User, 'email' | 'isReceiveNotifications' | 'name'> & {
-      password: string
-    } = await request.json()
+    const data = await request.json()
 
-    const trimNameCheck = spacesCheck([name])
-    const trimCheck = spacesCheck([email, password], 6)
+    const parsedData = createUsersSchema.safeParse(data)
 
-    if (!trimNameCheck.success) {
-      return trimNameCheck.error
+    if (!parsedData.success) {
+      return cors(
+        NextResponse.json(
+          { error: parsedData.error.issues[0].message },
+          { status: 400 },
+        ),
+      )
     }
 
-    if (!trimCheck.success) {
-      return trimCheck.error
-    }
-
-    const [trimmedName] = trimNameCheck.data
-    const [trimmedEmail, trimmedPassword] = trimCheck.data
+    const { email, isReceiveNotifications, name, password } = parsedData.data
 
     const existingUser = await prisma.user.findUnique({
-      where: { email: trimmedEmail },
+      where: { email },
     })
 
     if (existingUser) {
@@ -142,9 +139,9 @@ export async function POST(request: NextRequest) {
     await auth.api.signUpEmail({
       body: {
         isReceiveNotifications,
-        name: trimmedName,
-        email: trimmedEmail,
-        password: trimmedPassword,
+        name,
+        email,
+        password,
       },
     })
 
@@ -166,29 +163,28 @@ export async function PUT(request: NextRequest) {
 
     const { user } = access
 
+    const data = await request.json()
+
+    const parsedData = updateUsersSchema.safeParse(data)
+
+    if (!parsedData.success) {
+      return cors(
+        NextResponse.json(
+          { error: parsedData.error.issues[0].message },
+          { status: 400 },
+        ),
+      )
+    }
+
     const {
       id,
       email,
+      emailVerified,
       name,
+      isReceiveNotifications,
       role,
       image,
-      isReceiveNotifications,
-      emailVerified,
-    }: Omit<User, 'createdAt' | 'updatedAt'> = await request.json()
-
-    const trimNameCheck = spacesCheck([name])
-    const trimCheck = spacesCheck([email], 6)
-
-    if (!trimNameCheck.success) {
-      return trimNameCheck.error
-    }
-
-    if (!trimCheck.success) {
-      return trimCheck.error
-    }
-
-    const [trimmedName] = trimNameCheck.data
-    const [trimmedEmail] = trimCheck.data
+    } = parsedData.data
 
     if (user.userId === id && role !== user.role) {
       return cors(
@@ -204,15 +200,12 @@ export async function PUT(request: NextRequest) {
       )
     }
 
-    if (changeUser.email !== trimmedEmail) {
+    if (changeUser.email !== email) {
       const existingUserWithEmail = await prisma.user.findUnique({
-        where: { email: trimmedEmail },
+        where: { email },
       })
 
-      if (
-        existingUserWithEmail &&
-        existingUserWithEmail.email === trimmedEmail
-      ) {
+      if (existingUserWithEmail) {
         return cors(
           NextResponse.json({ error: ERRORS.USER_EXISTS }, { status: 409 }),
         )
@@ -248,8 +241,8 @@ export async function PUT(request: NextRequest) {
         role,
         isReceiveNotifications,
         emailVerified,
-        name: trimmedName,
-        email: trimmedEmail,
+        name,
+        email,
         image: nullTransform(image),
       },
     })

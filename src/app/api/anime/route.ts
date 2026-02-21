@@ -3,13 +3,14 @@ import { type NextRequest, NextResponse } from 'next/server'
 import { ERRORS } from '@/constants/errors'
 import prisma from '@/lib/prisma'
 import { userAccessCheck } from '@/lib/routes-helpers/user-access-check'
-import type { Anime } from '@/generated/prisma'
-import { slugCheck } from '@/lib/routes-helpers/slug-check'
 import { genresCheck } from '@/lib/routes-helpers/genres-check'
 import { getPageParams } from '@/lib/routes-helpers/get-page-params'
 import { idsCheck } from '@/lib/routes-helpers/ids-check'
-import { spacesCheck } from '@/lib/routes-helpers/spaces-check'
 import { nullTransform } from '@/lib/routes-helpers/null-transform'
+import {
+  createAnimeSchema,
+  updateAnimeSchema,
+} from '@/shared/schemes/endpoints/anime.schema'
 
 export async function GET(request: NextRequest) {
   try {
@@ -79,40 +80,34 @@ export async function POST(request: NextRequest) {
 
     const data = await request.json()
 
-    const { genres }: { genres: string } = data
+    const parsedData = createAnimeSchema.safeParse(data)
+
+    if (!parsedData.success) {
+      return cors(
+        NextResponse.json(
+          { error: parsedData.error.issues[0].message },
+          { status: 400 },
+        ),
+      )
+    }
+
     const {
       ageLimit,
-      description,
+      status,
+      type,
       episodesCount,
       episodesLength,
+      title,
+      slug,
+      releaseDate,
+      description,
       image,
       originalTitle,
-      releaseDate,
-      slug,
-      status,
-      title,
-      type,
-    }: Omit<
-      Anime,
-      'id' | 'createdAt' | 'updatedAt' | 'views' | 'episodesReleased'
-    > = data
-
-    const trimCheck = spacesCheck([slug, title])
-
-    if (!trimCheck.success) {
-      return trimCheck.error
-    }
-
-    const [trimmedSlug, trimmedTitle] = trimCheck.data
-
-    const slugError = slugCheck(trimmedSlug)
-
-    if (slugError) {
-      return slugError
-    }
+      genres,
+    } = parsedData.data
 
     const existingSlug = await prisma.anime.findUnique({
-      where: { slug: trimmedSlug },
+      where: { slug },
     })
 
     if (existingSlug) {
@@ -129,14 +124,14 @@ export async function POST(request: NextRequest) {
 
     await prisma.anime.create({
       data: {
+        status,
         ageLimit,
+        type,
         episodesCount,
         episodesLength,
+        title,
+        slug,
         releaseDate,
-        status,
-        type,
-        title: trimmedTitle,
-        slug: trimmedSlug,
         episodesReleased: 0,
         description: nullTransform(description),
         image: nullTransform(image),
@@ -165,36 +160,32 @@ export async function PUT(request: NextRequest) {
 
     const data = await request.json()
 
-    const { genres }: { genres: string } = data
+    const parsedData = updateAnimeSchema.safeParse(data)
+
+    if (!parsedData.success) {
+      return cors(
+        NextResponse.json(
+          { error: parsedData.error.issues[0].message },
+          { status: 400 },
+        ),
+      )
+    }
+
     const {
       id,
       ageLimit,
-      description,
+      status,
+      type,
       episodesCount,
       episodesLength,
+      title,
+      slug,
+      releaseDate,
+      description,
       image,
       originalTitle,
-      releaseDate,
-      slug,
-      status,
-      title,
-      type,
-    }: Omit<Anime, 'createdAt' | 'updatedAt' | 'views' | 'episodesReleased'> =
-      data
-
-    const trimCheck = spacesCheck([slug, title])
-
-    if (!trimCheck.success) {
-      return trimCheck.error
-    }
-
-    const [trimmedSlug, trimmedTitle] = trimCheck.data
-
-    const slugError = slugCheck(trimmedSlug)
-
-    if (slugError) {
-      return slugError
-    }
+      genres,
+    } = parsedData.data
 
     const animeById = await prisma.anime.findUnique({ where: { id } })
 
@@ -208,7 +199,7 @@ export async function PUT(request: NextRequest) {
     }
 
     const existingSlug = await prisma.anime.findUnique({
-      where: { slug: trimmedSlug },
+      where: { slug },
     })
 
     if (existingSlug && existingSlug.id !== id) {
@@ -225,17 +216,17 @@ export async function PUT(request: NextRequest) {
 
     await prisma.anime.update({
       where: {
-        id,
+        id: id,
       },
       data: {
         ageLimit,
+        status,
+        type,
         episodesCount,
         episodesLength,
         releaseDate,
-        status,
-        type,
-        slug: trimmedSlug,
-        title: trimmedTitle,
+        slug,
+        title,
         description: nullTransform(description),
         image: nullTransform(image),
         originalTitle: nullTransform(originalTitle),

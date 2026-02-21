@@ -5,8 +5,10 @@ import prisma from '@/lib/prisma'
 import { ERRORS } from '@/constants/errors'
 import { getPageParams } from '@/lib/routes-helpers/get-page-params'
 import { idsCheck } from '@/lib/routes-helpers/ids-check'
-import type { AnimeGenre } from '@/generated/prisma'
-import { spacesCheck } from '@/lib/routes-helpers/spaces-check'
+import {
+  createGenresSchema,
+  updateGenresSchema,
+} from '@/shared/schemes/endpoints/genres.schema'
 
 export async function GET(request: NextRequest) {
   try {
@@ -71,20 +73,25 @@ export async function POST(request: NextRequest) {
       return access.error
     }
 
-    const { name }: Pick<AnimeGenre, 'name'> = await request.json()
+    const data = await request.json()
 
-    const trimCheck = spacesCheck([name])
+    const parsedData = createGenresSchema.safeParse(data)
 
-    if (!trimCheck.success) {
-      return trimCheck.error
+    if (!parsedData.success) {
+      return cors(
+        NextResponse.json(
+          { error: parsedData.error.issues[0].message },
+          { status: 400 },
+        ),
+      )
     }
 
-    const [trimmedName] = trimCheck.data
+    const { name } = parsedData.data
 
     const existingGenre = await prisma.animeGenre.findFirst({
       where: {
         name: {
-          equals: trimmedName,
+          equals: name,
           mode: 'insensitive',
         },
       },
@@ -101,7 +108,7 @@ export async function POST(request: NextRequest) {
 
     await prisma.animeGenre.create({
       data: {
-        name: trimmedName,
+        name: name,
       },
     })
 
@@ -121,15 +128,20 @@ export async function PUT(request: NextRequest) {
       return access.error
     }
 
-    const { id, name }: Pick<AnimeGenre, 'name' | 'id'> = await request.json()
+    const data = await request.json()
 
-    const trimCheck = spacesCheck([name])
+    const parsedData = updateGenresSchema.safeParse(data)
 
-    if (!trimCheck.success) {
-      return trimCheck.error
+    if (!parsedData.success) {
+      return cors(
+        NextResponse.json(
+          { error: parsedData.error.issues[0].message },
+          { status: 400 },
+        ),
+      )
     }
 
-    const [trimmedName] = trimCheck.data
+    const { name, id } = parsedData.data
 
     const genreById = await prisma.animeGenre.findUnique({
       where: { id },
@@ -147,7 +159,7 @@ export async function PUT(request: NextRequest) {
     const existingGenre = await prisma.animeGenre.findFirst({
       where: {
         name: {
-          equals: trimmedName,
+          equals: name,
           mode: 'insensitive',
         },
       },
@@ -167,7 +179,7 @@ export async function PUT(request: NextRequest) {
         id,
       },
       data: {
-        name: trimmedName,
+        name,
       },
     })
 
