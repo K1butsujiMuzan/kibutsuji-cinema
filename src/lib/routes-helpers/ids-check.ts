@@ -2,11 +2,10 @@ import { type NextRequest, NextResponse } from 'next/server'
 import { cors } from '@/lib/routes-helpers/cors'
 import { ERRORS } from '@/constants/errors'
 
-export const idsCheck = async <T>(
-  request: NextRequest,
-  type: 'string' | 'number',
+export const idsCheck = async (
+  request: NextRequest
 ): Promise<
-  { success: false; error: NextResponse } | { success: true; ids: T[] }
+  { success: false; error: NextResponse } | { success: true; ids: string[] }
 > => {
   const ids = await request.json()
 
@@ -22,9 +21,7 @@ export const idsCheck = async <T>(
         ),
       }
     }
-    const isCorrectData = ids.every((item) =>
-      type === 'number' ? Number.isFinite(item) : typeof item === type,
-    )
+    const isCorrectData = ids.every((item) => typeof item === 'string',)
     if (!isCorrectData) {
       return {
         success: false,

@@ -3,9 +3,9 @@ import { ERRORS } from '@/constants/errors'
 
 export const updateGenresSchema = z.object({
   id: z
-    .number({ message: ERRORS.INVALID('id') })
-    .int({ message: ERRORS.INVALID_INT('Id') })
-    .positive({ message: ERRORS.NEGATIVE_VALUE('Id', 1) }),
+    .string({ message: ERRORS.INVALID('id') })
+    .trim()
+    .min(24, { message: ERRORS.MIN_LENGTH('Id', 24) }),
   name: z
     .string({ message: ERRORS.INVALID('name') })
     .trim()

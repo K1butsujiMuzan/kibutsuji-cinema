@@ -239,7 +239,7 @@ model AnimeEpisode {
 }
 
 model AnimeGenre {
-  id   Int    @id @default(autoincrement())
+  id   String @id @default(cuid())
   name String @unique
 
   anime Anime[]

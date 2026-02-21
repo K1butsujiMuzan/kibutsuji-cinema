@@ -48,7 +48,7 @@ export async function DELETE(request: NextRequest) {
 
     const { user } = access
 
-    const checkedData = await idsCheck<string>(request, 'string')
+    const checkedData = await idsCheck(request)
 
     if (!checkedData.success) {
       return checkedData.error

@@ -7,25 +7,14 @@ export const genresCheck = async (
   genres: string,
 ): Promise<
   | { success: false; error: NextResponse }
-  | { success: true; data: { id: number }[] }
+  | { success: true; data: { id: string }[] }
 > => {
   const trimmedGenres = genres.trim()
   if (!trimmedGenres) {
     return { success: true, data: [] }
   }
 
-  const genresArray: number[] = trimmedGenres
-    .split(' ')
-    .map((item) => Number(item))
-
-  if (genresArray.some((item) => !isFinite(item)) || genresArray.includes(0)) {
-    return {
-      success: false,
-      error: cors(
-        NextResponse.json({ error: ERRORS.INVALID_GENRES }, { status: 400 }),
-      ),
-    }
-  }
+  const genresArray: string[] = trimmedGenres.split(' ')
 
   const existingGenres = await prisma.animeGenre.findMany({
     where: {
