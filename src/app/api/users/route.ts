@@ -3,7 +3,7 @@ import { cors } from '@/lib/routes-helpers/cors'
 import { ERRORS } from '@/constants/errors'
 import prisma from '@/lib/prisma'
 import { auth } from '@/lib/auth'
-import { type User, Role } from '@/generated/prisma'
+import { Role } from '@/generated/prisma'
 import { userAccessCheck } from '@/lib/routes-helpers/user-access-check'
 import { getPageParams } from '@/lib/routes-helpers/get-page-params'
 import { idsCheck } from '@/lib/routes-helpers/ids-check'
@@ -61,8 +61,6 @@ export async function DELETE(request: NextRequest) {
         NextResponse.json({ error: ERRORS.DELETE_YOURSELF }, { status: 403 }),
       )
     }
-
-    await prisma.$transaction(async (tx) => {})
 
     const deleteUsers = await prisma.user.findMany({
       where: {

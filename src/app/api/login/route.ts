@@ -6,10 +6,37 @@ import Role = $Enums.Role
 import { ERRORS } from '@/constants/errors'
 import { sign } from 'jsonwebtoken'
 import { cors } from '@/lib/routes-helpers/cors'
+import { loginSchema } from '@/shared/schemes/endpoints/users.schema'
+
+type TAuthError = {
+  body: {
+    message: string
+  }
+}
 
 export async function POST(request: NextRequest) {
-  const { email, password } = await request.json()
   try {
+    if (!process.env.JWT_SECRET) {
+      return cors(
+        NextResponse.json({ error: ERRORS.SOMETHING_WRONG }, { status: 500 }),
+      )
+    }
+
+    const data = await request.json()
+
+    const parsedData = loginSchema.safeParse(data)
+
+    if (!parsedData.success) {
+      return cors(
+        NextResponse.json(
+          { error: parsedData.error.issues[0].message },
+          { status: 400 },
+        ),
+      )
+    }
+
+    const { email, password } = parsedData.data
+
     const response = await auth.api.signInEmail({
       body: {
         email: email,
@@ -18,10 +45,7 @@ export async function POST(request: NextRequest) {
       headers: await headers(),
     })
 
-    if (
-      response.user.role === Role.ADMIN ||
-      response.user.role === Role.MODERATOR
-    ) {
+    if (response.user.role !== Role.USER) {
       const jwtToken = sign(
         {
           userId: response.user.id,
@@ -29,7 +53,7 @@ export async function POST(request: NextRequest) {
           role: response.user.role,
           name: response.user.name,
         },
-        process.env.JWT_SECRET || 'wails-secret-123',
+        process.env.JWT_SECRET,
         {
           expiresIn: '30d',
           issuer: 'kibutsuji-cinema',
@@ -60,28 +84,37 @@ export async function POST(request: NextRequest) {
         ),
       )
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     const authErrors = [
-      ERRORS.INVALID_EMAIL,
-      ERRORS.INVALID_PASSWORD,
+      ERRORS.INVALID('email'),
+      ERRORS.INVALID('email or password'),
       ERRORS.EMAIL_NOT_VERIFIED,
     ]
-    if (error?.body?.message && authErrors.includes(error?.body?.message)) {
+
+    const isAuthError = authErrorCheck(error)
+
+    if (isAuthError && authErrors.includes(error.body.message)) {
       return cors(
-        NextResponse.json(
-          { error: error?.body?.message || ERRORS.SOMETHING_WRONG },
-          { status: 401 },
-        ),
+        NextResponse.json({ error: error.body.message }, { status: 401 }),
       )
     }
 
     return cors(
-      NextResponse.json(
-        { error: error?.body?.message || ERRORS.SOMETHING_WRONG },
-        { status: 500 },
-      ),
+      NextResponse.json({ error: ERRORS.SOMETHING_WRONG }, { status: 500 }),
     )
   }
+}
+
+function authErrorCheck(error: unknown): error is TAuthError {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'body' in error &&
+    typeof error.body === 'object' &&
+    error.body !== null &&
+    'message' in error.body &&
+    typeof error.body.message === 'string'
+  )
 }
 
 export function OPTIONS() {

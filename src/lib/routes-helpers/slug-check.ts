@@ -7,7 +7,10 @@ export const slugCheck = (slug: string): NextResponse | null => {
   const isValid = SLUG_REGEXP.test(slug)
   if (!isValid) {
     return cors(
-      NextResponse.json({ error: ERRORS.INVALID_SLUG }, { status: 400 }),
+      NextResponse.json(
+        { error: ERRORS.INVALID('slug format') },
+        { status: 400 },
+      ),
     )
   }
   return null

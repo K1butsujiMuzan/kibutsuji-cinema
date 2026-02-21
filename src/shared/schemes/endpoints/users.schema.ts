@@ -38,3 +38,8 @@ export const createUsersSchema = z.object({
     message: ERRORS.INVALID('is receive notifications'),
   }),
 })
+
+export const loginSchema = createUsersSchema.pick({
+  email: true,
+  password: true,
+})
