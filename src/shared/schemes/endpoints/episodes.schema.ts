@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { ERRORS } from '@/constants/errors'
-import { MAX_INT } from '@/constants/views_limit'
+import { MAX_INT } from '@/constants/limits'
 
 export const updateEpisodesSchema = z.object({
   id: z

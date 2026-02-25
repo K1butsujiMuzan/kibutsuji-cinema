@@ -9,7 +9,8 @@ export const updateGenresSchema = z.object({
   name: z
     .string({ message: ERRORS.INVALID('name') })
     .trim()
-    .min(3, { message: ERRORS.MIN_LENGTH('Name', 3) }),
+    .min(3, { message: ERRORS.MIN_LENGTH('Name', 3) })
+    .toLowerCase(),
 })
 
 export const createGenresSchema = updateGenresSchema.pick({ name: true })

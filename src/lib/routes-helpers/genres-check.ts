@@ -4,27 +4,25 @@ import { ERRORS } from '@/constants/errors'
 import prisma from '@/lib/prisma'
 
 export const genresCheck = async (
-  genres: string,
+  genreNames: string[],
 ): Promise<
   | { success: false; error: NextResponse }
-  | { success: true; data: { id: string }[] }
+  | { success: true; data: { name: string }[] }
 > => {
-  const trimmedGenres = genres.trim()
-  if (!trimmedGenres) {
+  if (genreNames.length === 0) {
     return { success: true, data: [] }
   }
 
-  const genresArray: string[] = trimmedGenres.split(' ')
-
   const existingGenres = await prisma.animeGenre.findMany({
     where: {
-      id: {
-        in: genresArray,
+      name: {
+        in: genreNames,
+        mode: 'insensitive',
       },
     },
   })
 
-  if (existingGenres.length !== genresArray.length) {
+  if (existingGenres.length !== genreNames.length) {
     return {
       success: false,
       error: cors(
@@ -33,5 +31,5 @@ export const genresCheck = async (
     }
   }
 
-  return { success: true, data: genresArray.map((id) => ({ id })) }
+  return { success: true, data: genreNames.map((name) => ({ name })) }
 }

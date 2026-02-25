@@ -6,12 +6,12 @@ import { auth } from '@/lib/auth'
 import { Role } from '@/generated/prisma'
 import { userAccessCheck } from '@/lib/routes-helpers/user-access-check'
 import { getPageParams } from '@/lib/routes-helpers/get-page-params'
-import { idsCheck } from '@/lib/routes-helpers/ids-check'
 import { nullTransform } from '@/lib/routes-helpers/null-transform'
 import {
   createUsersSchema,
   updateUsersSchema,
 } from '@/shared/schemes/endpoints/users.schema'
+import { deleteCheck } from '@/lib/routes-helpers/delete-check'
 
 export async function GET(request: NextRequest) {
   try {
@@ -40,21 +40,13 @@ export async function GET(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
-    const access = userAccessCheck(request)
+    const idsCheck = await deleteCheck(request)
 
-    if (!access.success) {
-      return access.error
+    if (!idsCheck.success) {
+      return idsCheck.error
     }
 
-    const { user } = access
-
-    const checkedData = await idsCheck(request)
-
-    if (!checkedData.success) {
-      return checkedData.error
-    }
-
-    const { ids } = checkedData
+    const { ids, user } = idsCheck
 
     if (ids.includes(user.userId)) {
       return cors(

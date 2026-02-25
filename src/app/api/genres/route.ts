@@ -4,11 +4,11 @@ import { userAccessCheck } from '@/lib/routes-helpers/user-access-check'
 import prisma from '@/lib/prisma'
 import { ERRORS } from '@/constants/errors'
 import { getPageParams } from '@/lib/routes-helpers/get-page-params'
-import { idsCheck } from '@/lib/routes-helpers/ids-check'
 import {
   createGenresSchema,
   updateGenresSchema,
 } from '@/shared/schemes/endpoints/genres.schema'
+import { deleteCheck } from '@/lib/routes-helpers/delete-check'
 
 export async function GET(request: NextRequest) {
   try {
@@ -37,22 +37,16 @@ export async function GET(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
-    const access = userAccessCheck(request)
+    const idsCheck = await deleteCheck(request)
 
-    if (!access.success) {
-      return access.error
-    }
-
-    const checkedData = await idsCheck(request)
-
-    if (!checkedData.success) {
-      return checkedData.error
+    if (!idsCheck.success) {
+      return idsCheck.error
     }
 
     await prisma.animeGenre.deleteMany({
       where: {
         id: {
-          in: checkedData.ids,
+          in: idsCheck.ids,
         },
       },
     })

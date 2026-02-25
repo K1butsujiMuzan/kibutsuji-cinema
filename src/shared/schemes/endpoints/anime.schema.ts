@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { ERRORS } from '@/constants/errors'
 import { ISO_DATE_REGEXP, SLUG_REGEXP } from '@/constants/regexp'
-import { MAX_INT } from '@/constants/views_limit'
+import { MAX_INT } from '@/constants/limits'
 
 export const updateAnimeSchema = z.object({
   id: z
@@ -57,7 +57,10 @@ export const updateAnimeSchema = z.object({
     ['TVSERIES', 'MOVIE', 'SHORTFILM', 'SPECIAL', 'OVA', 'ONA', 'CLIP'],
     { message: ERRORS.INVALID('type') },
   ),
-  genres: z.string({ message: ERRORS.INVALID('genres') }),
+  genreNames: z.array(
+    z.string({ message: ERRORS.INVALID('genre names') }).toLowerCase(),
+    { message: ERRORS.INVALID('genre names') },
+  ),
 })
 
 export const createAnimeSchema = updateAnimeSchema.omit({ id: true })

@@ -1,9 +1,11 @@
+import { DELETE_LIMIT } from '@/constants/limits'
+
 export const ERRORS = {
   SOMETHING_WRONG: 'Something went wrong',
   PROVIDER_FAILED: 'Error logging in through the provider',
   INSUFFICIENT_RIGHTS: 'Insufficient rights',
   TRANSMITTED_DATA: 'Incorrectly transmitted data',
-  DELETE_DATA_LIMIT: 'You can only delete 10 records per request',
+  DELETE_DATA_LIMIT: `You can only delete ${DELETE_LIMIT} records per request`,
   DELETE_YOURSELF: 'You cannot delete yourself',
   ROLE_YOURSELF: 'You cannot change your role',
   NOT_FOUND: (label: string) => `${label} not found, please use existing id`,
@@ -15,7 +17,7 @@ export const ERRORS = {
     `${label} cannot be greater than ${max}`,
   MAX_ANIME_COUNT: (limit: number) =>
     `This anime has a maximum anime count of ${limit} episode(s)`,
-  INVALID_GENRES: 'Invalid genres. Please enter existing ID.',
+  INVALID_GENRES: 'Invalid genres. Please enter existing genre names.',
   USER_EXISTS: 'User already exists. Use another email',
   EXISTS: (name: string) => `${name} already exists`,
   INVALID: (label: string) => `Invalid ${label}`,

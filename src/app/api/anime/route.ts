@@ -5,12 +5,12 @@ import prisma from '@/lib/prisma'
 import { userAccessCheck } from '@/lib/routes-helpers/user-access-check'
 import { genresCheck } from '@/lib/routes-helpers/genres-check'
 import { getPageParams } from '@/lib/routes-helpers/get-page-params'
-import { idsCheck } from '@/lib/routes-helpers/ids-check'
 import { nullTransform } from '@/lib/routes-helpers/null-transform'
 import {
   createAnimeSchema,
   updateAnimeSchema,
 } from '@/shared/schemes/endpoints/anime.schema'
+import { deleteCheck } from '@/lib/routes-helpers/delete-check'
 
 export async function GET(request: NextRequest) {
   try {
@@ -42,22 +42,16 @@ export async function GET(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
-    const access = userAccessCheck(request)
+    const idsCheck = await deleteCheck(request)
 
-    if (!access.success) {
-      return access.error
-    }
-
-    const checkedData = await idsCheck(request)
-
-    if (!checkedData.success) {
-      return checkedData.error
+    if (!idsCheck.success) {
+      return idsCheck.error
     }
 
     await prisma.anime.deleteMany({
       where: {
         id: {
-          in: checkedData.ids,
+          in: idsCheck.ids,
         },
       },
     })
@@ -103,7 +97,7 @@ export async function POST(request: NextRequest) {
       description,
       image,
       originalTitle,
-      genres,
+      genreNames,
     } = parsedData.data
 
     const existingSlug = await prisma.anime.findUnique({
@@ -116,7 +110,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const genresArray = await genresCheck(genres)
+    const genresArray = await genresCheck(genreNames)
 
     if (!genresArray.success) {
       return genresArray.error
@@ -184,7 +178,7 @@ export async function PUT(request: NextRequest) {
       description,
       image,
       originalTitle,
-      genres,
+      genreNames,
     } = parsedData.data
 
     const animeById = await prisma.anime.findUnique({ where: { id } })
@@ -208,7 +202,7 @@ export async function PUT(request: NextRequest) {
       )
     }
 
-    const genresArray = await genresCheck(genres)
+    const genresArray = await genresCheck(genreNames)
 
     if (!genresArray.success) {
       return genresArray.error
