@@ -178,6 +178,7 @@ model Anime {
   description      String?     @db.Text
   ageLimit         AgeLimit
   releaseDate      DateTime    @map("release_date")
+  rating           Float       @default(0)
   episodesCount    Int         @map("episodes_count")
   episodesReleased Int         @default(0) @map("episodes_released")
   episodesLength   Int         @map("episodes_length")

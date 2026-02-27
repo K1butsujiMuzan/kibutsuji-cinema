@@ -1,11 +1,12 @@
 import { z } from 'zod'
 import { ERRORS } from '@/constants/errors'
+import { ID_MIN_LENGTH } from '@/constants/limits'
 
 export const updateGenresSchema = z.object({
   id: z
-    .string({ message: ERRORS.INVALID('id') })
+    .string({ error: ERRORS.INVALID('id') })
     .trim()
-    .min(24, { message: ERRORS.MIN_LENGTH('Id', 24) }),
+    .min(ID_MIN_LENGTH, { error: ERRORS.MIN_LENGTH('Id', ID_MIN_LENGTH) }),
   name: z
     .string({ message: ERRORS.INVALID('name') })
     .trim()

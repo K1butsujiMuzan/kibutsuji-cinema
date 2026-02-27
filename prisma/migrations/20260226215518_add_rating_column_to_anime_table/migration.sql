@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "anime" ADD COLUMN     "rating" DOUBLE PRECISION NOT NULL DEFAULT 0;
