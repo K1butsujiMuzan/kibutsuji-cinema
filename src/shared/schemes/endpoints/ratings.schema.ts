@@ -16,7 +16,7 @@ export const updateRatingsSchema = z.object({
   rating: z
     .number({ error: ERRORS.INVALID('rating') })
     .int({ error: ERRORS.INVALID_INT('Rating') })
-    .nonnegative({ error: ERRORS.NEGATIVE_VALUE('Rating') })
+    .positive({ error: ERRORS.NEGATIVE_VALUE('Rating', 1) })
     .max(RATING_MAX_VALUE, {
       error: ERRORS.MAX_VALUE('Rating', RATING_MAX_VALUE),
     }),

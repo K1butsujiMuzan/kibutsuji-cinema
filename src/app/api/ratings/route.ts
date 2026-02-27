@@ -262,7 +262,7 @@ export async function PUT(request: NextRequest) {
         })
 
         await tx.anime.update({
-          where: { id: animeId },
+          where: { id: ratingById.animeId },
           data: {
             rating: previousAnimeStats._avg.rating ?? 0,
           },
