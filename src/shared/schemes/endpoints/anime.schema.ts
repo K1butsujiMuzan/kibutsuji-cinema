@@ -2,15 +2,20 @@ import { z } from 'zod'
 import { ERRORS } from '@/constants/errors'
 import { ISO_DATE_REGEXP, SLUG_REGEXP } from '@/constants/regexp'
 import { ID_MIN_LENGTH, MAX_INT } from '@/constants/limits'
+import { $Enums, AnimeStatus, AnimeType } from '@/generated/prisma'
+import AgeLimit = $Enums.AgeLimit
 
 export const updateAnimeSchema = z.object({
   id: z
     .string({ error: ERRORS.INVALID('id') })
     .trim()
     .min(ID_MIN_LENGTH, { error: ERRORS.MIN_LENGTH('Id', ID_MIN_LENGTH) }),
-  ageLimit: z.enum(['AGE_6', 'AGE_12', 'AGE_16', 'AGE_18'], {
-    error: ERRORS.INVALID('age limit'),
-  }),
+  ageLimit: z.enum(
+    [AgeLimit.AGE_6, AgeLimit.AGE_12, AgeLimit.AGE_16, AgeLimit.AGE_18],
+    {
+      error: ERRORS.INVALID('age limit'),
+    },
+  ),
   description: z
     .string({ error: ERRORS.INVALID('description') })
     .trim()
@@ -46,15 +51,26 @@ export const updateAnimeSchema = z.object({
     .trim()
     .min(3, { error: ERRORS.MIN_LENGTH('Slug', 3) })
     .regex(SLUG_REGEXP, { error: ERRORS.INVALID('slug format') }),
-  status: z.enum(['ONGOING', 'COMPLETED', 'ANNOUNCEMENT'], {
-    error: ERRORS.INVALID('status'),
-  }),
+  status: z.enum(
+    [AnimeStatus.ONGOING, AnimeStatus.ANNOUNCEMENT, AnimeStatus.COMPLETED],
+    {
+      error: ERRORS.INVALID('status'),
+    },
+  ),
   title: z
     .string({ error: ERRORS.INVALID('title') })
     .trim()
     .min(3, { error: ERRORS.MIN_LENGTH('Title', 3) }),
   type: z.enum(
-    ['TVSERIES', 'MOVIE', 'SHORTFILM', 'SPECIAL', 'OVA', 'ONA', 'CLIP'],
+    [
+      AnimeType.ONA,
+      AnimeType.OVA,
+      AnimeType.CLIP,
+      AnimeType.MOVIE,
+      AnimeType.SPECIAL,
+      AnimeType.SHORTFILM,
+      AnimeType.TVSERIES,
+    ],
     { error: ERRORS.INVALID('type') },
   ),
   genreNames: z.array(

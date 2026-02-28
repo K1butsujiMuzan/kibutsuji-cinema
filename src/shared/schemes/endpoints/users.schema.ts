@@ -1,6 +1,8 @@
 import { z } from 'zod'
 import { ERRORS } from '@/constants/errors'
 import { ID_MIN_LENGTH } from '@/constants/limits'
+import { $Enums } from '@/generated/prisma'
+import Role = $Enums.Role
 
 export const updateUsersSchema = z.object({
   id: z
@@ -12,7 +14,7 @@ export const updateUsersSchema = z.object({
     .string({ error: ERRORS.INVALID('name') })
     .trim()
     .min(3, { error: ERRORS.MIN_LENGTH('Name', 3) }),
-  role: z.enum(['USER', 'MODERATOR', 'ADMIN'], {
+  role: z.enum([Role.USER, Role.ADMIN, Role.MODERATOR], {
     error: ERRORS.INVALID('role'),
   }),
   image: z

@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
 import { ERRORS } from '@/constants/errors'
 
-export const ratingsCheck = async (
+export const animeAndUserCheck = async (
   animeId: string,
   userId: string,
 ): Promise<NextResponse | null> => {

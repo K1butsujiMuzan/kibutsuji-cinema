@@ -9,7 +9,7 @@ import {
   createRatingsSchema,
   updateRatingsSchema,
 } from '@/shared/schemes/endpoints/ratings.schema'
-import { ratingsCheck } from '@/lib/routes-helpers/ratings-check'
+import { animeAndUserCheck } from '@/lib/routes-helpers/anime-and-user-check'
 
 export async function GET(request: NextRequest) {
   try {
@@ -124,7 +124,7 @@ export async function POST(request: NextRequest) {
 
     const { animeId, rating, userId } = parsedData.data
 
-    const existingError = await ratingsCheck(animeId, userId)
+    const existingError = await animeAndUserCheck(animeId, userId)
 
     if (existingError) {
       return existingError
@@ -140,7 +140,7 @@ export async function POST(request: NextRequest) {
       return cors(
         NextResponse.json(
           { error: ERRORS.EXISTS('Rating with this anime id and user id') },
-          { status: 400 },
+          { status: 409 },
         ),
       )
     }
@@ -209,7 +209,7 @@ export async function PUT(request: NextRequest) {
       )
     }
 
-    const existingError = await ratingsCheck(animeId, userId)
+    const existingError = await animeAndUserCheck(animeId, userId)
 
     if (existingError) {
       return existingError
@@ -228,7 +228,7 @@ export async function PUT(request: NextRequest) {
       return cors(
         NextResponse.json(
           { error: ERRORS.EXISTS('Rating with this anime id and user id') },
-          { status: 400 },
+          { status: 409 },
         ),
       )
     }
