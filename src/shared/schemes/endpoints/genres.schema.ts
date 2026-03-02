@@ -8,9 +8,9 @@ export const updateGenresSchema = z.object({
     .trim()
     .min(ID_MIN_LENGTH, { error: ERRORS.MIN_LENGTH('Id', ID_MIN_LENGTH) }),
   name: z
-    .string({ message: ERRORS.INVALID('name') })
+    .string({ error: ERRORS.INVALID('name') })
     .trim()
-    .min(3, { message: ERRORS.MIN_LENGTH('Name', 3) })
+    .min(3, { error: ERRORS.MIN_LENGTH('Name', 3) })
     .toLowerCase(),
 })
 

@@ -44,6 +44,11 @@ enum AgeLimit {
   AGE_18
 }
 
+enum LikeValue {
+  LIKE
+  DISLIKE
+}
+
 model User {
   id                     String  @id @default(cuid())
   name                   String  @default("guest")
@@ -84,8 +89,8 @@ model UserList {
 }
 
 model CommentLike {
-  id      String  @id @default(cuid())
-  isLiked Boolean @map("is_liked")
+  id    String    @id @default(cuid())
+  value LikeValue
 
   userId String @map("user_id")
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -107,8 +112,9 @@ model Comment {
   episodeId String       @map("episode_id")
   episode   AnimeEpisode @relation(fields: [episodeId], references: [id], onDelete: Cascade)
 
-  userId String @map("user_id")
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String @map("user_id")
+  user          User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  commentRating Int    @default(0) @map("comment_rating")
 
   likes CommentLike[]
 
