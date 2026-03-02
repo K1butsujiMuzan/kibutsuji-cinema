@@ -196,7 +196,7 @@ export async function PUT(request: NextRequest) {
       )
     }
 
-    const { id, animeId, rating, userId } = parsedData.data
+    const { id, rating } = parsedData.data
 
     const ratingById = await prisma.animeRating.findUnique({ where: { id } })
 
@@ -209,38 +209,12 @@ export async function PUT(request: NextRequest) {
       )
     }
 
-    const existingError = await animeAndUserCheck(animeId, userId)
-
-    if (existingError) {
-      return existingError
-    }
-
-    const ratingWithCurrentAnimeAndUser = await prisma.animeRating.findUnique({
-      where: {
-        animeId_userId: { animeId, userId },
-      },
-    })
-
-    if (
-      ratingWithCurrentAnimeAndUser &&
-      ratingWithCurrentAnimeAndUser.id !== id
-    ) {
-      return cors(
-        NextResponse.json(
-          { error: ERRORS.EXISTS('Rating with this anime id and user id') },
-          { status: 409 },
-        ),
-      )
-    }
-
     await prisma.$transaction(async (tx) => {
+      const { animeId } = ratingById
+
       await tx.animeRating.update({
         where: { id },
-        data: {
-          animeId,
-          userId,
-          rating,
-        },
+        data: { rating },
       })
 
       const updatedAnimeStats = await tx.animeRating.aggregate({
@@ -254,20 +228,6 @@ export async function PUT(request: NextRequest) {
           rating: updatedAnimeStats._avg.rating ?? 0,
         },
       })
-
-      if (ratingById.animeId !== animeId) {
-        const previousAnimeStats = await tx.animeRating.aggregate({
-          where: { animeId: ratingById.animeId },
-          _avg: { rating: true },
-        })
-
-        await tx.anime.update({
-          where: { id: ratingById.animeId },
-          data: {
-            rating: previousAnimeStats._avg.rating ?? 0,
-          },
-        })
-      }
     })
 
     return cors(NextResponse.json({ error: null }, { status: 200 }))
