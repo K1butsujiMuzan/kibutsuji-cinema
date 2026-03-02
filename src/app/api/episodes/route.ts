@@ -4,7 +4,6 @@ import { userAccessCheck } from '@/lib/routes-helpers/user-access-check'
 import prisma from '@/lib/prisma'
 import { ERRORS } from '@/constants/errors'
 import { MAX_INT } from '@/constants/limits'
-import { episodesCheck } from '@/lib/routes-helpers/episodes-check'
 import { getPageParams } from '@/lib/routes-helpers/get-page-params'
 import {
   createEpisodesSchema,
@@ -127,18 +126,28 @@ export async function POST(request: NextRequest) {
 
     const { animeId, title, views, episodeNumber } = parsedData.data
 
-    const existingAnime = await episodesCheck(episodeNumber, animeId)
+    const existingAnime = await prisma.anime.findUnique({
+      where: {
+        id: animeId,
+      },
+      include: {
+        episodes: true,
+      },
+    })
 
-    if (!existingAnime.success) {
-      return existingAnime.error
-    }
-
-    const { anime } = existingAnime
-
-    if (anime.episodesCount === anime.episodes.length) {
+    if (!existingAnime) {
       return cors(
         NextResponse.json(
-          { error: ERRORS.MAX_ANIME_COUNT(anime.episodesCount) },
+          { error: ERRORS.NOT_FOUND('Anime') },
+          { status: 404 },
+        ),
+      )
+    }
+
+    if (existingAnime.episodesCount === existingAnime.episodes.length) {
+      return cors(
+        NextResponse.json(
+          { error: ERRORS.MAX_ANIME_COUNT(existingAnime.episodesCount) },
           { status: 409 },
         ),
       )
@@ -179,7 +188,7 @@ export async function POST(request: NextRequest) {
           episodesReleased: {
             increment: 1,
           },
-          views: Math.min(anime.views + views, MAX_INT),
+          views: Math.min(existingAnime.views + views, MAX_INT),
         },
       })
     })
@@ -213,7 +222,7 @@ export async function PUT(request: NextRequest) {
       )
     }
 
-    const { id, animeId, title, views, episodeNumber } = parsedData.data
+    const { id, title, views, episodeNumber } = parsedData.data
 
     const episodeById = await prisma.animeEpisode.findUnique({ where: { id } })
 
@@ -226,19 +235,11 @@ export async function PUT(request: NextRequest) {
       )
     }
 
-    const existingAnime = await episodesCheck(episodeNumber, animeId)
-
-    if (!existingAnime.success) {
-      return existingAnime.error
-    }
-
-    const { anime } = existingAnime
-
     const existingEpisode = await prisma.animeEpisode.findUnique({
       where: {
         animeId_episodeNumber: {
           episodeNumber,
-          animeId,
+          animeId: episodeById.animeId,
         },
       },
     })
@@ -247,18 +248,6 @@ export async function PUT(request: NextRequest) {
       return cors(
         NextResponse.json(
           { error: ERRORS.EXISTS('An episode with this anime ID and number') },
-          { status: 409 },
-        ),
-      )
-    }
-
-    if (
-      anime.episodesCount === anime.episodes.length &&
-      episodeById.animeId !== animeId
-    ) {
-      return cors(
-        NextResponse.json(
-          { error: ERRORS.MAX_ANIME_COUNT(anime.episodesCount) },
           { status: 409 },
         ),
       )
@@ -273,11 +262,10 @@ export async function PUT(request: NextRequest) {
           episodeNumber,
           views,
           title,
-          animeId,
         },
       })
 
-      const currentAnimeStats = await tx.animeEpisode.aggregate({
+      const newAnimeStats = await tx.animeEpisode.aggregate({
         where: {
           animeId: episodeById.animeId,
         },
@@ -290,30 +278,10 @@ export async function PUT(request: NextRequest) {
           id: episodeById.animeId,
         },
         data: {
-          episodesReleased: currentAnimeStats._count,
-          views: Math.min(currentAnimeStats._sum.views ?? 0, MAX_INT),
+          episodesReleased: newAnimeStats._count,
+          views: Math.min(newAnimeStats._sum.views ?? 0, MAX_INT),
         },
       })
-
-      if (episodeById.animeId !== animeId) {
-        const newAnimeStats = await tx.animeEpisode.aggregate({
-          where: {
-            animeId,
-          },
-          _count: true,
-          _sum: { views: true },
-        })
-
-        await tx.anime.update({
-          where: {
-            id: animeId,
-          },
-          data: {
-            episodesReleased: newAnimeStats._count,
-            views: Math.min(newAnimeStats._sum.views ?? 0, MAX_INT),
-          },
-        })
-      }
     })
 
     return cors(NextResponse.json({ error: null }, { status: 200 }))
