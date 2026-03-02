@@ -141,7 +141,7 @@ export async function PUT(request: NextRequest) {
       )
     }
 
-    const { id, animeId, userId, list } = parsedData.data
+    const { id, list } = parsedData.data
 
     const listById = await prisma.userList.findUnique({ where: { id } })
 
@@ -151,30 +151,9 @@ export async function PUT(request: NextRequest) {
       )
     }
 
-    const existingError = await animeAndUserCheck(animeId, userId)
-
-    if (existingError) {
-      return existingError
-    }
-
-    const listWithCurrentAnimeAndUser = await prisma.userList.findUnique({
-      where: {
-        animeId_userId: { animeId, userId },
-      },
-    })
-
-    if (listWithCurrentAnimeAndUser && listWithCurrentAnimeAndUser.id !== id) {
-      return cors(
-        NextResponse.json(
-          { error: ERRORS.EXISTS('List with this anime id and user id') },
-          { status: 409 },
-        ),
-      )
-    }
-
     await prisma.userList.update({
       where: { id },
-      data: { animeId, userId, list },
+      data: { list },
     })
 
     return cors(NextResponse.json({ error: null }, { status: 200 }))

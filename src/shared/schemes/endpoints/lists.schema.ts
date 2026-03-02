@@ -8,6 +8,19 @@ export const updateListsSchema = z.object({
     .string({ error: ERRORS.INVALID('id') })
     .trim()
     .min(ID_MIN_LENGTH, { error: ERRORS.MIN_LENGTH('Id', ID_MIN_LENGTH) }),
+  list: z.enum(
+    [
+      List.ABANDONED,
+      List.COMPLETED,
+      List.FAVORITE,
+      List.PLANNED,
+      List.WATCHING,
+    ],
+    { error: ERRORS.INVALID('list') },
+  ),
+})
+
+export const createListsSchema = z.object({
   animeId: z
     .string({ error: ERRORS.INVALID('anime id') })
     .trim()
@@ -29,5 +42,3 @@ export const updateListsSchema = z.object({
     { error: ERRORS.INVALID('list') },
   ),
 })
-
-export const createListsSchema = updateListsSchema.omit({ id: true })

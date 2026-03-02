@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { ERRORS } from '@/constants/errors'
-import { ID_MIN_LENGTH } from '@/constants/limits'
+import { ID_MIN_LENGTH, MIN_PASSWORD_LENGTH } from '@/constants/limits'
 import { $Enums } from '@/generated/prisma'
 import Role = $Enums.Role
 
@@ -36,7 +36,7 @@ export const createUsersSchema = z.object({
   password: z
     .string({ error: ERRORS.INVALID('password') })
     .trim()
-    .min(6, { error: ERRORS.MIN_LENGTH('Password', 6) }),
+    .min(6, { error: ERRORS.MIN_LENGTH('Password', MIN_PASSWORD_LENGTH) }),
   isReceiveNotifications: z.boolean({
     error: ERRORS.INVALID('is receive notifications'),
   }),

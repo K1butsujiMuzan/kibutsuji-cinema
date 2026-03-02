@@ -1,5 +1,9 @@
 import { ERRORS } from '@/constants/errors'
-import { ID_MIN_LENGTH } from '@/constants/limits'
+import {
+  ID_MIN_LENGTH,
+  MAX_COMMENT_LENGTH,
+  MIN_COMMENT_LENGTH,
+} from '@/constants/limits'
 import { z } from 'zod'
 
 export const updateCommentsSchema = z.object({
@@ -10,7 +14,12 @@ export const updateCommentsSchema = z.object({
   text: z
     .string({ error: ERRORS.INVALID('text') })
     .trim()
-    .min(10, { error: ERRORS.MIN_LENGTH('Text', 10) }),
+    .min(MIN_COMMENT_LENGTH, {
+      error: ERRORS.MIN_LENGTH('Text', MIN_COMMENT_LENGTH),
+    })
+    .max(MAX_COMMENT_LENGTH, {
+      error: ERRORS.MAX_VALUE('Text', MAX_COMMENT_LENGTH),
+    }),
 })
 
 export const createCommentsSchema = z.object({
