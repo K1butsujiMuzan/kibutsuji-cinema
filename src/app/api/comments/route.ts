@@ -9,6 +9,7 @@ import {
   createCommentsSchema,
   updateCommentsSchema,
 } from '@/shared/schemes/endpoints/comments.schema'
+import { Prisma } from '@/generated/prisma'
 
 export async function GET(request: NextRequest) {
   try {
@@ -18,14 +19,19 @@ export async function GET(request: NextRequest) {
       return access.error
     }
 
-    const [pages, limit] = getPageParams(request)
+    const [pages, limit, search, isSearching] = getPageParams(request)
+
+    const where: Prisma.CommentWhereInput = isSearching
+      ? { text: { contains: search, mode: 'insensitive' } }
+      : {}
 
     const comments = await prisma.comment.findMany({
+      where,
       skip: (pages - 1) * limit,
       take: limit,
       orderBy: { createdAt: 'desc' },
     })
-    const count = await prisma.comment.count()
+    const count = await prisma.comment.count({ where })
 
     return cors(NextResponse.json({ comments, count }, { status: 200 }))
   } catch (error) {

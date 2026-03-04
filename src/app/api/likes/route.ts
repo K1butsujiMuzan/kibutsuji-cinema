@@ -5,7 +5,7 @@ import prisma from '@/lib/prisma'
 import { cors } from '@/lib/routes-helpers/cors'
 import { ERRORS } from '@/constants/errors'
 import { deleteCheck } from '@/lib/routes-helpers/delete-check'
-import { LikeValue } from '@/generated/prisma'
+import { LikeValue, Prisma } from '@/generated/prisma'
 import {
   createLikesSchema,
   updateLikesSchema,
@@ -19,14 +19,19 @@ export async function GET(request: NextRequest) {
       return access.error
     }
 
-    const [pages, limit] = getPageParams(request)
+    const [pages, limit, search, isSearching] = getPageParams(request)
+
+    const where: Prisma.CommentLikeWhereInput = isSearching
+      ? { commentId: { contains: search, mode: 'insensitive' } }
+      : {}
 
     const likes = await prisma.commentLike.findMany({
+      where,
       skip: (pages - 1) * limit,
       take: limit,
       orderBy: { createdAt: 'desc' },
     })
-    const count = await prisma.commentLike.count()
+    const count = await prisma.commentLike.count({ where })
 
     return cors(NextResponse.json({ likes, count }, { status: 200 }))
   } catch (error) {

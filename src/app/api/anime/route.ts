@@ -11,6 +11,7 @@ import {
   updateAnimeSchema,
 } from '@/shared/schemes/endpoints/anime.schema'
 import { deleteCheck } from '@/lib/routes-helpers/delete-check'
+import { Prisma } from '@/generated/prisma'
 
 export async function GET(request: NextRequest) {
   try {
@@ -20,9 +21,14 @@ export async function GET(request: NextRequest) {
       return access.error
     }
 
-    const [pages, limit] = getPageParams(request)
+    const [pages, limit, search, isSearching] = getPageParams(request)
+
+    const where: Prisma.AnimeWhereInput = isSearching
+      ? { title: { contains: search, mode: 'insensitive' } }
+      : {}
 
     const anime = await prisma.anime.findMany({
+      where,
       skip: (pages - 1) * limit,
       take: limit,
       orderBy: { createdAt: 'desc' },
@@ -30,7 +36,7 @@ export async function GET(request: NextRequest) {
         genres: true,
       },
     })
-    const count = await prisma.anime.count()
+    const count = await prisma.anime.count({ where })
 
     return cors(NextResponse.json({ anime, count }, { status: 200 }))
   } catch (error) {

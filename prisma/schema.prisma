@@ -242,6 +242,7 @@ model AnimeEpisode {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   @@unique([animeId, episodeNumber])
+  @@index([title])
   @@map("anime_episodes")
 }
 

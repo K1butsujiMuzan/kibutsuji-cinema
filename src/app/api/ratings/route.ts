@@ -10,6 +10,7 @@ import {
   updateRatingsSchema,
 } from '@/shared/schemes/endpoints/ratings.schema'
 import { animeAndUserCheck } from '@/lib/routes-helpers/anime-and-user-check'
+import { Prisma } from '@/generated/prisma'
 
 export async function GET(request: NextRequest) {
   try {
@@ -19,14 +20,19 @@ export async function GET(request: NextRequest) {
       return access.error
     }
 
-    const [pages, limit] = getPageParams(request)
+    const [pages, limit, search, isSearching] = getPageParams(request)
+
+    const where: Prisma.AnimeRatingWhereInput = isSearching
+      ? { animeId: { contains: search, mode: 'insensitive' } }
+      : {}
 
     const ratings = await prisma.animeRating.findMany({
+      where,
       skip: (pages - 1) * limit,
       take: limit,
       orderBy: { createdAt: 'desc' },
     })
-    const count = await prisma.animeRating.count()
+    const count = await prisma.animeRating.count({ where })
 
     return cors(NextResponse.json({ ratings, count }, { status: 200 }))
   } catch (error) {

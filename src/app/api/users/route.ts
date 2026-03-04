@@ -3,7 +3,7 @@ import { cors } from '@/lib/routes-helpers/cors'
 import { ERRORS } from '@/constants/errors'
 import prisma from '@/lib/prisma'
 import { auth } from '@/lib/auth'
-import { Role } from '@/generated/prisma'
+import { Prisma, Role } from '@/generated/prisma'
 import { userAccessCheck } from '@/lib/routes-helpers/user-access-check'
 import { getPageParams } from '@/lib/routes-helpers/get-page-params'
 import { nullTransform } from '@/lib/routes-helpers/null-transform'
@@ -21,14 +21,19 @@ export async function GET(request: NextRequest) {
       return access.error
     }
 
-    const [pages, limit] = getPageParams(request)
+    const [pages, limit, search, isSearching] = getPageParams(request)
+
+    const where: Prisma.UserWhereInput = isSearching
+      ? { email: { contains: search, mode: 'insensitive' } }
+      : {}
 
     const users = await prisma.user.findMany({
+      where,
       skip: (pages - 1) * limit,
       take: limit,
       orderBy: { createdAt: 'desc' },
     })
-    const count = await prisma.user.count()
+    const count = await prisma.user.count({ where })
 
     return cors(NextResponse.json({ users, count }, { status: 200 }))
   } catch (error) {

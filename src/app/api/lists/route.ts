@@ -10,6 +10,7 @@ import {
   updateListsSchema,
 } from '@/shared/schemes/endpoints/lists.schema'
 import { animeAndUserCheck } from '@/lib/routes-helpers/anime-and-user-check'
+import { Prisma } from '@/generated/prisma'
 
 export async function GET(request: NextRequest) {
   try {
@@ -19,14 +20,19 @@ export async function GET(request: NextRequest) {
       return access.error
     }
 
-    const [pages, limit] = getPageParams(request)
+    const [pages, limit, search, isSearching] = getPageParams(request)
+
+    const where: Prisma.UserListWhereInput = isSearching
+      ? { userId: { contains: search, mode: 'insensitive' } }
+      : {}
 
     const lists = await prisma.userList.findMany({
+      where,
       skip: (pages - 1) * limit,
       take: limit,
       orderBy: { createdAt: 'desc' },
     })
-    const count = await prisma.userList.count()
+    const count = await prisma.userList.count({ where })
 
     return cors(NextResponse.json({ lists, count }, { status: 200 }))
   } catch (error) {

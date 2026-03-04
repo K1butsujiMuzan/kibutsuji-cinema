@@ -9,6 +9,7 @@ import {
   updateGenresSchema,
 } from '@/shared/schemes/endpoints/genres.schema'
 import { deleteCheck } from '@/lib/routes-helpers/delete-check'
+import { Prisma } from '@/generated/prisma'
 
 export async function GET(request: NextRequest) {
   try {
@@ -18,14 +19,19 @@ export async function GET(request: NextRequest) {
       return access.error
     }
 
-    const [pages, limit] = getPageParams(request)
+    const [pages, limit, search, isSearching] = getPageParams(request)
+
+    const where: Prisma.AnimeGenreWhereInput = isSearching
+      ? { name: { contains: search, mode: 'insensitive' } }
+      : {}
 
     const genres = await prisma.animeGenre.findMany({
+      where,
       skip: (pages - 1) * limit,
       take: limit,
       orderBy: { createdAt: 'desc' },
     })
-    const count = await prisma.animeGenre.count()
+    const count = await prisma.animeGenre.count({ where })
 
     return cors(NextResponse.json({ genres, count }, { status: 200 }))
   } catch (error) {
