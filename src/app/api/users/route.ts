@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
     })
     const count = await prisma.user.count({ where })
 
-    return cors(NextResponse.json({ users, count }, { status: 200 }))
+    return cors(NextResponse.json({ data: users, count }, { status: 200 }))
   } catch (error) {
     return cors(
       NextResponse.json({ error: ERRORS.SOMETHING_WRONG }, { status: 500 }),

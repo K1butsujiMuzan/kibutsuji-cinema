@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
     })
     const count = await prisma.comment.count({ where })
 
-    return cors(NextResponse.json({ comments, count }, { status: 200 }))
+    return cors(NextResponse.json({ data: comments, count }, { status: 200 }))
   } catch (error) {
     return cors(
       NextResponse.json({ error: ERRORS.SOMETHING_WRONG }, { status: 500 }),

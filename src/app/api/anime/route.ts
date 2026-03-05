@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
     })
     const count = await prisma.anime.count({ where })
 
-    return cors(NextResponse.json({ anime, count }, { status: 200 }))
+    return cors(NextResponse.json({ data: anime, count }, { status: 200 }))
   } catch (error) {
     return cors(
       NextResponse.json({ error: ERRORS.SOMETHING_WRONG }, { status: 500 }),
