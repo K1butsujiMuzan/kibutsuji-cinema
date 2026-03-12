@@ -21,24 +21,26 @@ export async function GET(request: NextRequest) {
 
     return cors(
       NextResponse.json(
-        [
-          {
-            label: 'Anime',
-            count: anime,
-          },
-          {
-            label: 'Comments',
-            count: comments,
-          },
-          {
-            label: 'Episodes',
-            count: animeEpisodes,
-          },
-          {
-            label: 'Users',
-            count: users,
-          },
-        ],
+        {
+          data: [
+            {
+              label: 'Anime',
+              count: anime,
+            },
+            {
+              label: 'Comments',
+              count: comments,
+            },
+            {
+              label: 'Episodes',
+              count: animeEpisodes,
+            },
+            {
+              label: 'Users',
+              count: users,
+            },
+          ],
+        },
         { status: 200 },
       ),
     )
