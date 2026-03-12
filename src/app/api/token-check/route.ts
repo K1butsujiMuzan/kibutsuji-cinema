@@ -3,13 +3,13 @@ import { ERRORS } from '@/constants/errors'
 import { cors } from '@/lib/routes-helpers/cors'
 import { tokenCheck } from '@/lib/routes-helpers/token-check'
 
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
-    tokenCheck(request)
+    const user = tokenCheck(request)
     return cors(
       NextResponse.json(
         {
-          error: null,
+          user,
         },
         { status: 200 },
       ),
