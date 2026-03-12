@@ -9,7 +9,8 @@ export async function POST(request: NextRequest) {
     return cors(
       NextResponse.json(
         {
-          ...user,
+          email: user.email,
+          role: user.role,
         },
         { status: 200 },
       ),
