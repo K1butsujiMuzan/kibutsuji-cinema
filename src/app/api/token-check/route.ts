@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
     return cors(
       NextResponse.json(
         {
-          user,
+          ...user,
         },
         { status: 200 },
       ),
