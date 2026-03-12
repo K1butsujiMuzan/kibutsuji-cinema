@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
       count: item._count,
     }))
 
-    return cors(NextResponse.json({ topStatuses }, { status: 200 }))
+    return cors(NextResponse.json(topStatuses, { status: 200 }))
   } catch (error) {
     return cors(
       NextResponse.json({ error: ERRORS.SOMETHING_WRONG }, { status: 500 }),
