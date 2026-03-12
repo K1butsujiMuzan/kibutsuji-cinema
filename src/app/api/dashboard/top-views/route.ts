@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
       orderBy: { views: 'desc' },
     })
 
-    return cors(NextResponse.json({ topViews }, { status: 200 }))
+    return cors(NextResponse.json(topViews, { status: 200 }))
   } catch (error) {
     return cors(
       NextResponse.json({ error: ERRORS.SOMETHING_WRONG }, { status: 500 }),

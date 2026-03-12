@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
       orderBy: { rating: 'desc' },
     })
 
-    return cors(NextResponse.json({ topRatings }, { status: 200 }))
+    return cors(NextResponse.json(topRatings, { status: 200 }))
   } catch (error) {
     return cors(
       NextResponse.json({ error: ERRORS.SOMETHING_WRONG }, { status: 500 }),
