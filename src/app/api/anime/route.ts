@@ -92,6 +92,7 @@ export async function POST(request: NextRequest) {
     }
 
     const {
+      access: animeAccess,
       ageLimit,
       status,
       type,
@@ -125,6 +126,7 @@ export async function POST(request: NextRequest) {
     await prisma.anime.create({
       data: {
         status,
+        access: animeAccess,
         ageLimit,
         type,
         episodesCount,
@@ -173,6 +175,7 @@ export async function PUT(request: NextRequest) {
 
     const {
       id,
+      access: animeAccess,
       ageLimit,
       status,
       type,
@@ -219,6 +222,7 @@ export async function PUT(request: NextRequest) {
         id: id,
       },
       data: {
+        access: animeAccess,
         ageLimit,
         status,
         type,
