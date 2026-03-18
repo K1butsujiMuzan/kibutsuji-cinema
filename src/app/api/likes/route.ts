@@ -10,6 +10,7 @@ import {
   createLikesSchema,
   updateLikesSchema,
 } from '@/shared/schemes/endpoints/likes.schema'
+import { userCheck } from '@/lib/routes-helpers/user-check'
 
 export async function GET(request: NextRequest) {
   try {
@@ -147,14 +148,11 @@ export async function POST(request: NextRequest) {
         ),
       )
     }
-    const existingUser = await prisma.user.findUnique({
-      where: { id: userId },
-    })
 
-    if (!existingUser) {
-      return cors(
-        NextResponse.json({ error: ERRORS.NOT_FOUND('User') }, { status: 404 }),
-      )
+    const userError = await userCheck(userId)
+
+    if (userError) {
+      return userError
     }
 
     const existingLike = await prisma.commentLike.findUnique({

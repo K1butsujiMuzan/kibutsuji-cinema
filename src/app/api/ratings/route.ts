@@ -9,8 +9,8 @@ import {
   createRatingsSchema,
   updateRatingsSchema,
 } from '@/shared/schemes/endpoints/ratings.schema'
-import { animeAndUserCheck } from '@/lib/routes-helpers/anime-and-user-check'
 import { Prisma } from '@/generated/prisma'
+import { animeAndUserCheck } from '@/lib/routes-helpers/anime-and-user-check'
 
 export async function GET(request: NextRequest) {
   try {
@@ -130,10 +130,10 @@ export async function POST(request: NextRequest) {
 
     const { animeId, rating, userId } = parsedData.data
 
-    const existingError = await animeAndUserCheck(animeId, userId)
+    const animeOrUserError = await animeAndUserCheck(animeId, userId)
 
-    if (existingError) {
-      return existingError
+    if (animeOrUserError) {
+      return animeOrUserError
     }
 
     const ratingWithCurrentAnimeAndUser = await prisma.animeRating.findUnique({

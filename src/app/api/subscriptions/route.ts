@@ -1,15 +1,15 @@
 import { type NextRequest, NextResponse } from 'next/server'
 import { userAccessCheck } from '@/lib/routes-helpers/user-access-check'
 import { getPageParams } from '@/lib/routes-helpers/get-page-params'
+import { Prisma } from '@/generated/prisma'
 import prisma from '@/lib/prisma'
 import { cors } from '@/lib/routes-helpers/cors'
 import { ERRORS } from '@/constants/errors'
 import { deleteCheck } from '@/lib/routes-helpers/delete-check'
 import {
-  createCommentsSchema,
-  updateCommentsSchema,
-} from '@/shared/schemes/endpoints/comments.schema'
-import { Prisma } from '@/generated/prisma'
+  createSubscriptionsSchema,
+  updateSubscriptionsSchema,
+} from '@/shared/schemes/endpoints/subscriptions.schema'
 import { userCheck } from '@/lib/routes-helpers/user-check'
 
 export async function GET(request: NextRequest) {
@@ -22,19 +22,21 @@ export async function GET(request: NextRequest) {
 
     const [pages, limit, search, isSearching] = getPageParams(request)
 
-    const where: Prisma.CommentWhereInput = isSearching
-      ? { text: { contains: search, mode: 'insensitive' } }
+    const where: Prisma.SubscriptionWhereInput = isSearching
+      ? { userId: { contains: search, mode: 'insensitive' } }
       : {}
 
-    const comments = await prisma.comment.findMany({
+    const subscriptions = await prisma.subscription.findMany({
       where,
       skip: (pages - 1) * limit,
       take: limit,
       orderBy: { createdAt: 'desc' },
     })
-    const count = await prisma.comment.count({ where })
+    const count = await prisma.subscription.count({ where })
 
-    return cors(NextResponse.json({ data: comments, count }, { status: 200 }))
+    return cors(
+      NextResponse.json({ data: subscriptions, count }, { status: 200 }),
+    )
   } catch (error) {
     return cors(
       NextResponse.json({ error: ERRORS.SOMETHING_WRONG }, { status: 500 }),
@@ -50,7 +52,7 @@ export async function DELETE(request: NextRequest) {
       return idsCheck.error
     }
 
-    await prisma.comment.deleteMany({
+    await prisma.subscription.deleteMany({
       where: {
         id: {
           in: idsCheck.ids,
@@ -76,7 +78,7 @@ export async function POST(request: NextRequest) {
 
     const data = await request.json()
 
-    const parsedData = createCommentsSchema.safeParse(data)
+    const parsedData = createSubscriptionsSchema.safeParse(data)
 
     if (!parsedData.success) {
       return cors(
@@ -87,20 +89,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const { episodeId, userId, text } = parsedData.data
-
-    const existingEpisode = await prisma.animeEpisode.findUnique({
-      where: { id: episodeId },
-    })
-
-    if (!existingEpisode) {
-      return cors(
-        NextResponse.json(
-          { error: ERRORS.NOT_FOUND('Episode') },
-          { status: 404 },
-        ),
-      )
-    }
+    const { type, userId, endDate } = parsedData.data
 
     const userError = await userCheck(userId)
 
@@ -108,11 +97,26 @@ export async function POST(request: NextRequest) {
       return userError
     }
 
-    await prisma.comment.create({
-      data: {
-        episodeId,
+    const existingSubscription = await prisma.subscription.findUnique({
+      where: {
         userId,
-        text,
+      },
+    })
+
+    if (existingSubscription) {
+      return cors(
+        NextResponse.json(
+          { error: ERRORS.EXISTS('Subscription') },
+          { status: 409 },
+        ),
+      )
+    }
+
+    await prisma.subscription.create({
+      data: {
+        type,
+        userId,
+        endDate,
       },
     })
 
@@ -134,7 +138,7 @@ export async function PUT(request: NextRequest) {
 
     const data = await request.json()
 
-    const parsedData = updateCommentsSchema.safeParse(data)
+    const parsedData = updateSubscriptionsSchema.safeParse(data)
 
     if (!parsedData.success) {
       return cors(
@@ -145,22 +149,24 @@ export async function PUT(request: NextRequest) {
       )
     }
 
-    const { id, text } = parsedData.data
+    const { id, endDate, type } = parsedData.data
 
-    const commentById = await prisma.comment.findUnique({ where: { id } })
+    const subscriptionById = await prisma.subscription.findUnique({
+      where: { id },
+    })
 
-    if (!commentById) {
+    if (!subscriptionById) {
       return cors(
         NextResponse.json(
-          { error: ERRORS.NOT_FOUND('Comment') },
+          { error: ERRORS.NOT_FOUND('Subscription') },
           { status: 404 },
         ),
       )
     }
 
-    await prisma.comment.update({
+    await prisma.subscription.update({
       where: { id },
-      data: { text },
+      data: { endDate, type },
     })
 
     return cors(NextResponse.json({ error: null }, { status: 200 }))

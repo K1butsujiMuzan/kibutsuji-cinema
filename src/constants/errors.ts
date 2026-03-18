@@ -21,6 +21,7 @@ export const ERRORS = {
   USER_EXISTS: 'User already exists. Use another email',
   EXISTS: (name: string) => `${name} already exists`,
   INVALID: (label: string) => `Invalid ${label}`,
+  INVALID_END_DATE: 'End date cannot be in the past',
   INVALID_INT: (label: string) => `${label} can only be an integer`,
   EMAIL_NOT_VERIFIED: 'Email not verified',
   UNAUTHORIZED: 'Unauthorized',

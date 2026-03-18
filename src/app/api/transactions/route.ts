@@ -1,15 +1,15 @@
+import { cors } from '@/lib/routes-helpers/cors'
 import { type NextRequest, NextResponse } from 'next/server'
 import { userAccessCheck } from '@/lib/routes-helpers/user-access-check'
 import { getPageParams } from '@/lib/routes-helpers/get-page-params'
+import { Prisma } from '@/generated/prisma'
 import prisma from '@/lib/prisma'
-import { cors } from '@/lib/routes-helpers/cors'
 import { ERRORS } from '@/constants/errors'
 import { deleteCheck } from '@/lib/routes-helpers/delete-check'
 import {
-  createCommentsSchema,
-  updateCommentsSchema,
-} from '@/shared/schemes/endpoints/comments.schema'
-import { Prisma } from '@/generated/prisma'
+  createTransactionsSchema,
+  updateTransactionsSchema,
+} from '@/shared/schemes/endpoints/transactions.schema'
 import { userCheck } from '@/lib/routes-helpers/user-check'
 
 export async function GET(request: NextRequest) {
@@ -22,19 +22,21 @@ export async function GET(request: NextRequest) {
 
     const [pages, limit, search, isSearching] = getPageParams(request)
 
-    const where: Prisma.CommentWhereInput = isSearching
-      ? { text: { contains: search, mode: 'insensitive' } }
+    const where: Prisma.TransactionWhereInput = isSearching
+      ? { userId: { contains: search, mode: 'insensitive' } }
       : {}
 
-    const comments = await prisma.comment.findMany({
+    const transactions = await prisma.transaction.findMany({
       where,
       skip: (pages - 1) * limit,
       take: limit,
       orderBy: { createdAt: 'desc' },
     })
-    const count = await prisma.comment.count({ where })
+    const count = await prisma.transaction.count({ where })
 
-    return cors(NextResponse.json({ data: comments, count }, { status: 200 }))
+    return cors(
+      NextResponse.json({ data: transactions, count }, { status: 200 }),
+    )
   } catch (error) {
     return cors(
       NextResponse.json({ error: ERRORS.SOMETHING_WRONG }, { status: 500 }),
@@ -50,7 +52,7 @@ export async function DELETE(request: NextRequest) {
       return idsCheck.error
     }
 
-    await prisma.comment.deleteMany({
+    await prisma.transaction.deleteMany({
       where: {
         id: {
           in: idsCheck.ids,
@@ -76,7 +78,7 @@ export async function POST(request: NextRequest) {
 
     const data = await request.json()
 
-    const parsedData = createCommentsSchema.safeParse(data)
+    const parsedData = createTransactionsSchema.safeParse(data)
 
     if (!parsedData.success) {
       return cors(
@@ -87,20 +89,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const { episodeId, userId, text } = parsedData.data
-
-    const existingEpisode = await prisma.animeEpisode.findUnique({
-      where: { id: episodeId },
-    })
-
-    if (!existingEpisode) {
-      return cors(
-        NextResponse.json(
-          { error: ERRORS.NOT_FOUND('Episode') },
-          { status: 404 },
-        ),
-      )
-    }
+    const { sum, userId, subscription } = parsedData.data
 
     const userError = await userCheck(userId)
 
@@ -108,11 +97,11 @@ export async function POST(request: NextRequest) {
       return userError
     }
 
-    await prisma.comment.create({
+    await prisma.transaction.create({
       data: {
-        episodeId,
+        sum,
         userId,
-        text,
+        subscription,
       },
     })
 
@@ -134,7 +123,7 @@ export async function PUT(request: NextRequest) {
 
     const data = await request.json()
 
-    const parsedData = updateCommentsSchema.safeParse(data)
+    const parsedData = updateTransactionsSchema.safeParse(data)
 
     if (!parsedData.success) {
       return cors(
@@ -145,22 +134,24 @@ export async function PUT(request: NextRequest) {
       )
     }
 
-    const { id, text } = parsedData.data
+    const { id, subscription, sum } = parsedData.data
 
-    const commentById = await prisma.comment.findUnique({ where: { id } })
+    const transactionById = await prisma.transaction.findUnique({
+      where: { id },
+    })
 
-    if (!commentById) {
+    if (!transactionById) {
       return cors(
         NextResponse.json(
-          { error: ERRORS.NOT_FOUND('Comment') },
+          { error: ERRORS.NOT_FOUND('Transaction') },
           { status: 404 },
         ),
       )
     }
 
-    await prisma.comment.update({
+    await prisma.transaction.update({
       where: { id },
-      data: { text },
+      data: { subscription, sum },
     })
 
     return cors(NextResponse.json({ error: null }, { status: 200 }))

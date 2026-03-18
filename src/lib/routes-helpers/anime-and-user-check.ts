@@ -1,28 +1,21 @@
-import { cors } from '@/lib/routes-helpers/cors'
-import { NextResponse } from 'next/server'
-import prisma from '@/lib/prisma'
-import { ERRORS } from '@/constants/errors'
+import { animeCheck } from '@/lib/routes-helpers/anime-check'
+import { userCheck } from '@/lib/routes-helpers/user-check'
+import type { NextResponse } from 'next/server'
 
 export const animeAndUserCheck = async (
   animeId: string,
   userId: string,
 ): Promise<NextResponse | null> => {
-  const existingAnime = await prisma.anime.findUnique({
-    where: { id: animeId },
-  })
+  const animeError = await animeCheck(animeId)
 
-  if (!existingAnime) {
-    return cors(
-      NextResponse.json({ error: ERRORS.NOT_FOUND('Anime') }, { status: 404 }),
-    )
+  if (animeError) {
+    return animeError
   }
 
-  const existingUser = await prisma.user.findUnique({ where: { id: userId } })
+  const userError = await userCheck(userId)
 
-  if (!existingUser) {
-    return cors(
-      NextResponse.json({ error: ERRORS.NOT_FOUND('User') }, { status: 404 }),
-    )
+  if (userError) {
+    return userError
   }
 
   return null

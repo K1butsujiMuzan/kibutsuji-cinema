@@ -9,8 +9,8 @@ import {
   createListsSchema,
   updateListsSchema,
 } from '@/shared/schemes/endpoints/lists.schema'
-import { animeAndUserCheck } from '@/lib/routes-helpers/anime-and-user-check'
 import { Prisma } from '@/generated/prisma'
+import { animeAndUserCheck } from '@/lib/routes-helpers/anime-and-user-check'
 
 export async function GET(request: NextRequest) {
   try {
@@ -89,10 +89,10 @@ export async function POST(request: NextRequest) {
 
     const { animeId, userId, list } = parsedData.data
 
-    const existingError = await animeAndUserCheck(animeId, userId)
+    const animeOrUserError = await animeAndUserCheck(animeId, userId)
 
-    if (existingError) {
-      return existingError
+    if (animeOrUserError) {
+      return animeOrUserError
     }
 
     const listWithCurrentAnimeAndUser = await prisma.userList.findUnique({

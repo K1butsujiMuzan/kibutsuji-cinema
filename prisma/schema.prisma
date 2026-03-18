@@ -49,6 +49,16 @@ enum LikeValue {
   DISLIKE
 }
 
+enum SubscriptionType {
+  FAN
+  MEGAFAN
+}
+
+enum AnimeAccessType {
+  FREE
+  PAID
+}
+
 model User {
   id                     String  @id @default(cuid())
   name                   String  @default("guest")
@@ -58,12 +68,14 @@ model User {
   isReceiveNotifications Boolean @default(false)
   image                  String?
 
-  sessions Session[]
-  accounts Account[]
-  comments Comment[]
-  ratings  AnimeRating[]
-  lists    UserList[]
-  likes    CommentLike[]
+  sessions     Session[]
+  accounts     Account[]
+  comments     Comment[]
+  ratings      AnimeRating[]
+  lists        UserList[]
+  likes        CommentLike[]
+  subscription Subscription?
+  transactions Transaction[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -176,21 +188,22 @@ model Verification {
 }
 
 model Anime {
-  id               String      @id @default(cuid())
-  slug             String      @unique
+  id               String          @id @default(cuid())
+  slug             String          @unique
   title            String
   image            String?
-  originalTitle    String?     @map("original_title")
-  description      String?     @db.Text
+  originalTitle    String?         @map("original_title")
+  description      String?         @db.Text
   ageLimit         AgeLimit
-  releaseDate      DateTime    @map("release_date")
-  rating           Float       @default(0)
-  episodesCount    Int         @map("episodes_count")
-  episodesReleased Int         @default(0) @map("episodes_released")
-  episodesLength   Int         @map("episodes_length")
-  type             AnimeType   @default(TVSERIES)
-  status           AnimeStatus @default(ANNOUNCEMENT)
-  views            Int         @default(0)
+  releaseDate      DateTime        @map("release_date")
+  rating           Float           @default(0)
+  episodesCount    Int             @map("episodes_count")
+  episodesReleased Int             @default(0) @map("episodes_released")
+  episodesLength   Int             @map("episodes_length")
+  type             AnimeType       @default(TVSERIES)
+  status           AnimeStatus     @default(ANNOUNCEMENT)
+  views            Int             @default(0)
+  access           AnimeAccessType @default(FREE)
 
   genres   AnimeGenre[]
   episodes AnimeEpisode[]
@@ -256,4 +269,34 @@ model AnimeGenre {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("anime_genres")
+}
+
+model Subscription {
+  id      String           @id @default(cuid())
+  type    SubscriptionType
+  endDate DateTime         @map("end_date")
+
+  userId String @unique @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([endDate])
+  @@index([userId])
+  @@map("subscriptions")
+}
+
+model Transaction {
+  id           String           @id @default(cuid())
+  sum          Float
+  subscription SubscriptionType
+
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("transactions")
 }
