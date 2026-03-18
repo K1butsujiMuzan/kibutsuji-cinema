@@ -3,6 +3,7 @@ import { ERRORS } from '@/constants/errors'
 import { ID_MIN_LENGTH } from '@/constants/limits'
 import { SubscriptionType } from '@/generated/prisma'
 import { ISO_DATE_REGEXP } from '@/constants/regexp'
+import { dateCheck, endDateCheck } from '@/utils/date-check'
 
 export const updateSubscriptionsSchema = z.object(
   {
@@ -17,10 +18,10 @@ export const updateSubscriptionsSchema = z.object(
       .string({ error: ERRORS.INVALID('end date') })
       .trim()
       .regex(ISO_DATE_REGEXP, { error: ERRORS.INVALID('end date') })
-      .refine((value) => !isNaN(Date.parse(value)), {
+      .refine((value) => dateCheck(value), {
         error: ERRORS.INVALID('end date'),
       })
-      .refine((value) => new Date(value).getTime() > Date.now(), {
+      .refine((value) => endDateCheck(value), {
         error: ERRORS.INVALID_END_DATE,
       })
       .transform((value) => new Date(value)),
@@ -37,10 +38,10 @@ export const createSubscriptionsSchema = z.object(
       .string({ error: ERRORS.INVALID('end date') })
       .trim()
       .regex(ISO_DATE_REGEXP, { error: ERRORS.INVALID('end date') })
-      .refine((value) => !isNaN(Date.parse(value)), {
+      .refine((value) => dateCheck(value), {
         error: ERRORS.INVALID('end date'),
       })
-      .refine((value) => new Date(value).getTime() > Date.now(), {
+      .refine((value) => endDateCheck(value), {
         error: ERRORS.INVALID_END_DATE,
       })
       .transform((value) => new Date(value)),

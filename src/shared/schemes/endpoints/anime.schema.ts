@@ -12,6 +12,7 @@ import {
   AnimeType,
   AnimeAccessType,
 } from '@/generated/prisma'
+import { dateCheck } from '@/utils/date-check'
 
 export const updateAnimeSchema = z.object(
   {
@@ -57,7 +58,7 @@ export const updateAnimeSchema = z.object(
       .string({ error: ERRORS.INVALID('release date') })
       .trim()
       .regex(ISO_DATE_REGEXP, { error: ERRORS.INVALID('release date') })
-      .refine((value) => !isNaN(Date.parse(value)), {
+      .refine((value) => dateCheck(value), {
         error: ERRORS.INVALID('release date'),
       })
       .transform((value) => new Date(value)),
