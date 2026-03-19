@@ -2,8 +2,7 @@ import { z } from 'zod'
 import { ERRORS } from '@/constants/errors'
 import { ID_MIN_LENGTH } from '@/constants/limits'
 import { SubscriptionType } from '@/generated/prisma'
-import { ISO_DATE_REGEXP } from '@/constants/regexp'
-import { dateCheck, endDateCheck } from '@/utils/date-check'
+import { endDateCheck } from '@/utils/date-check'
 
 export const updateSubscriptionsSchema = z.object(
   {
@@ -14,13 +13,8 @@ export const updateSubscriptionsSchema = z.object(
     type: z.enum([SubscriptionType.FAN, SubscriptionType.MEGAFAN], {
       error: ERRORS.INVALID('type'),
     }),
-    endDate: z
-      .string({ error: ERRORS.INVALID('end date') })
-      .trim()
-      .regex(ISO_DATE_REGEXP, { error: ERRORS.INVALID('end date') })
-      .refine((value) => dateCheck(value), {
-        error: ERRORS.INVALID('end date'),
-      })
+    endDate: z.iso
+      .datetime({ error: ERRORS.INVALID('end date') })
       .refine((value) => endDateCheck(value), {
         error: ERRORS.INVALID_END_DATE,
       })
@@ -34,13 +28,8 @@ export const createSubscriptionsSchema = z.object(
     type: z.enum([SubscriptionType.FAN, SubscriptionType.MEGAFAN], {
       error: ERRORS.INVALID('type'),
     }),
-    endDate: z
-      .string({ error: ERRORS.INVALID('end date') })
-      .trim()
-      .regex(ISO_DATE_REGEXP, { error: ERRORS.INVALID('end date') })
-      .refine((value) => dateCheck(value), {
-        error: ERRORS.INVALID('end date'),
-      })
+    endDate: z.iso
+      .datetime({ error: ERRORS.INVALID('end date') })
       .refine((value) => endDateCheck(value), {
         error: ERRORS.INVALID_END_DATE,
       })

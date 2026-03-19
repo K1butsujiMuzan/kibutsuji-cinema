@@ -2,6 +2,7 @@ export const MAX_INT = 999_999_999
 export const DELETE_LIMIT = 10
 export const ID_MIN_LENGTH = 24
 export const RATING_MAX_VALUE = 10
+export const REPORT_LIMIT = 10000
 export const MAX_COMMENT_LENGTH = 1000
 export const MAX_DESCRIPTION_LENGTH = 5000
 export const MIN_COMMENT_LENGTH = 10

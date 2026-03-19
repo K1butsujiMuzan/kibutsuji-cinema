@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { ERRORS } from '@/constants/errors'
-import { ISO_DATE_REGEXP, SLUG_REGEXP } from '@/constants/regexp'
+import { SLUG_REGEXP } from '@/constants/regexp'
 import {
   ID_MIN_LENGTH,
   MAX_DESCRIPTION_LENGTH,
@@ -12,7 +12,6 @@ import {
   AnimeType,
   AnimeAccessType,
 } from '@/generated/prisma'
-import { dateCheck } from '@/utils/date-check'
 
 export const updateAnimeSchema = z.object(
   {
@@ -54,13 +53,8 @@ export const updateAnimeSchema = z.object(
       .int({ error: ERRORS.INVALID_INT('Episodes length') })
       .nonnegative({ error: ERRORS.NEGATIVE_VALUE('Episodes length') })
       .max(MAX_INT, { error: ERRORS.MAX_VALUE('Episodes length', MAX_INT) }),
-    releaseDate: z
-      .string({ error: ERRORS.INVALID('release date') })
-      .trim()
-      .regex(ISO_DATE_REGEXP, { error: ERRORS.INVALID('release date') })
-      .refine((value) => dateCheck(value), {
-        error: ERRORS.INVALID('release date'),
-      })
+    releaseDate: z.iso
+      .datetime({ error: ERRORS.INVALID('release date') })
       .transform((value) => new Date(value)),
     slug: z
       .string({ error: ERRORS.INVALID('slug') })
