@@ -37,6 +37,12 @@ export async function GET(request: NextRequest) {
       },
     })
 
+    if (groupedSubscriptions.length === 0) {
+      return cors(
+        NextResponse.json({ error: ERRORS.NOT_DATA_PERIOD }, { status: 404 }),
+      )
+    }
+
     const transactionsSum = await prisma.transaction.aggregate({
       where: {
         createdAt: {

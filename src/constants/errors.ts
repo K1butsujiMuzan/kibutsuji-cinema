@@ -9,6 +9,7 @@ export const ERRORS = {
   DELETE_YOURSELF: 'You cannot delete yourself',
   ROLE_YOURSELF: 'You cannot change your role',
   NOT_FOUND: (label: string) => `${label} not found, please use existing id`,
+  NOT_DATA_PERIOD: `There is no data for the selected period`,
   MIN_LENGTH: (label: string, length: number) =>
     `${label} must be at least ${length} characters long.`,
   NEGATIVE_VALUE: (label: string, min: number = 0) =>

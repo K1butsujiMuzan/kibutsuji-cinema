@@ -33,6 +33,12 @@ export async function GET(request: NextRequest) {
       select: { title: true, views: true },
     })
 
+    if (anime.length === 0) {
+      return cors(
+        NextResponse.json({ error: ERRORS.NOT_DATA_PERIOD }, { status: 404 }),
+      )
+    }
+
     const viewsSum = anime.reduce((sum, item) => sum + item.views, 0)
 
     return cors(NextResponse.json({ data: anime, viewsSum }, { status: 200 }))
