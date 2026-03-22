@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { ERRORS } from '@/constants/errors'
 import { REPORT_LIMIT } from '@/constants/limits'
 
-export const reportSchema = z.object(
+export const excelReportSchema = z.object(
   {
     fromDate: z.iso
       .datetime({ error: ERRORS.INVALID('from date') })

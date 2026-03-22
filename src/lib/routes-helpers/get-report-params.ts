@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from 'next/server'
-import { reportSchema } from '@/shared/schemes/endpoints/report.schema'
+import { excelReportSchema } from '@/shared/schemes/endpoints/excel-report.schema'
 import { cors } from '@/lib/routes-helpers/cors'
 import { ERRORS } from '@/constants/errors'
 
@@ -11,7 +11,7 @@ export const getReportParams = (
       success: true
       data: { fromDate: Date; toDate: Date; limit: number }
     } => {
-  const parsedData = reportSchema.safeParse({
+  const parsedData = excelReportSchema.safeParse({
     fromDate: request.nextUrl.searchParams.get('from-date'),
     toDate: request.nextUrl.searchParams.get('to-date'),
     limit: Number(request.nextUrl.searchParams.get('limit')) || 10,

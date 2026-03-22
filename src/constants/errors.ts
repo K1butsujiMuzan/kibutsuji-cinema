@@ -20,7 +20,10 @@ export const ERRORS = {
     `This anime has a maximum anime count of ${limit} episode(s)`,
   INVALID_GENRES: 'Invalid genres. Please enter existing genre names.',
   USER_EXISTS: 'User already exists. Use another email',
+  NO_SUBSCRIPTION: 'This user does not have a paid subscription',
   EXISTS: (name: string) => `${name} already exists`,
+  EPISODES_COUNT: (count: number) =>
+    `This anime has ${count} episode(s), episodes count cannot be less than ${count}`,
   INVALID: (label: string) => `Invalid ${label}`,
   INVALID_END_DATE: 'End date cannot be in the past',
   INVALID_TO_DATE: 'Date cannot be earlier than From date',

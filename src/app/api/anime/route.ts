@@ -201,6 +201,21 @@ export async function PUT(request: NextRequest) {
       )
     }
 
+    if (animeById.episodesCount !== episodesCount) {
+      const animeEpisodes = await prisma.animeEpisode.count({
+        where: { animeId: id },
+      })
+
+      if (animeEpisodes > episodesCount) {
+        return cors(
+          NextResponse.json(
+            { error: ERRORS.EPISODES_COUNT(animeEpisodes) },
+            { status: 409 },
+          ),
+        )
+      }
+    }
+
     const existingSlug = await prisma.anime.findUnique({
       where: { slug },
     })
