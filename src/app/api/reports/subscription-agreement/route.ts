@@ -50,6 +50,7 @@ export async function GET(request: NextRequest) {
       NextResponse.json(
         {
           email: existingUser.email,
+          startDate: existingSubscription.createdAt,
           endDate: existingSubscription.endDate,
           type: existingSubscription.type,
         },
