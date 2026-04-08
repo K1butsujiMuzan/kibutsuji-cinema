@@ -1,9 +1,9 @@
-interface IFaq {
+type TFaq = {
   question: string
   answer: string
 }
 
-export const faqData: IFaq[] = [
+export const faqData: TFaq[] = [
   {
     question: 'Does Kibutsuji offer a free trial?',
     answer:

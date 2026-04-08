@@ -2,17 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
 
-const publicUrls: string[] = [
-  '/welcome',
-  '/login',
-  '/register',
-  '/reset-password',
-  '/new-password',
-  '/tos',
-  '/faq',
-  '/privacy-policy',
-]
-
 const notAllowedAfterVerification: string[] = [
   '/welcome',
   '/login',
@@ -27,17 +16,22 @@ export async function proxy(request: NextRequest) {
     headers: await headers(),
   })
 
-  const isEmailVerified: boolean = session?.user?.emailVerified || false
+  const isEmailVerified: boolean = session?.user?.emailVerified ?? false
 
   if (pathName.startsWith('/profile') && !isEmailVerified) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
 
-  if (notAllowedAfterVerification.includes(pathName) && isEmailVerified) {
-    return NextResponse.redirect(new URL('/', request.url))
+  if (isEmailVerified) {
+    const isGuestURL = notAllowedAfterVerification.some((link) =>
+      pathName.startsWith(link),
+    )
+    if (isGuestURL) {
+      return NextResponse.redirect(new URL('/', request.url))
+    }
   }
 
-  if (!publicUrls.includes(pathName) && !isEmailVerified) {
+  if (pathName === '/' && !isEmailVerified) {
     return NextResponse.redirect(new URL('/welcome', request.url))
   }
 
@@ -46,9 +40,9 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/welcome',
     '/',
     '/profile/:path*',
+    '/welcome',
     '/login',
     '/register',
     '/reset-password',

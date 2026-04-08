@@ -1,4 +1,4 @@
-import { faqData } from '@/app/(user)/faq/faq.data'
+import { faqData } from '@/app/(public)/faq/faq.data'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -7,17 +7,21 @@ export const metadata: Metadata = {
 
 export default function Faq() {
   return (
-    <main className={'my-4 flex flex-col gap-5 md:gap-10'}>
+    <main
+      className={
+        'pt-8 pb-12 px-5 md:py-24 md:px-10 flex flex-col gap-5 md:gap-10'
+      }
+    >
       <h1
         className={
-          'text-28 md:text-54 leading-9 md:leading-16 text-center font-bold px-8'
+          'text-28 md:text-54 leading-9 md:leading-16 text-center font-bold'
         }
       >
         Frequently Asked Questions
       </h1>
       <ul
         className={
-          'flex flex-col gap-4 justify-center items-center max-w-192.5 mx-auto !px-8 w-full'
+          'flex flex-col gap-4 justify-center items-center max-w-192.5 mx-auto w-full'
         }
       >
         {faqData.map((item) => (

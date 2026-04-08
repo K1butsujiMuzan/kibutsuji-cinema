@@ -14,4 +14,8 @@ export const footerLinks: IFooterLink[] = [
     name: 'FAQ',
     href: PAGES.FAQ,
   },
+  {
+    name: 'Privacy policy',
+    href: PAGES.PRIVACY,
+  },
 ]
