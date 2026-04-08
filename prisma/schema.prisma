@@ -192,6 +192,7 @@ model Anime {
   slug             String          @unique
   title            String
   image            String?
+  backgroundImage  String?         @map("background_image")
   originalTitle    String?         @map("original_title")
   description      String?         @db.Text
   ageLimit         AgeLimit

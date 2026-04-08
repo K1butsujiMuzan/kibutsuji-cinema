@@ -103,6 +103,7 @@ export async function POST(request: NextRequest) {
       releaseDate,
       description,
       image,
+      backgroundImage,
       originalTitle,
       genreNames,
     } = parsedData.data
@@ -137,6 +138,7 @@ export async function POST(request: NextRequest) {
         episodesReleased: 0,
         description: nullTransform(description),
         image: nullTransform(image),
+        backgroundImage: nullTransform(backgroundImage),
         originalTitle: nullTransform(originalTitle),
         genres: {
           connect: genresArray.data,
@@ -186,6 +188,7 @@ export async function PUT(request: NextRequest) {
       releaseDate,
       description,
       image,
+      backgroundImage,
       originalTitle,
       genreNames,
     } = parsedData.data
@@ -248,6 +251,7 @@ export async function PUT(request: NextRequest) {
         title,
         description: nullTransform(description),
         image: nullTransform(image),
+        backgroundImage: nullTransform(backgroundImage),
         originalTitle: nullTransform(originalTitle),
         genres: {
           set: genresArray.data,

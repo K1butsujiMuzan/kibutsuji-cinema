@@ -39,6 +39,10 @@ export const updateAnimeSchema = z.object(
       .string({ error: ERRORS.INVALID('image') })
       .trim()
       .nullable(),
+    backgroundImage: z
+      .string({ error: ERRORS.INVALID('background image') })
+      .trim()
+      .nullable(),
     originalTitle: z
       .string({ error: ERRORS.INVALID('original title') })
       .trim()
