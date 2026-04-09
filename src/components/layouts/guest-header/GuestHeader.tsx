@@ -7,21 +7,21 @@ export default function GuestHeader() {
   return (
     <header
       className={
-        'bg-pink-50/60 dark:bg-gray-750/60 fixed w-full top-0 z-30 px-3 py-2 shadow-sm'
+        'bg-pink-50/60 dark:bg-gray-750/60 fixed w-full top-0 z-30 px-3 shadow-sm'
       }
     >
       <div
         className={
-          'container flex justify-between mx-auto flex-wrap gap-2 items-center'
+          'max-w-370 flex justify-between mx-auto flex-wrap gap-2 items-center'
         }
       >
-        <Logo />
-        <div className={'flex gap-4 items-center'}>
-          <ThemeSwitch />
+        <Logo className={'py-1.5 md:py-2.5 px-1'} />
+        <div className={'flex gap-2 items-center'}>
+          <ThemeSwitch className={'py-1.5 md:py-2.5 px-1'} />
           <AccentLink
             href={PAGES.PROFILE}
             text={'Login'}
-            className={'px-4 md:px-5 py-1 md:py-2'}
+            linkClassName={'py-1.5 md:py-2.5 px-1'}
           />
         </div>
       </div>

@@ -195,7 +195,7 @@ model Anime {
   backgroundImage  String?         @map("background_image")
   originalTitle    String?         @map("original_title")
   description      String?         @db.Text
-  ageLimit         AgeLimit
+  ageLimit         AgeLimit        @map("age_limit")
   releaseDate      DateTime        @map("release_date")
   rating           Float           @default(0)
   episodesCount    Int             @map("episodes_count")

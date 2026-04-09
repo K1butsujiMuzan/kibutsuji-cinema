@@ -21,7 +21,7 @@ export default function NewPasswordSubmitted() {
       <AccentLink
         text={'Login'}
         href={PAGES.PROFILE}
-        className={'py-1 md:py-2 w-full text-center max-w-104 mt-2'}
+        divClassName={'py-1 md:py-2 w-full text-center max-w-104 mt-2'}
       />
     </>
   )

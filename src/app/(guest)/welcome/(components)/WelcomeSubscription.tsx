@@ -14,7 +14,7 @@ export default function WelcomeSubscription() {
       <AccentLink
         href={PAGES.PROFILE}
         text={'Login'}
-        className={'px-22 py-3'}
+        divClassName={'px-22 py-3'}
       />
     </section>
   )

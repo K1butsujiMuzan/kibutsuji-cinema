@@ -1,12 +1,9 @@
 import { type Dispatch, type SetStateAction, useEffect } from 'react'
 import { type RefObject } from 'react'
 
-type TSliderRef = RefObject<HTMLUListElement | null>
-type TSetMaxScrollWidth = Dispatch<SetStateAction<number>>
-
 export default function useSliderResize(
-  sliderRef: TSliderRef,
-  setMaxScrollWidth: TSetMaxScrollWidth,
+  sliderRef: RefObject<HTMLUListElement | null>,
+  setMaxScrollWidth: Dispatch<SetStateAction<number>>,
 ) {
   useEffect(() => {
     const onResize = () => {

@@ -7,7 +7,7 @@ export default function Footer() {
     <footer className={'bg-pink-50 dark:bg-gray-800'}>
       <div
         className={
-          'container mx-auto flex justify-center lg:justify-between items-center p-3 xl:py-4 text-sm text-center'
+          'max-w-370 mx-auto flex justify-center lg:justify-between items-center p-3 xl:py-4 text-sm text-center'
         }
       >
         <div className={'flex flex-col gap-2.5 xl:gap-1.5'}>

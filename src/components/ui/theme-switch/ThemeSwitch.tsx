@@ -5,11 +5,16 @@ import {
   ThemeIconLight,
   ThemeIconSystem,
 } from '@/components/ui/theme-switch/ThemeIcons'
-import { EThemes } from '@/components/ui/theme-switch/theme-switch.data'
+import { THEMES } from '@/components/ui/theme-switch/theme-switch.data'
 import { useTheme } from 'next-themes'
 import { useCallback, useEffect, useState } from 'react'
+import { cn } from '@/lib/utils'
 
-export default function ThemeSwitch() {
+interface Props {
+  className?: string
+}
+
+export default function ThemeSwitch({ className }: Props) {
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -19,11 +24,11 @@ export default function ThemeSwitch() {
 
   const themeChange = useCallback(() => {
     setTheme(
-      theme === EThemes.DARK
-        ? EThemes.LIGHT
-        : theme === EThemes.LIGHT
-          ? EThemes.SYSTEM
-          : EThemes.DARK,
+      theme === THEMES.DARK
+        ? THEMES.LIGHT
+        : theme === THEMES.LIGHT
+          ? THEMES.SYSTEM
+          : THEMES.DARK,
     )
   }, [theme])
 
@@ -31,11 +36,16 @@ export default function ThemeSwitch() {
     return (
       <button
         type="button"
-        className={
-          'flex w-8 md:w-10 aspect-square rounded-md hover:bg-pink-100 dark:hover:bg-gray-600 active:bg-pink-100 dark:active:bg-gray-600 active:scale-97 transition duration-300'
-        }
+        className={cn('group disabled:cursor-not-allowed!', className)}
         aria-label={'change theme'}
-      ></button>
+        disabled={true}
+      >
+        <div
+          className={
+            'w-8 aspect-square rounded-md group-hover:bg-pink-100 dark:group-hover:bg-gray-600 group-active:bg-pink-100 dark:group-active:bg-gray-600 transition duration-300'
+          }
+        ></div>
+      </button>
     )
   }
 
@@ -43,18 +53,22 @@ export default function ThemeSwitch() {
     <button
       type="button"
       onClick={themeChange}
-      className={
-        ' aspect-square p-1 md:p-2 rounded-md hover:bg-pink-100 dark:hover:bg-gray-600 active:bg-pink-100 dark:active:bg-gray-600 active:scale-97 transition duration-300'
-      }
+      className={cn('group', className)}
       aria-label={`Current theme: ${theme}. Click to change theme`}
     >
-      {theme === EThemes.DARK ? (
-        <ThemeIconDark />
-      ) : theme === EThemes.LIGHT ? (
-        <ThemeIconLight />
-      ) : (
-        <ThemeIconSystem />
-      )}
+      <div
+        className={
+          'p-2 rounded-md group-hover:bg-pink-100 dark:group-hover:bg-gray-600 group-active:bg-pink-100 dark:group-active:bg-gray-600 group-active:scale-97 transition duration-300'
+        }
+      >
+        {theme === THEMES.DARK ? (
+          <ThemeIconDark />
+        ) : theme === THEMES.LIGHT ? (
+          <ThemeIconLight />
+        ) : (
+          <ThemeIconSystem />
+        )}
+      </div>
     </button>
   )
 }

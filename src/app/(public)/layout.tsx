@@ -1,4 +1,4 @@
-import LogoHeader from '@/components/layouts/logo-header/LoginHeader'
+import LogoHeader from '@/components/layouts/logo-header/LogoHeader'
 
 export default function PublicLayout({
   children,
