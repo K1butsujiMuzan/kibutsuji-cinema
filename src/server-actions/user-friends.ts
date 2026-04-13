@@ -8,9 +8,9 @@ export async function getUserFriend(userId: string) {
   try {
     const session = await getServerSession()
     if (!session) {
-      return null
+      return []
     }
-    return await prisma.friendLists.findFirst({
+    return await prisma.friendLists.findMany({
       where: {
         OR: [
           { userToId: userId, userFromId: session.user.id },
@@ -20,7 +20,7 @@ export async function getUserFriend(userId: string) {
     })
   } catch (error) {
     console.error(error)
-    return null
+    return []
   }
 }
 
@@ -115,21 +115,42 @@ export async function blockUser(userId: string) {
       return { error: ERRORS.SOMETHING_WRONG }
     }
 
-    return await prisma.friendLists.upsert({
-      where: {
-        userFromId_userToId: {
+    return await prisma.$transaction(async (tx) => {
+      await tx.friendLists.deleteMany({
+        where: {
+          OR: [
+            { status: 'FRIEND', userToId: userId, userFromId: session.user.id },
+            { status: 'FRIEND', userToId: session.user.id, userFromId: userId },
+            {
+              status: 'PENDING',
+              userToId: userId,
+              userFromId: session.user.id,
+            },
+            {
+              status: 'PENDING',
+              userToId: session.user.id,
+              userFromId: userId,
+            },
+          ],
+        },
+      })
+
+      return tx.friendLists.upsert({
+        where: {
+          userFromId_userToId: {
+            userToId: userId,
+            userFromId: session.user.id,
+          },
+        },
+        update: {
+          status: 'BLOCKED',
+        },
+        create: {
           userToId: userId,
           userFromId: session.user.id,
+          status: 'BLOCKED',
         },
-      },
-      update: {
-        status: 'BLOCKED',
-      },
-      create: {
-        userToId: userId,
-        userFromId: session.user.id,
-        status: 'BLOCKED',
-      },
+      })
     })
   } catch (error) {
     console.error(error)

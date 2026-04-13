@@ -22,10 +22,13 @@ import {
 } from '@/components/icons/UserFriendsIcons'
 import { $Enums } from '@/generated/prisma'
 import FriendListStatus = $Enums.FriendListStatus
+import { useMemo } from 'react'
 
 interface Props {
   userId: string
 }
+
+type TStatus = 'none' | 'pending' | 'friend' | 'blocked' | 'both-blocked'
 
 export default function UserFriendsControls({ userId }: Props) {
   const { data, isPending } = useQuery({
@@ -119,7 +122,29 @@ export default function UserFriendsControls({ userId }: Props) {
     },
   })
 
-  if (isPending) {
+  const dataStatus: TStatus = useMemo(() => {
+    if (!data || data.length === 0) {
+      return 'none'
+    }
+
+    if (data.find(({ status }) => status === FriendListStatus.BLOCKED)) {
+      if (
+        data.every(({ status }) => status === FriendListStatus.BLOCKED) &&
+        data.length === 2
+      ) {
+        return 'both-blocked'
+      }
+      return 'blocked'
+    }
+
+    if (data.find(({ status }) => status === FriendListStatus.FRIEND)) {
+      return 'friend'
+    }
+
+    return 'pending'
+  }, [data])
+
+  if (isPending || data === undefined) {
     return (
       <UserFriendButton disabled={true} text={'Block user'} onClick={() => {}}>
         <BlockUserIcon />
@@ -128,8 +153,8 @@ export default function UserFriendsControls({ userId }: Props) {
   }
 
   return (
-    <div className={'flex flex-col sm:flex-row gap-4'}>
-      {!data && (
+    <div className={'flex flex-col sm:flex-row gap-2 sm:gap-4'}>
+      {dataStatus === 'none' && (
         <>
           <UserFriendButton
             disabled={addUserMutation.isPending}
@@ -147,9 +172,27 @@ export default function UserFriendsControls({ userId }: Props) {
           </UserFriendButton>
         </>
       )}
-      {data && data.status === FriendListStatus.PENDING && (
+      {dataStatus === 'friend' && (
         <>
-          {data.userToId === userId && (
+          <UserFriendButton
+            disabled={unfriendUserMutation.isPending}
+            text={'Unfriend'}
+            onClick={() => unfriendUserMutation.mutate()}
+          >
+            <RemoveFriendIcon />
+          </UserFriendButton>
+          <UserFriendButton
+            disabled={blockUserMutation.isPending}
+            text={'Block user'}
+            onClick={() => blockUserMutation.mutate()}
+          >
+            <BlockUserIcon />
+          </UserFriendButton>
+        </>
+      )}
+      {dataStatus === 'pending' && (
+        <>
+          {data[0].userToId === userId && (
             <UserFriendButton
               disabled={cancelUserMutation.isPending}
               text={'Cancel request'}
@@ -158,7 +201,7 @@ export default function UserFriendsControls({ userId }: Props) {
               <RemoveFriendIcon />
             </UserFriendButton>
           )}
-          {data.userFromId === userId && (
+          {data[0].userFromId === userId && (
             <>
               <UserFriendButton
                 disabled={acceptUserMutation.isPending}
@@ -185,46 +228,34 @@ export default function UserFriendsControls({ userId }: Props) {
           </UserFriendButton>
         </>
       )}
-      {data && data.status === FriendListStatus.FRIEND && (
-        <>
-          <UserFriendButton
-            disabled={unfriendUserMutation.isPending}
-            text={'Unfriend'}
-            onClick={() => unfriendUserMutation.mutate()}
-          >
-            <RemoveFriendIcon />
-          </UserFriendButton>
-          <UserFriendButton
-            disabled={blockUserMutation.isPending}
-            text={'Block user'}
-            onClick={() => blockUserMutation.mutate()}
-          >
-            <BlockUserIcon />
-          </UserFriendButton>
-        </>
+      {dataStatus === 'both-blocked' && (
+        <UserFriendButton
+          disabled={unblockUserMutation.isPending}
+          text={'Unblock user'}
+          onClick={() => unblockUserMutation.mutate()}
+        >
+          <UnblockUserIcon />
+        </UserFriendButton>
       )}
-      {data &&
-        data.status === FriendListStatus.BLOCKED &&
-        data.userToId === userId && (
-          <UserFriendButton
-            disabled={unblockUserMutation.isPending}
-            text={'Unblock user'}
-            onClick={() => unblockUserMutation.mutate()}
-          >
-            <UnblockUserIcon />
-          </UserFriendButton>
-        )}
-      {data &&
-        data.status === FriendListStatus.BLOCKED &&
-        data.userFromId === userId && (
-          <UserFriendButton
-            disabled={blockUserMutation.isPending}
-            text={'Block user'}
-            onClick={() => blockUserMutation.mutate()}
-          >
-            <BlockUserIcon />
-          </UserFriendButton>
-        )}
+      {dataStatus === 'blocked' && data[0].userToId === userId && (
+        <UserFriendButton
+          disabled={unblockUserMutation.isPending}
+          text={'Unblock user'}
+          onClick={() => unblockUserMutation.mutate()}
+        >
+          <UnblockUserIcon />
+        </UserFriendButton>
+      )}
+
+      {dataStatus === 'blocked' && data[0].userFromId === userId && (
+        <UserFriendButton
+          disabled={blockUserMutation.isPending}
+          text={'Block user'}
+          onClick={() => blockUserMutation.mutate()}
+        >
+          <BlockUserIcon />
+        </UserFriendButton>
+      )}
     </div>
   )
 }

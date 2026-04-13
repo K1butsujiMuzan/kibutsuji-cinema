@@ -22,10 +22,10 @@ export default async function UserInformation({
   return (
     <section
       className={
-        'flex flex-col lg:flex-row lg:justify-between items-center gap-4 px-4 py-3'
+        'flex flex-col lg:flex-row lg:justify-between items-center gap-2 lg:gap-4 px-4 py-3'
       }
     >
-      <div className={'flex flex-col lg:flex-row items-center gap-4'}>
+      <div className={'flex flex-col lg:flex-row items-center gap-2 lg:gap-4'}>
         <div
           className={'relative w-22.5 h-22.5 lg:w-12.5 lg:h-12.5 aspect-square'}
         >
