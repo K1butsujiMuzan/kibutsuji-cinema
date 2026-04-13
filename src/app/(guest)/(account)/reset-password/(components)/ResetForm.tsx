@@ -32,14 +32,18 @@ export default function ResetForm() {
 
   const onFormSubmit: SubmitHandler<TReset> = async (data) => {
     setError(null)
-    const response = await requestPasswordReset({
-      email: data.email,
-      redirectTo: `${window.location.origin}/${PAGES.NEW_PASSWORD}`,
-    })
-    if (response.error) {
-      setError(response.error.message || ERRORS.SOMETHING_WRONG)
-    } else {
+    try {
+      const response = await requestPasswordReset({
+        email: data.email,
+        redirectTo: `${window.location.origin}/${PAGES.NEW_PASSWORD}`,
+      })
+      if (response.error) {
+        return setError(response.error.message || ERRORS.SOMETHING_WRONG)
+      }
       setIsSubmitted(true)
+    } catch (error) {
+      setError(ERRORS.SOMETHING_WRONG)
+      console.error(error)
     }
   }
 

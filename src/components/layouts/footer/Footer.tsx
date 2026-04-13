@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { footerLinks } from '@/components/layouts/footer/footer.data'
-import { MiniLogo } from '@/components/ui/logo/Logo'
+import MiniLogo from '@/components/ui/logo/MiniLogo'
 
 export default function Footer() {
   return (
@@ -23,7 +23,9 @@ export default function Footer() {
             </a>
           </div>
           <nav>
-            <ul className={'flex justify-center lg:justify-start gap-4'}>
+            <ul
+              className={'flex flex-wrap justify-center lg:justify-start gap-4'}
+            >
               {footerLinks.map((link) => (
                 <li key={link.name}>
                   <Link

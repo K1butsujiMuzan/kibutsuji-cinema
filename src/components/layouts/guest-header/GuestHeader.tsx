@@ -1,7 +1,7 @@
 import AccentLink from '@/components/ui/accent-link/AccentLink'
-import ThemeSwitch from '@/components/ui/theme-switch/ThemeSwitch'
+import MainThemeButton from '@/components/ui/theme-buttons/MainThemeButton'
 import { PAGES } from '@/configs/pages.config'
-import { Logo } from '@/components/ui/logo/Logo'
+import Logo from '@/components/ui/logo/Logo'
 
 export default function GuestHeader() {
   return (
@@ -11,15 +11,13 @@ export default function GuestHeader() {
       }
     >
       <div
-        className={
-          'max-w-370 flex justify-between mx-auto flex-wrap gap-2 items-center'
-        }
+        className={'max-w-370 flex justify-between mx-auto gap-2 items-center'}
       >
         <Logo className={'py-1.5 md:py-2.5 px-1'} />
         <div className={'flex gap-2 items-center'}>
-          <ThemeSwitch className={'py-1.5 md:py-2.5 px-1'} />
+          <MainThemeButton className={'py-1.5 md:py-2.5 px-1'} />
           <AccentLink
-            href={PAGES.PROFILE}
+            href={PAGES.LOGIN}
             text={'Login'}
             linkClassName={'py-1.5 md:py-2.5 px-1'}
           />

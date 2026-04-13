@@ -10,6 +10,10 @@ const notAllowedAfterVerification: string[] = [
   '/new-password',
 ]
 
+const adminURLs: string[] = ['/new-anime']
+
+const forAuthorized: string[] = []
+
 export async function proxy(request: NextRequest) {
   const pathName: string = request.nextUrl.pathname
   const session = await auth.api.getSession({
@@ -17,9 +21,24 @@ export async function proxy(request: NextRequest) {
   })
 
   const isEmailVerified: boolean = session?.user?.emailVerified ?? false
+  const role: string = session?.user?.role ?? 'USER'
 
-  if (pathName.startsWith('/profile') && !isEmailVerified) {
-    return NextResponse.redirect(new URL('/login', request.url))
+  if (!isEmailVerified) {
+    if (pathName.startsWith('/user')) {
+      return NextResponse.redirect(new URL('/login', request.url))
+    }
+
+    if (pathName === '/') {
+      return NextResponse.redirect(new URL('/welcome', request.url))
+    }
+
+    const isForAuthorizedURL = forAuthorized.some((link) => {
+      return pathName.startsWith(link)
+    })
+
+    if (isForAuthorizedURL) {
+      return NextResponse.redirect(new URL('/welcome', request.url))
+    }
   }
 
   if (isEmailVerified) {
@@ -31,8 +50,15 @@ export async function proxy(request: NextRequest) {
     }
   }
 
-  if (pathName === '/' && !isEmailVerified) {
-    return NextResponse.redirect(new URL('/welcome', request.url))
+  if (role === 'USER') {
+    const isAdminURL = adminURLs.some((link) => {
+      return pathName.startsWith(link)
+    })
+    if (isAdminURL) {
+      return NextResponse.redirect(
+        new URL(isEmailVerified ? '/' : '/welcome', request.url),
+      )
+    }
   }
 
   return NextResponse.next()
@@ -41,11 +67,12 @@ export async function proxy(request: NextRequest) {
 export const config = {
   matcher: [
     '/',
-    '/profile/:path*',
+    '/user/:path*',
     '/welcome',
     '/login',
     '/register',
     '/reset-password',
     '/new-password',
+    '/new-anime',
   ],
 }

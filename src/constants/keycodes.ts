@@ -5,4 +5,5 @@ export const KEYCODES = {
   END: 'End',
   ENTER: 'Enter',
   SPACE: ' ',
+  ESCAPE: 'Escape',
 } as const

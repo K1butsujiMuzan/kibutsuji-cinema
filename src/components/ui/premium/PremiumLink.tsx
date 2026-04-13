@@ -1,6 +1,6 @@
 import Link from 'next/link'
-import { PAGES } from '@/configs/pages.config'
 import { cn } from '@/lib/utils'
+import { PAGES } from '@/configs/pages.config'
 
 interface Props {
   children: React.ReactNode
@@ -15,7 +15,7 @@ export default function PremiumLink({
 }: Props) {
   return (
     <Link
-      href={PAGES.PROFILE}
+      href={PAGES.LOGIN}
       className={cn(
         'py-1.75 border border-pink-400 rounded-md justify-center font-semibold',
         {

@@ -37,15 +37,18 @@ export default function NewPasswordForm() {
 
   const onFormSubmit: SubmitHandler<TNewPassword> = async (data) => {
     setError(null)
-
-    const response = await resetPassword({
-      newPassword: data.password,
-      token: params.get('token') || '',
-    })
-    if (response.error) {
-      setError(response.error?.message || ERRORS.SOMETHING_WRONG)
-    } else {
+    try {
+      const response = await resetPassword({
+        newPassword: data.password,
+        token: params.get('token') || '',
+      })
+      if (response.error) {
+        return setError(response.error?.message || ERRORS.SOMETHING_WRONG)
+      }
       setIsSubmitted(true)
+    } catch (error) {
+      setError(ERRORS.SOMETHING_WRONG)
+      console.error(error)
     }
   }
 

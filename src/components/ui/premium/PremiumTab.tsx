@@ -2,7 +2,7 @@ import { cn } from '@/lib/utils'
 import {
   PremiumAdvantage,
   PremiumMostPopular,
-} from '@/components/ui/premium/PremiumIcons'
+} from '@/components/icons/PremiumIcons'
 import type { IPremium } from '@/components/ui/premium/premium.data'
 import PremiumLink from '@/components/ui/premium/PremiumLink'
 

@@ -3,6 +3,7 @@ import '../styles/globals.css'
 import { fontAtyp } from '@/constants/fonts'
 import ThemeProvider from '@/providers/ThemeProvider'
 import Footer from '@/components/layouts/footer/Footer'
+import MainQueryProvider from '@/providers/MainQueryProvider'
 
 export const metadata: Metadata = {
   title: {
@@ -29,8 +30,12 @@ export default function RootLayout({
     >
       <body className={`${fontAtyp.variable} antialiased font-main`}>
         <ThemeProvider>
-          {children}
-          <Footer />
+          <MainQueryProvider>
+            <div className="root">
+              {children}
+              <Footer />
+            </div>
+          </MainQueryProvider>
         </ThemeProvider>
       </body>
     </html>

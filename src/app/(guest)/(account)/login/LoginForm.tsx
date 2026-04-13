@@ -34,25 +34,30 @@ export default function LoginForm() {
 
   const onFormSubmit: SubmitHandler<TLogin> = async (data) => {
     setError(null)
-    const response = await signIn.email({
-      email: data.email,
-      password: data.password,
-      callbackURL: PAGES.MAIN,
-    })
-    if (response.error) {
-      if (response.error?.message === ERRORS.EMAIL_NOT_VERIFIED) {
-        const emailVerification = await sendVerificationEmail({
-          email: data.email,
-          callbackURL: PAGES.MAIN,
-        })
-        if (emailVerification.error) {
-          setError(emailVerification.error.message || ERRORS.SOMETHING_WRONG)
-        } else {
-          setIsVerificationSent(true)
+    try {
+      const response = await signIn.email({
+        email: data.email,
+        password: data.password,
+        callbackURL: PAGES.MAIN,
+      })
+      if (response.error) {
+        if (response.error?.message === ERRORS.EMAIL_NOT_VERIFIED) {
+          const emailVerification = await sendVerificationEmail({
+            email: data.email,
+            callbackURL: PAGES.MAIN,
+          })
+          if (emailVerification.error) {
+            return setError(
+              emailVerification.error.message || ERRORS.SOMETHING_WRONG,
+            )
+          }
+          return setIsVerificationSent(true)
         }
-      } else {
         setError(response.error.message || ERRORS.SOMETHING_WRONG)
       }
+    } catch (error) {
+      setError(ERRORS.SOMETHING_WRONG)
+      console.error(error)
     }
   }
 

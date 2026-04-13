@@ -59,6 +59,12 @@ enum AnimeAccessType {
   PAID
 }
 
+enum FriendListStatus {
+  PENDING
+  BLOCKED
+  FRIEND
+}
+
 model User {
   id                     String  @id @default(cuid())
   name                   String
@@ -68,14 +74,16 @@ model User {
   isReceiveNotifications Boolean @default(false)
   image                  String?
 
-  sessions     Session[]
-  accounts     Account[]
-  comments     Comment[]
-  ratings      AnimeRating[]
-  lists        UserList[]
-  likes        CommentLike[]
-  subscription Subscription?
-  transactions Transaction[]
+  subscription     Subscription?
+  sessions         Session[]
+  accounts         Account[]
+  comments         Comment[]
+  ratings          AnimeRating[]
+  lists            UserList[]
+  likes            CommentLike[]
+  transactions     Transaction[]
+  sentRequests     FriendLists[] @relation(name: "sentRequests")
+  receivedRequests FriendLists[] @relation(name: "receivedRequests")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -98,6 +106,23 @@ model UserList {
 
   @@unique([animeId, userId])
   @@map("lists")
+}
+
+model FriendLists {
+  id     String           @id @default(cuid())
+  status FriendListStatus @default(PENDING)
+
+  userFromId String @map("user_from_id")
+  userFrom   User   @relation(name: "sentRequests", fields: [userFromId], references: [id], onDelete: Cascade)
+
+  userToId String @map("user_to_id")
+  userTo   User   @relation(name: "receivedRequests", fields: [userToId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([userFromId, userToId])
+  @@map("friend_lists")
 }
 
 model CommentLike {

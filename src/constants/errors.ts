@@ -29,5 +29,7 @@ export const ERRORS = {
   INVALID_TO_DATE: 'Date cannot be earlier than From date',
   INVALID_INT: (label: string) => `${label} can only be an integer`,
   EMAIL_NOT_VERIFIED: 'Email not verified',
+  ALREADY_FRIENDS: 'The user is already a friend',
+  USER_BLOCKED_YOU: 'The user blocked you',
   UNAUTHORIZED: 'Unauthorized',
 } as const

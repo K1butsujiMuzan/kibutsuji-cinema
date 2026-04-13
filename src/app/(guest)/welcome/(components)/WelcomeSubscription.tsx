@@ -12,7 +12,7 @@ export default function WelcomeSubscription() {
         Already have a subscription?
       </h2>
       <AccentLink
-        href={PAGES.PROFILE}
+        href={PAGES.LOGIN}
         text={'Login'}
         divClassName={'px-22 py-3'}
       />

@@ -40,19 +40,21 @@ export default function RegisterForm() {
 
   const onFormSubmit: SubmitHandler<TRegister> = async (data) => {
     setError(null)
-
-    const response = await signUp.email({
-      name: PRISMA_DEFAULT_NAME,
-      email: data.email,
-      password: data.password,
-      isReceiveNotifications: data.isReceiveNotifications,
-      callbackURL: PAGES.MAIN,
-    })
-
-    if (response.error) {
-      setError(response.error.message || ERRORS.SOMETHING_WRONG)
-    } else {
+    try {
+      const response = await signUp.email({
+        name: PRISMA_DEFAULT_NAME,
+        email: data.email,
+        password: data.password,
+        isReceiveNotifications: data.isReceiveNotifications,
+        callbackURL: PAGES.MAIN,
+      })
+      if (response.error) {
+        return setError(response.error.message || ERRORS.SOMETHING_WRONG)
+      }
       setIsSubmitted(true)
+    } catch (error) {
+      setError(ERRORS.SOMETHING_WRONG)
+      console.error(error)
     }
   }
 
