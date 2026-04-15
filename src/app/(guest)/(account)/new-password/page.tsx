@@ -3,7 +3,7 @@ import NewPasswordForm from '@/app/(guest)/(account)/new-password/(components)/N
 import { Suspense } from 'react'
 
 export const metadata: Metadata = {
-  title: 'New Password',
+  title: 'New password',
 }
 
 export default function NewPassword() {

@@ -6,7 +6,7 @@ import {
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy',
+  title: 'Privacy policy',
 }
 
 export default function PrivacyPolicy() {

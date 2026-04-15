@@ -1,6 +1,5 @@
 import Image from 'next/image'
 import UserSettings from '@/components/ui/user-settings/UserSettings'
-import { PAGES } from '@/configs/pages.config'
 import { dateTransformer } from '@/utils/date-check'
 import UserFriendsControls from '@/components/ui/user-friends-controls/UserFriendsControls'
 
@@ -50,7 +49,7 @@ export default async function UserInformation({
           </span>
         </div>
       </div>
-      {isMyProfile && <UserSettings href={PAGES.SETTINGS(userId)} />}
+      {isMyProfile && <UserSettings userId={userId} />}
       {!isMyProfile && <UserFriendsControls userId={userId} />}
     </section>
   )

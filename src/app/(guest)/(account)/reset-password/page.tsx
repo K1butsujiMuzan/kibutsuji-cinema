@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import ResetForm from '@/app/(guest)/(account)/reset-password/(components)/ResetForm'
 
 export const metadata: Metadata = {
-  title: 'Reset Password',
+  title: 'Reset password',
 }
 
 export default function Reset() {
