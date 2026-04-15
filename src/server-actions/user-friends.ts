@@ -3,18 +3,41 @@
 import { getServerSession } from '@/lib/get-server-session'
 import { ERRORS } from '@/constants/errors'
 import prisma from '@/lib/prisma'
+import type { FriendLists } from '@/generated/prisma'
+import type { TErrorResponse } from '@/shared/types/error-response.type'
 
-export async function getUserFriend(userId: string) {
+async function checkSessionAndId(
+  userId: string,
+): Promise<
+  { success: false; error: string } | { success: true; sessionId: string }
+> {
+  const session = await getServerSession()
+  if (!session) {
+    return { success: false, error: ERRORS.SOMETHING_WRONG }
+  }
+
+  if (userId === session.user.id) {
+    return { success: false, error: ERRORS.TRANSMITTED_DATA }
+  }
+
+  return { success: true, sessionId: session.user.id }
+}
+
+export async function getUserFriend(userId: string): Promise<FriendLists[]> {
   try {
-    const session = await getServerSession()
-    if (!session) {
+    const sessionCheck = await checkSessionAndId(userId)
+
+    if (!sessionCheck.success) {
       return []
     }
+
+    const { sessionId } = sessionCheck
+
     return await prisma.friendLists.findMany({
       where: {
         OR: [
-          { userToId: userId, userFromId: session.user.id },
-          { userToId: session.user.id, userFromId: userId },
+          { userToId: userId, userFromId: sessionId },
+          { userToId: sessionId, userFromId: userId },
         ],
       },
     })
@@ -24,122 +47,128 @@ export async function getUserFriend(userId: string) {
   }
 }
 
-export async function addUserFriend(userId: string) {
+export async function addUserFriend(userId: string): Promise<TErrorResponse> {
   try {
-    const session = await getServerSession()
-    if (!session) {
-      return { error: ERRORS.SOMETHING_WRONG }
+    const sessionCheck = await checkSessionAndId(userId)
+
+    if (!sessionCheck.success) {
+      return { error: sessionCheck.error }
     }
 
-    return await prisma.$transaction(async (tx) => {
-      const userFriendRequest = await tx.friendLists.findFirst({
-        where: {
-          OR: [
-            { userToId: userId, userFromId: session.user.id },
-            { userToId: session.user.id, userFromId: userId },
-          ],
-        },
-      })
+    const { sessionId } = sessionCheck
 
-      if (userFriendRequest) {
-        if (userFriendRequest.status === 'FRIEND') {
-          return { error: ERRORS.ALREADY_FRIENDS }
-        }
+    const result: TErrorResponse = await prisma.$transaction(
+      async (tx): Promise<{ error: string | null }> => {
+        const userFriendRequest = await tx.friendLists.findFirst({
+          where: {
+            OR: [
+              { userToId: userId, userFromId: sessionId },
+              { userToId: sessionId, userFromId: userId },
+            ],
+          },
+        })
 
-        if (userFriendRequest.status === 'BLOCKED') {
-          return { error: ERRORS.USER_BLOCKED_YOU }
-        }
+        if (userFriendRequest) {
+          if (userFriendRequest.status === 'FRIEND') {
+            return { error: ERRORS.ALREADY_FRIENDS }
+          }
 
-        if (userFriendRequest.userToId === userId) {
-          return tx.friendLists.update({
+          if (userFriendRequest.status === 'BLOCKED') {
+            if (userFriendRequest.userToId === userId) {
+              return { error: ERRORS.YOU_BLOCKED_USER }
+            }
+            return { error: ERRORS.USER_BLOCKED_YOU }
+          }
+
+          await tx.friendLists.update({
             where: {
-              userFromId_userToId: {
-                userToId: userId,
-                userFromId: session.user.id,
-              },
+              id: userFriendRequest.id,
             },
             data: {
               status: 'FRIEND',
             },
           })
+          return { error: null }
         }
-        return tx.friendLists.update({
-          where: {
-            userFromId_userToId: {
-              userToId: session.user.id,
-              userFromId: userId,
-            },
-          },
+
+        await tx.friendLists.create({
           data: {
-            status: 'FRIEND',
+            userFromId: sessionId,
+            userToId: userId,
+            status: 'PENDING',
           },
         })
-      }
 
-      return tx.friendLists.create({
-        data: {
-          userFromId: session.user.id,
-          userToId: userId,
-          status: 'PENDING',
-        },
-      })
-    })
+        return { error: null }
+      },
+    )
+    return { error: result.error }
   } catch (error) {
     console.error(error)
     return { error: ERRORS.SOMETHING_WRONG }
   }
 }
 
-export async function cancelUserFriend(userId: string) {
+export async function cancelUserFriend(
+  userId: string,
+): Promise<TErrorResponse> {
   try {
-    const session = await getServerSession()
-    if (!session) {
-      return { error: ERRORS.SOMETHING_WRONG }
+    const sessionCheck = await checkSessionAndId(userId)
+
+    if (!sessionCheck.success) {
+      return { error: sessionCheck.error }
     }
 
-    return await prisma.friendLists.delete({
+    const { sessionId } = sessionCheck
+
+    await prisma.friendLists.deleteMany({
       where: {
-        userFromId_userToId: { userToId: userId, userFromId: session.user.id },
+        userToId: userId,
+        userFromId: sessionId,
       },
     })
+    return { error: null }
   } catch (error) {
     console.error(error)
     return { error: ERRORS.SOMETHING_WRONG }
   }
 }
 
-export async function blockUser(userId: string) {
+export async function blockUser(userId: string): Promise<TErrorResponse> {
   try {
-    const session = await getServerSession()
-    if (!session) {
-      return { error: ERRORS.SOMETHING_WRONG }
+    const sessionCheck = await checkSessionAndId(userId)
+
+    if (!sessionCheck.success) {
+      return { error: sessionCheck.error }
     }
 
-    return await prisma.$transaction(async (tx) => {
+    const { sessionId } = sessionCheck
+
+    await prisma.$transaction(async (tx) => {
       await tx.friendLists.deleteMany({
         where: {
           OR: [
-            { status: 'FRIEND', userToId: userId, userFromId: session.user.id },
-            { status: 'FRIEND', userToId: session.user.id, userFromId: userId },
+            { status: 'FRIEND', userToId: userId, userFromId: sessionId },
+            { status: 'FRIEND', userToId: sessionId, userFromId: userId },
             {
               status: 'PENDING',
               userToId: userId,
-              userFromId: session.user.id,
+              userFromId: sessionId,
             },
             {
               status: 'PENDING',
-              userToId: session.user.id,
+              userToId: sessionId,
               userFromId: userId,
             },
           ],
         },
       })
 
-      return tx.friendLists.upsert({
+      await tx.friendLists.upsert({
         where: {
           userFromId_userToId: {
             userToId: userId,
-            userFromId: session.user.id,
+            userFromId: sessionId,
           },
         },
         update: {
@@ -147,98 +176,117 @@ export async function blockUser(userId: string) {
         },
         create: {
           userToId: userId,
-          userFromId: session.user.id,
+          userFromId: sessionId,
           status: 'BLOCKED',
         },
       })
     })
+
+    return { error: null }
   } catch (error) {
     console.error(error)
     return { error: ERRORS.SOMETHING_WRONG }
   }
 }
 
-export async function unblockUser(userId: string) {
+export async function unblockUser(userId: string): Promise<TErrorResponse> {
   try {
-    const session = await getServerSession()
-    if (!session) {
-      return { error: ERRORS.SOMETHING_WRONG }
+    const sessionCheck = await checkSessionAndId(userId)
+
+    if (!sessionCheck.success) {
+      return { error: sessionCheck.error }
     }
 
-    return await prisma.friendLists.delete({
+    const { sessionId } = sessionCheck
+
+    await prisma.friendLists.deleteMany({
       where: {
-        userFromId_userToId: {
-          userToId: userId,
-          userFromId: session.user.id,
-        },
+        userToId: userId,
+        userFromId: sessionId,
       },
     })
+    return { error: null }
   } catch (error) {
     console.error(error)
     return { error: ERRORS.SOMETHING_WRONG }
   }
 }
 
-export async function acceptUserFriend(userId: string) {
+export async function acceptUserFriend(
+  userId: string,
+): Promise<TErrorResponse> {
   try {
-    const session = await getServerSession()
-    if (!session) {
-      return { error: ERRORS.SOMETHING_WRONG }
+    const sessionCheck = await checkSessionAndId(userId)
+
+    if (!sessionCheck.success) {
+      return { error: sessionCheck.error }
     }
 
-    return await prisma.friendLists.update({
+    const { sessionId } = sessionCheck
+
+    await prisma.friendLists.updateMany({
       where: {
-        userFromId_userToId: {
-          userToId: session.user.id,
-          userFromId: userId,
-        },
+        userToId: sessionId,
+        userFromId: userId,
       },
       data: {
         status: 'FRIEND',
       },
     })
+    return { error: null }
   } catch (error) {
     console.error(error)
     return { error: ERRORS.SOMETHING_WRONG }
   }
 }
 
-export async function declineUserFriend(userId: string) {
+export async function declineUserFriend(
+  userId: string,
+): Promise<TErrorResponse> {
   try {
-    const session = await getServerSession()
-    if (!session) {
-      return { error: ERRORS.SOMETHING_WRONG }
+    const sessionCheck = await checkSessionAndId(userId)
+
+    if (!sessionCheck.success) {
+      return { error: sessionCheck.error }
     }
 
-    return await prisma.friendLists.delete({
+    const { sessionId } = sessionCheck
+
+    await prisma.friendLists.deleteMany({
       where: {
-        userFromId_userToId: {
-          userToId: session.user.id,
-          userFromId: userId,
-        },
+        userToId: sessionId,
+        userFromId: userId,
       },
     })
+
+    return { error: null }
   } catch (error) {
     console.error(error)
     return { error: ERRORS.SOMETHING_WRONG }
   }
 }
 
-export async function unfriendUserFriend(userId: string) {
+export async function unfriendUserFriend(
+  userId: string,
+): Promise<TErrorResponse> {
   try {
-    const session = await getServerSession()
-    if (!session) {
-      return { error: ERRORS.SOMETHING_WRONG }
+    const sessionCheck = await checkSessionAndId(userId)
+
+    if (!sessionCheck.success) {
+      return { error: sessionCheck.error }
     }
 
-    return await prisma.friendLists.deleteMany({
+    const { sessionId } = sessionCheck
+
+    await prisma.friendLists.deleteMany({
       where: {
         OR: [
-          { userToId: userId, userFromId: session.user.id },
-          { userToId: session.user.id, userFromId: userId },
+          { userToId: userId, userFromId: sessionId, status: 'FRIEND' },
+          { userToId: sessionId, userFromId: userId, status: 'FRIEND' },
         ],
       },
     })
+    return { error: null }
   } catch (error) {
     console.error(error)
     return { error: ERRORS.SOMETHING_WRONG }

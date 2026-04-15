@@ -31,5 +31,6 @@ export const ERRORS = {
   EMAIL_NOT_VERIFIED: 'Email not verified',
   ALREADY_FRIENDS: 'The user is already a friend',
   USER_BLOCKED_YOU: 'The user blocked you',
+  YOU_BLOCKED_USER: 'You have blocked the user',
   UNAUTHORIZED: 'Unauthorized',
 } as const

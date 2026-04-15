@@ -23,6 +23,7 @@ import {
 import { $Enums } from '@/generated/prisma'
 import FriendListStatus = $Enums.FriendListStatus
 import { useMemo } from 'react'
+import { useAddToast } from '@/stores/useToastsStore'
 
 interface Props {
   userId: string
@@ -31,6 +32,8 @@ interface Props {
 type TStatus = 'none' | 'pending' | 'friend' | 'blocked' | 'both-blocked'
 
 export default function UserFriendsControls({ userId }: Props) {
+  const addToast = useAddToast()
+
   const { data, isPending } = useQuery({
     queryFn: async () => getUserFriend(userId),
     queryKey: [QUERY_KEYS.FRIENDS, userId],
@@ -38,88 +41,48 @@ export default function UserFriendsControls({ userId }: Props) {
 
   const queryClient = useQueryClient()
 
+  const onSuccess = async (data: { error: string | null }) => {
+    if (!!data.error) {
+      return addToast({ title: data.error, message: '', isSuccess: false })
+    }
+    await queryClient.invalidateQueries({
+      queryKey: [QUERY_KEYS.FRIENDS, userId],
+    })
+  }
+
   const addUserMutation = useMutation({
     mutationFn: async () => addUserFriend(userId),
-    onSuccess: async (data) => {
-      if ('error' in data) {
-        return console.log(data.error)
-      }
-      await queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.FRIENDS, userId],
-      })
-    },
+    onSuccess: onSuccess,
   })
 
   const cancelUserMutation = useMutation({
     mutationFn: async () => cancelUserFriend(userId),
-    onSuccess: async (data) => {
-      if ('error' in data) {
-        return console.log(data.error)
-      }
-      await queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.FRIENDS, userId],
-      })
-    },
+    onSuccess: onSuccess,
   })
 
   const unblockUserMutation = useMutation({
     mutationFn: async () => unblockUser(userId),
-    onSuccess: async (data) => {
-      if ('error' in data) {
-        return console.log(data.error)
-      }
-      await queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.FRIENDS, userId],
-      })
-    },
+    onSuccess: onSuccess,
   })
 
   const blockUserMutation = useMutation({
     mutationFn: async () => blockUser(userId),
-    onSuccess: async (data) => {
-      if ('error' in data) {
-        return console.log(data.error)
-      }
-      await queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.FRIENDS, userId],
-      })
-    },
+    onSuccess: onSuccess,
   })
 
   const acceptUserMutation = useMutation({
     mutationFn: async () => acceptUserFriend(userId),
-    onSuccess: async (data) => {
-      if ('error' in data) {
-        return console.log(data.error)
-      }
-      await queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.FRIENDS, userId],
-      })
-    },
+    onSuccess: onSuccess,
   })
 
   const declineUserMutation = useMutation({
     mutationFn: async () => declineUserFriend(userId),
-    onSuccess: async (data) => {
-      if ('error' in data) {
-        return console.log(data.error)
-      }
-      await queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.FRIENDS, userId],
-      })
-    },
+    onSuccess: onSuccess,
   })
 
   const unfriendUserMutation = useMutation({
     mutationFn: async () => unfriendUserFriend(userId),
-    onSuccess: async (data) => {
-      if ('error' in data) {
-        return console.log(data.error)
-      }
-      await queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.FRIENDS, userId],
-      })
-    },
+    onSuccess: onSuccess,
   })
 
   const dataStatus: TStatus = useMemo(() => {

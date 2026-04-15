@@ -4,6 +4,7 @@ import { fontAtyp } from '@/constants/fonts'
 import ThemeProvider from '@/providers/ThemeProvider'
 import Footer from '@/components/layouts/footer/Footer'
 import MainQueryProvider from '@/providers/MainQueryProvider'
+import ToastWrapper from '@/components/ui/toast/ToastWrapper'
 
 export const metadata: Metadata = {
   title: {
@@ -34,6 +35,9 @@ export default function RootLayout({
             <div className="root">
               {children}
               <Footer />
+            </div>
+            <div id="toasts-box" className={'toasts-box'}>
+              <ToastWrapper />
             </div>
           </MainQueryProvider>
         </ThemeProvider>

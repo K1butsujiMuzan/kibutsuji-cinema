@@ -4,9 +4,11 @@ import { signIn } from '@/lib/auth-client'
 import { ERRORS } from '@/constants/errors'
 import { useState } from 'react'
 import { PAGES } from '@/configs/pages.config'
+import { useAddToast } from '@/stores/useToastsStore'
 
 export default function LoginGoogle() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const addToast = useAddToast()
 
   const onLoginGoogleClick = async () => {
     try {
@@ -16,10 +18,15 @@ export default function LoginGoogle() {
         callbackURL: PAGES.MAIN,
       })
       if (response.error) {
-        console.error(response.error.message || ERRORS.SOMETHING_WRONG)
+        console.error(response.error.message || ERRORS.PROVIDER_FAILED)
+        addToast({
+          isSuccess: false,
+          title: ERRORS.PROVIDER_FAILED,
+          message: '',
+        })
       }
     } catch (error) {
-      console.error(ERRORS.PROVIDER_FAILED, error)
+      console.error(ERRORS.SOMETHING_WRONG, error)
     } finally {
       setIsLoading(false)
     }

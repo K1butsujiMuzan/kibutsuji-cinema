@@ -56,3 +56,24 @@
 .no-scrollbar {
   scrollbar-width: none;
 }
+
+.toasts-box {
+  z-index: 100;
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.hide-toast-indicator::after {
+  animation: hideToastIndicator 5s ease-in forwards;
+}
+
+@keyframes hideToastIndicator {
+  to {
+    width: 0;
+  }
+}
