@@ -1,10 +1,12 @@
-import UserInformation from '@/components/ui/user-information/UserInformation'
-import UserLinks from '@/components/ui/user-links/UserLinks'
-import { getServerSession } from '@/lib/get-server-session'
-import NotFoundPage from '@/components/ui/not-found-page/NotFoundPage'
-import Line from '@/components/ui/line/Line'
 import { findUserById } from '@/server-actions/find-user-by-id'
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
+import UserWrapperLoader from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/UserWrapperLoader'
+import Line from '@/components/ui/line/Line'
+import UserLinks from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/UserLinks'
+import UserInformation from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/UserInformation'
+import UserInformationController from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/UserInformationController'
+import UserFriendLoading from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/UserFriendLoading'
 
 interface Props {
   children: React.ReactNode
@@ -38,12 +40,6 @@ export async function generateMetadata({
 
 export default async function UserLayout({ children, params }: Props) {
   const { userId } = await params
-  const userData = await findUserById(userId)
-  const session = await getServerSession()
-
-  if (!userData || !session) {
-    return <NotFoundPage text={'User not found'} />
-  }
 
   return (
     <main className={'p-4'}>
@@ -57,15 +53,20 @@ export default async function UserLayout({ children, params }: Props) {
             'rounded-lg overflow-hidden flex flex-col bg-white dark:bg-gray-800 w-full'
           }
         >
-          <UserInformation
-            userId={userData.id}
-            userName={userData.name}
-            userImage={userData.image}
-            isMyProfile={userData.id === session.user.id}
-            userRegistration={userData.createdAt}
-          />
+          <section
+            className={
+              'flex flex-col lg:flex-row lg:justify-between items-center gap-2 lg:gap-4 px-4 py-3'
+            }
+          >
+            <Suspense fallback={<UserWrapperLoader />}>
+              <UserInformation userId={userId} />
+            </Suspense>
+            <Suspense fallback={<UserFriendLoading />}>
+              <UserInformationController userId={userId} />
+            </Suspense>
+          </section>
           <Line />
-          <UserLinks userId={userData.id} />
+          <UserLinks userId={userId} />
         </div>
         {children}
       </div>

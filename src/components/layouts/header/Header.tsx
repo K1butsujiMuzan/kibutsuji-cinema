@@ -1,13 +1,13 @@
-import SearchButton from '@/components/ui/search-button/SearchButton'
+import SearchButton from '@/components/layouts/header/(components)/SearchButton'
 import { PAGES } from '@/configs/pages.config'
 import { CatalogIcon, NewsIcon } from '@/components/icons/HeaderIcons'
-import HeaderAvatarLink from '@/components/ui/header-avatar-link/HeaderAvatarLink'
 import { getServerSession } from '@/lib/get-server-session'
 import AccentLink from '@/components/ui/accent-link/AccentLink'
-import HeaderUserMenu from '@/components/ui/header-user-menu/HeaderMenu'
+import HeaderUserMenu from '@/components/layouts/header/(components)/HeaderMenu'
 import Logo from '@/components/ui/logo/Logo'
 import MiniLogo from '@/components/ui/logo/MiniLogo'
-import HeaderLink from '@/components/ui/header-link/HeaderLink'
+import HeaderLink from './(components)/HeaderLink'
+import HeaderAvatarLink from '@/components/layouts/header/(components)/HeaderAvatarLink'
 
 export default async function Header() {
   const session = await getServerSession()

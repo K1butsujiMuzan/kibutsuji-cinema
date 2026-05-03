@@ -2,7 +2,7 @@
 
 import { cn } from '@/lib/utils'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import HeaderUserMenuModal from '@/components/ui/header-user-menu/HeaderUserMenuModal'
+import HeaderUserMenuModal from '@/components/layouts/header/(components)/HeaderUserMenuModal'
 import { memo } from 'react'
 import { KEYCODES } from '@/constants/keycodes'
 

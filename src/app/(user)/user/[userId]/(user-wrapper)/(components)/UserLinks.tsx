@@ -1,8 +1,8 @@
 'use client'
 
-import { userLinksData } from '@/components/ui/user-links/user-links.data'
+import { userData } from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/user.data'
 import { usePathname } from 'next/navigation'
-import UserLink from '@/components/ui/user-links/UserLink'
+import UserLink from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/UserLink'
 
 interface Props {
   userId: string
@@ -14,9 +14,13 @@ export default function UserLinks({ userId }: Props) {
   return (
     <section className={'px-4'}>
       <nav>
-        <ul className={'flex gap-4'}>
-          {userLinksData.map(({ href, text }) => (
-            <li key={text} className={''}>
+        <ul
+          className={
+            'flex gap-4 overflow-auto no-scrollbar snap-x snap-mandatory'
+          }
+        >
+          {userData.map(({ href, text }) => (
+            <li key={text} className={'snap-start'}>
               <UserLink
                 text={text}
                 href={href(userId)}

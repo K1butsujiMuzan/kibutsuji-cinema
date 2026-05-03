@@ -12,7 +12,7 @@ import {
   unblockUser,
   unfriendUserFriend,
 } from '@/server-actions/user-friends'
-import UserFriendButton from '@/components/ui/user-friends-controls/UserFriendButton'
+import UserFriendButton from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/UserFriendButton'
 import {
   AcceptFriendIcon,
   AddFriendIcon,
@@ -24,6 +24,7 @@ import { $Enums } from '@/generated/prisma'
 import FriendListStatus = $Enums.FriendListStatus
 import { useMemo } from 'react'
 import { useAddToast } from '@/stores/useToastsStore'
+import UserFriendLoading from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/UserFriendLoading'
 
 interface Props {
   userId: string
@@ -42,7 +43,7 @@ export default function UserFriendsControls({ userId }: Props) {
   const queryClient = useQueryClient()
 
   const onSuccess = async (data: { error: string | null }) => {
-    if (!!data.error) {
+    if (data.error) {
       return addToast({ title: data.error, message: '', isSuccess: false })
     }
     await queryClient.invalidateQueries({
@@ -108,15 +109,15 @@ export default function UserFriendsControls({ userId }: Props) {
   }, [data])
 
   if (isPending || data === undefined) {
-    return (
-      <UserFriendButton disabled={true} text={'Block user'} onClick={() => {}}>
-        <BlockUserIcon />
-      </UserFriendButton>
-    )
+    return <UserFriendLoading />
   }
 
   return (
-    <div className={'flex flex-col sm:flex-row gap-2 sm:gap-4'}>
+    <div
+      className={
+        'grid grid-flow-col auto-cols-fr w-full sm:flex sm:flex-row gap-2 sm:gap-4 sm:w-auto'
+      }
+    >
       {dataStatus === 'none' && (
         <>
           <UserFriendButton

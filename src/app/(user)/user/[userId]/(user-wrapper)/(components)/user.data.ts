@@ -5,7 +5,7 @@ type TUserLink = {
   text: string
 }
 
-export const userLinksData: TUserLink[] = [
+export const userData: TUserLink[] = [
   {
     href: (id) => PAGES.USER(id),
     text: 'Anime',

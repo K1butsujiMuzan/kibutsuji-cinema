@@ -1,13 +1,13 @@
-import HeaderUserMenuModalProfileLink from '@/components/ui/header-user-menu/components/HeaderUserMenuModalProfileLink'
+import HeaderUserMenuModalProfileLink from '@/components/layouts/header/(components)/HeaderUserMenuModalProfileLink'
 import {
   headerUserMenuModalPrivate,
   headerUserMenuModalPublish,
-} from '@/components/ui/header-user-menu/header-user-menu-modal.data'
-import HeaderUserMenuModalLink from '@/components/ui/header-user-menu/components/HeaderUserMenuModalLink'
+} from '@/components/layouts/header/(components)/header.data'
+import HeaderUserMenuModalLink from '@/components/layouts/header/(components)/HeaderUserMenuModalLink'
 import HeaderUserMenuModalTheme from '@/components/ui/theme-buttons/HeaderUserMenuModalTheme'
 import { SettingsIcon } from '@/components/icons/HeaderUserMenuModalIcons'
 import { PAGES } from '@/configs/pages.config'
-import HeaderUserMenuModalLogoutButton from '@/components/ui/header-user-menu/components/HeaderUserMenuModalLogoutButton'
+import HeaderUserMenuModalLogoutButton from '@/components/layouts/header/(components)/HeaderUserMenuModalLogoutButton'
 import Line from '@/components/ui/line/Line'
 
 interface Props {

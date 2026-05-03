@@ -30,7 +30,7 @@ export default memo(function HeaderUserMenuModalLogoutButton() {
       onClick={onLogout}
       type={'button'}
       className={
-        'w-full disabled:cursor-not-allowed! flex items-center overflow-hidden gap-2 px-3.5 py-2 rounded-sm hover:bg-pink-70 dark:hover:bg-gray-500 active:bg-pink-70 dark:active:bg-gray-500 transition duration-300'
+        'w-full disabled:cursor-not-allowed! flex items-center overflow-hidden gap-2 px-3.5 py-2 rounded-sm not-disabled:hover:bg-pink-70 not-disabled:dark:hover:bg-gray-500 not-disabled:active:bg-pink-70 not-disabled:dark:active:bg-gray-500 transition duration-300'
       }
     >
       <svg
