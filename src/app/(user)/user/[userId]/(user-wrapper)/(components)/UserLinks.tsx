@@ -12,7 +12,7 @@ export default function UserLinks({ userId }: Props) {
   const pathName = usePathname()
 
   return (
-    <section className={'px-4'}>
+    <div className={'px-4'}>
       <nav>
         <ul
           className={
@@ -30,6 +30,6 @@ export default function UserLinks({ userId }: Props) {
           ))}
         </ul>
       </nav>
-    </section>
+    </div>
   )
 }

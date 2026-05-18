@@ -25,37 +25,28 @@ export default function FriendsPanel({ userId, sessionId, isProfile }: Props) {
   }
 
   return (
-    <section
-      className={
-        'py-3 px-4 rounded-lg overflow-hidden flex flex-col bg-white dark:bg-gray-800 w-full'
-      }
+    <ul
+      className={'flex gap-2 overflow-auto no-scrollbar snap-x snap-mandatory'}
     >
-      <ul
-        className={
-          'flex gap-2 overflow-auto no-scrollbar snap-x snap-mandatory'
+      {friendsData.map(({ text, type, value }) => {
+        if (
+          (type === 'profile' && userId === sessionId) ||
+          (type === 'user' && userId !== sessionId) ||
+          type === 'public'
+        ) {
+          return (
+            <li key={value} className={'snap-start'}>
+              <FriendsButton
+                text={text}
+                onClick={() => onHandleClick(value)}
+                isActive={
+                  value === (searchParams.get('type') ?? FRIENDS_PARAMS.FRIENDS)
+                }
+              />
+            </li>
+          )
         }
-      >
-        {friendsData.map(({ text, type, value }) => {
-          if (
-            (type === 'profile' && userId === sessionId) ||
-            (type === 'user' && userId !== sessionId) ||
-            type === 'public'
-          ) {
-            return (
-              <li key={value} className={'snap-start'}>
-                <FriendsButton
-                  text={text}
-                  onClick={() => onHandleClick(value)}
-                  isActive={
-                    value ===
-                    (searchParams.get('type') ?? FRIENDS_PARAMS.FRIENDS)
-                  }
-                />
-              </li>
-            )
-          }
-        })}
-      </ul>
-    </section>
+      })}
+    </ul>
   )
 }

@@ -59,7 +59,9 @@ export default memo(function HeaderUserMenu({
     <div ref={menuRef} className={'relative'}>
       <button
         onClick={onHeaderUserMenuToggle}
-        aria-label={'open header menu'}
+        aria-label={
+          isHeaderUserMenuOpen ? 'close header menu' : 'open header menu'
+        }
         type="button"
         className={cn('group', className)}
       >

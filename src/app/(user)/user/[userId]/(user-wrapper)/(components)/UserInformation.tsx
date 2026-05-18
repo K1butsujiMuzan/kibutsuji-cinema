@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { dateTransformer } from '@/utils/date-check'
 import { findUserById } from '@/server-actions/find-user-by-id'
-import NotFoundPage from '@/components/ui/not-found-page/NotFoundPage'
+import { notFound } from 'next/navigation'
 
 interface Props {
   userId: string
@@ -11,7 +11,7 @@ export default async function UserInformation({ userId }: Props) {
   const userData = await findUserById(userId)
 
   if (!userData) {
-    return <NotFoundPage text={'User not found'} />
+    return notFound()
   }
 
   const { image, name, createdAt } = userData

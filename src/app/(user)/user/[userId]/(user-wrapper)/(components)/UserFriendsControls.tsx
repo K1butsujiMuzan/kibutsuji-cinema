@@ -24,7 +24,7 @@ import { $Enums } from '@/generated/prisma'
 import FriendListStatus = $Enums.FriendListStatus
 import { useMemo } from 'react'
 import { useAddToast } from '@/stores/useToastsStore'
-import UserFriendLoading from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/UserFriendLoading'
+import UserFriendLoading from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/(loaders)/UserFriendLoading'
 
 interface Props {
   userId: string

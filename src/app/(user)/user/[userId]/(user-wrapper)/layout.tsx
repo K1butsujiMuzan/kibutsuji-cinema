@@ -1,12 +1,12 @@
 import { findUserById } from '@/server-actions/find-user-by-id'
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
-import UserWrapperLoader from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/UserWrapperLoader'
+import UserWrapperLoader from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/(loaders)/UserWrapperLoader'
 import Line from '@/components/ui/line/Line'
 import UserLinks from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/UserLinks'
 import UserInformation from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/UserInformation'
 import UserInformationController from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/UserInformationController'
-import UserFriendLoading from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/UserFriendLoading'
+import UserFriendLoading from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/(loaders)/UserFriendLoading'
 
 interface Props {
   children: React.ReactNode
@@ -48,12 +48,12 @@ export default async function UserLayout({ children, params }: Props) {
           'max-w-370 mx-auto flex flex-col justify-center items-center gap-4'
         }
       >
-        <div
+        <section
           className={
             'rounded-lg overflow-hidden flex flex-col bg-white dark:bg-gray-800 w-full'
           }
         >
-          <section
+          <div
             className={
               'flex flex-col lg:flex-row lg:justify-between items-center gap-2 lg:gap-4 px-4 py-3'
             }
@@ -64,10 +64,10 @@ export default async function UserLayout({ children, params }: Props) {
             <Suspense fallback={<UserFriendLoading />}>
               <UserInformationController userId={userId} />
             </Suspense>
-          </section>
+          </div>
           <Line />
           <UserLinks userId={userId} />
-        </div>
+        </section>
         {children}
       </div>
     </main>

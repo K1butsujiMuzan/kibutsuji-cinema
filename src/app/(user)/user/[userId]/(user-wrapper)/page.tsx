@@ -16,8 +16,8 @@ export default async function User({
 
   return (
     <>
-      <h1 className={'sr-only'}>{userData.name}'s profile</h1>
-      {userData.name}'s profile
+      <h1 className={'sr-only'}>{userData.name}'s anime</h1>
+      {userData.name}'s anime
     </>
   )
 }
