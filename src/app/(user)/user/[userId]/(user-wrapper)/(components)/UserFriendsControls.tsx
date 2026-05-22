@@ -38,6 +38,7 @@ export default function UserFriendsControls({ userId }: Props) {
   const { data, isPending } = useQuery({
     queryFn: async () => getUserFriend(userId),
     queryKey: [QUERY_KEYS.FRIENDS, userId],
+    staleTime: 0,
   })
 
   const queryClient = useQueryClient()

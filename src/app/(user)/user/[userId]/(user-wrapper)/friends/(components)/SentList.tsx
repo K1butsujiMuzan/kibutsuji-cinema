@@ -5,19 +5,22 @@ import { QUERY_KEYS } from '@/configs/query-keys.config'
 import { getSentList } from '@/server-actions/friends-list'
 import PeopleCard from '@/app/(user)/user/[userId]/(user-wrapper)/friends/(components)/PeopleCard'
 import { RemoveFriendIcon } from '@/components/icons/UserFriendsIcons'
-import FriendsSmallButton from '@/app/(user)/user/[userId]/(user-wrapper)/friends/(components)/FriendsSmallButton'
 import { cancelUserFriend } from '@/server-actions/user-friends'
-import useOnSuccessFriend from '@/hooks/useOnSuccessFriend'
+import useOnFriendAction from '@/hooks/useOnFriendAction'
 import RefetchErrorData from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/RefetchErrorData'
 import NoData from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/NoData'
 import FriendListLoader from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/(loaders)/FriendListLoader'
+import Button from '@/components/ui/button/Button'
+import PageChanger from '@/components/ui/page-changer/PageChanger'
 
 export default function SentList() {
-  const onSuccess = useOnSuccessFriend([QUERY_KEYS.SENT_LIST])
+  const { onSuccess, page, onNextPage, onPreviousPage } = useOnFriendAction([
+    QUERY_KEYS.SENT_LIST,
+  ])
 
   const { data, isPending, isFetching, refetch } = useQuery({
-    queryFn: getSentList,
-    queryKey: [QUERY_KEYS.SENT_LIST],
+    queryFn: async () => getSentList(page),
+    queryKey: [QUERY_KEYS.SENT_LIST, page],
     staleTime: 0,
   })
 
@@ -35,27 +38,39 @@ export default function SentList() {
         disabled={isFetching}
       />
     )
-  if (data.length === 0) return <NoData text={'No sent requests'} />
+  if (data.data.length === 0) return <NoData text={'No sent requests'} />
 
   return (
-    <div className={'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3'}>
-      {data.map(({ id, userTo, createdAt }) => (
-        <PeopleCard
-          key={id}
-          id={userTo.id}
-          image={userTo.image}
-          name={userTo.name}
-          createdAt={createdAt}
-        >
-          <FriendsSmallButton
-            className={'text-red-400'}
-            ariaLabel={'cancel friend request'}
-            icon={<RemoveFriendIcon />}
-            onClick={() => cancelSentMutation.mutate(userTo.id)}
-            disabled={cancelSentMutation.isPending}
-          />
-        </PeopleCard>
-      ))}
-    </div>
+    <>
+      <div className={'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3'}>
+        {data.data.map(({ id, name, image, createdAt }) => (
+          <PeopleCard
+            key={id}
+            id={id}
+            image={image}
+            name={name}
+            createdAt={createdAt}
+          >
+            <Button
+              className={'text-red-400'}
+              aria-label={'cancel friend request'}
+              onClick={() => cancelSentMutation.mutate(id)}
+              disabled={cancelSentMutation.isPending}
+            >
+              <RemoveFriendIcon />
+            </Button>
+          </PeopleCard>
+        ))}
+      </div>
+      {(data.hasNext || page !== 1) && (
+        <PageChanger
+          page={page}
+          hasNext={data.hasNext}
+          onNextPage={onNextPage}
+          onPreviousPage={onPreviousPage}
+          isFetching={isFetching}
+        />
+      )}
+    </>
   )
 }

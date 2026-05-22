@@ -7,15 +7,22 @@ import PeopleCard from '@/app/(user)/user/[userId]/(user-wrapper)/friends/(compo
 import RefetchErrorData from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/RefetchErrorData'
 import NoData from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/NoData'
 import FriendListLoader from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/(loaders)/FriendListLoader'
+import useOnFriendAction from '@/hooks/useOnFriendAction'
+import PageChanger from '@/components/ui/page-changer/PageChanger'
 
 interface Props {
   userId: string
 }
 
 export default function MutualList({ userId }: Props) {
+  const { page, onNextPage, onPreviousPage } = useOnFriendAction([
+    QUERY_KEYS.MUTUAL_LIST,
+    userId,
+  ])
+
   const { data, isPending, isFetching, refetch } = useQuery({
-    queryFn: async () => getMutualList(userId),
-    queryKey: [QUERY_KEYS.MUTUAL_LIST, userId],
+    queryFn: async () => getMutualList(userId, page),
+    queryKey: [QUERY_KEYS.MUTUAL_LIST, userId, page],
     staleTime: 0,
   })
 
@@ -28,13 +35,24 @@ export default function MutualList({ userId }: Props) {
         disabled={isFetching}
       />
     )
-  if (data.length === 0) return <NoData text={'No mutual friends'} />
+  if (data.data.length === 0) return <NoData text={'No mutual friends'} />
 
   return (
-    <div className={'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3'}>
-      {data.map(({ id, image, name }) => (
-        <PeopleCard key={id} id={id} image={image} name={name} />
-      ))}
-    </div>
+    <>
+      <div className={'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3'}>
+        {data.data.map(({ id, image, name }) => (
+          <PeopleCard key={id} id={id} image={image} name={name} />
+        ))}
+      </div>
+      {(data.hasNext || page !== 1) && (
+        <PageChanger
+          page={page}
+          hasNext={data.hasNext}
+          onNextPage={onNextPage}
+          onPreviousPage={onPreviousPage}
+          isFetching={isFetching}
+        />
+      )}
+    </>
   )
 }

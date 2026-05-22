@@ -4,7 +4,6 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { QUERY_KEYS } from '@/configs/query-keys.config'
 import { getRequestList } from '@/server-actions/friends-list'
 import PeopleCard from '@/app/(user)/user/[userId]/(user-wrapper)/friends/(components)/PeopleCard'
-import FriendsSmallButton from '@/app/(user)/user/[userId]/(user-wrapper)/friends/(components)/FriendsSmallButton'
 import {
   AcceptFriendIcon,
   RemoveFriendIcon,
@@ -13,17 +12,21 @@ import {
   acceptUserFriend,
   declineUserFriend,
 } from '@/server-actions/user-friends'
-import useOnSuccessFriend from '@/hooks/useOnSuccessFriend'
+import useOnFriendAction from '@/hooks/useOnFriendAction'
 import RefetchErrorData from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/RefetchErrorData'
 import NoData from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/NoData'
 import FriendListLoader from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/(loaders)/FriendListLoader'
+import Button from '@/components/ui/button/Button'
+import PageChanger from '@/components/ui/page-changer/PageChanger'
 
 export default function RequestList() {
-  const onSuccess = useOnSuccessFriend([QUERY_KEYS.REQUEST_LIST])
+  const { onSuccess, page, onNextPage, onPreviousPage } = useOnFriendAction([
+    QUERY_KEYS.REQUEST_LIST,
+  ])
 
   const { data, isPending, isFetching, refetch } = useQuery({
-    queryFn: getRequestList,
-    queryKey: [QUERY_KEYS.REQUEST_LIST],
+    queryFn: async () => getRequestList(page),
+    queryKey: [QUERY_KEYS.REQUEST_LIST, page],
     staleTime: 0,
   })
 
@@ -46,34 +49,47 @@ export default function RequestList() {
         disabled={isFetching}
       />
     )
-  if (data.length === 0) return <NoData text={'No requests'} />
+  if (data.data.length === 0) return <NoData text={'No requests'} />
 
   return (
-    <div className={'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3'}>
-      {data.map(({ id, userFrom, createdAt }) => (
-        <PeopleCard
-          key={id}
-          id={userFrom.id}
-          image={userFrom.image}
-          name={userFrom.name}
-          createdAt={createdAt}
-        >
-          <FriendsSmallButton
-            className={'text-green-400'}
-            ariaLabel={'accept friend'}
-            icon={<AcceptFriendIcon />}
-            onClick={() => acceptMutation.mutate(userFrom.id)}
-            disabled={acceptMutation.isPending || declineMutation.isPending}
-          />
-          <FriendsSmallButton
-            className={'text-red-400'}
-            ariaLabel={'decline friend'}
-            icon={<RemoveFriendIcon />}
-            onClick={() => declineMutation.mutate(userFrom.id)}
-            disabled={acceptMutation.isPending || declineMutation.isPending}
-          />
-        </PeopleCard>
-      ))}
-    </div>
+    <>
+      <div className={'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3'}>
+        {data.data.map(({ id, name, image, createdAt }) => (
+          <PeopleCard
+            key={id}
+            id={id}
+            image={image}
+            name={name}
+            createdAt={createdAt}
+          >
+            <Button
+              className={'text-green-400'}
+              aria-label={'accept friend'}
+              onClick={() => acceptMutation.mutate(id)}
+              disabled={acceptMutation.isPending || declineMutation.isPending}
+            >
+              <AcceptFriendIcon />
+            </Button>
+            <Button
+              className={'text-red-400'}
+              aria-label={'decline friend'}
+              onClick={() => declineMutation.mutate(id)}
+              disabled={acceptMutation.isPending || declineMutation.isPending}
+            >
+              <RemoveFriendIcon />
+            </Button>
+          </PeopleCard>
+        ))}
+      </div>
+      {(data.hasNext || page !== 1) && (
+        <PageChanger
+          page={page}
+          hasNext={data.hasNext}
+          onNextPage={onNextPage}
+          onPreviousPage={onPreviousPage}
+          isFetching={isFetching}
+        />
+      )}
+    </>
   )
 }
