@@ -7,18 +7,15 @@ import PeopleCard from '@/app/(user)/user/[userId]/(user-wrapper)/friends/(compo
 import RefetchErrorData from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/RefetchErrorData'
 import NoData from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/NoData'
 import FriendListLoader from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/(loaders)/FriendListLoader'
-import useOnFriendAction from '@/hooks/useOnFriendAction'
 import PageChanger from '@/components/ui/page-changer/PageChanger'
+import usePagination from '@/hooks/usePagination'
 
 interface Props {
   userId: string
 }
 
 export default function MutualList({ userId }: Props) {
-  const { page, onNextPage, onPreviousPage } = useOnFriendAction([
-    QUERY_KEYS.MUTUAL_LIST,
-    userId,
-  ])
+  const { page, onNextPage, onPreviousPage } = usePagination()
 
   const { data, isPending, isFetching, refetch } = useQuery({
     queryFn: async () => getMutualList(userId, page),

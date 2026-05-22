@@ -12,17 +12,17 @@ import {
   acceptUserFriend,
   declineUserFriend,
 } from '@/server-actions/user-friends'
-import useOnFriendAction from '@/hooks/useOnFriendAction'
+import useOnFriendSuccess from '@/hooks/useOnFriendSuccess'
 import RefetchErrorData from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/RefetchErrorData'
 import NoData from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/NoData'
 import FriendListLoader from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/(loaders)/FriendListLoader'
 import Button from '@/components/ui/button/Button'
 import PageChanger from '@/components/ui/page-changer/PageChanger'
+import usePagination from '@/hooks/usePagination'
 
 export default function RequestList() {
-  const { onSuccess, page, onNextPage, onPreviousPage } = useOnFriendAction([
-    QUERY_KEYS.REQUEST_LIST,
-  ])
+  const { page, onNextPage, onPreviousPage } = usePagination()
+  const onSuccess = useOnFriendSuccess([QUERY_KEYS.REQUEST_LIST, page])
 
   const { data, isPending, isFetching, refetch } = useQuery({
     queryFn: async () => getRequestList(page),
@@ -32,12 +32,34 @@ export default function RequestList() {
 
   const declineMutation = useMutation({
     mutationFn: async (id: string) => declineUserFriend(id),
-    onSuccess,
+    onSuccess: async (result) => {
+      await onSuccess(result)
+      if (
+        data &&
+        !('error' in data) &&
+        !data.hasNext &&
+        data.data.length <= 1 &&
+        page > 1
+      ) {
+        onPreviousPage()
+      }
+    },
   })
 
   const acceptMutation = useMutation({
     mutationFn: async (id: string) => acceptUserFriend(id),
-    onSuccess,
+    onSuccess: async (result) => {
+      await onSuccess(result)
+      if (
+        data &&
+        !('error' in data) &&
+        !data.hasNext &&
+        data.data.length <= 1 &&
+        page > 1
+      ) {
+        onPreviousPage()
+      }
+    },
   })
 
   if (isPending || data === undefined) return <FriendListLoader />

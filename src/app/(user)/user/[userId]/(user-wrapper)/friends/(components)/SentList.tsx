@@ -1,22 +1,22 @@
 'use client'
 
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { QUERY_KEYS } from '@/configs/query-keys.config'
 import { getSentList } from '@/server-actions/friends-list'
 import PeopleCard from '@/app/(user)/user/[userId]/(user-wrapper)/friends/(components)/PeopleCard'
 import { RemoveFriendIcon } from '@/components/icons/UserFriendsIcons'
 import { cancelUserFriend } from '@/server-actions/user-friends'
-import useOnFriendAction from '@/hooks/useOnFriendAction'
+import useOnFriendSuccess from '@/hooks/useOnFriendSuccess'
 import RefetchErrorData from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/RefetchErrorData'
 import NoData from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/NoData'
 import FriendListLoader from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/(loaders)/FriendListLoader'
 import Button from '@/components/ui/button/Button'
 import PageChanger from '@/components/ui/page-changer/PageChanger'
+import usePagination from '@/hooks/usePagination'
 
 export default function SentList() {
-  const { onSuccess, page, onNextPage, onPreviousPage } = useOnFriendAction([
-    QUERY_KEYS.SENT_LIST,
-  ])
+  const { page, onPreviousPage, onNextPage } = usePagination()
+  const onSuccess = useOnFriendSuccess([QUERY_KEYS.SENT_LIST, page])
 
   const { data, isPending, isFetching, refetch } = useQuery({
     queryFn: async () => getSentList(page),
@@ -26,7 +26,18 @@ export default function SentList() {
 
   const cancelSentMutation = useMutation({
     mutationFn: async (id: string) => cancelUserFriend(id),
-    onSuccess,
+    onSuccess: async (result) => {
+      await onSuccess(result)
+      if (
+        data &&
+        !('error' in data) &&
+        !data.hasNext &&
+        data.data.length <= 1 &&
+        page > 1
+      ) {
+        onPreviousPage()
+      }
+    },
   })
 
   if (isPending || data === undefined) return <FriendListLoader />

@@ -6,7 +6,7 @@ import { ERRORS } from '@/constants/errors'
 import { MAX_PROFILE_RECORDS } from '@/constants/limits'
 import type { FriendLists, User } from '@/generated/prisma'
 
-type TFriend = Promise<
+export type TFriend = Promise<
   | { error: string }
   | {
       data: (Pick<FriendLists, 'createdAt'> &
