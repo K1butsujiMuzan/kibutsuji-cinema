@@ -1,6 +1,6 @@
 import { getServerSession } from '@/lib/get-server-session'
 import UserSettings from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/UserSettings'
-import UserFriendsControls from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/UserFriendsControls'
+import UserFriendsWrapper from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/UserFriendsWrapper'
 
 interface Props {
   userId: string
@@ -18,6 +18,6 @@ export default async function UserInformationController({ userId }: Props) {
   }
 
   if (userId !== session.user.id) {
-    return <UserFriendsControls userId={userId} />
+    return <UserFriendsWrapper userId={userId} />
   }
 }

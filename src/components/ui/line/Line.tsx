@@ -3,7 +3,7 @@ export default function Line() {
     <span
       role={'presentation'}
       aria-hidden={true}
-      className={'w-full h-[1px] bg-current opacity-50'}
-    ></span>
+      className={'w-full h-[1px] opacity-50 bg-pink-50 dark:bg-gray-200'}
+    />
   )
 }

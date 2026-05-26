@@ -8,23 +8,32 @@ import RefetchErrorData from '@/app/(user)/user/[userId]/(user-wrapper)/(compone
 import NoData from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/NoData'
 import FriendListLoader from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/(loaders)/FriendListLoader'
 import PageChanger from '@/components/ui/page-changer/PageChanger'
-import usePagination from '@/hooks/usePagination'
+import Search from '@/components/ui/search/Search'
+import useFriend from '@/hooks/useFriend'
 
 interface Props {
   userId: string
 }
 
 export default function MutualList({ userId }: Props) {
-  const { page, onNextPage, onPreviousPage } = usePagination()
+  const {
+    search,
+    debouncedSearch,
+    QUERY_KEY,
+    onSearch,
+    clearSearch,
+    onPreviousPage,
+    page,
+    onNextPage,
+  } = useFriend([QUERY_KEYS.MUTUAL_LIST, userId])
 
   const { data, isPending, isFetching, refetch } = useQuery({
-    queryFn: async () => getMutualList(userId, page),
-    queryKey: [QUERY_KEYS.MUTUAL_LIST, userId, page],
+    queryFn: async () => getMutualList(userId, page, debouncedSearch),
+    queryKey: QUERY_KEY,
     staleTime: 0,
   })
 
-  if (isPending || data === undefined) return <FriendListLoader />
-  if ('error' in data)
+  if (data && 'error' in data)
     return (
       <RefetchErrorData
         error={data.error}
@@ -32,16 +41,26 @@ export default function MutualList({ userId }: Props) {
         disabled={isFetching}
       />
     )
-  if (data.data.length === 0) return <NoData text={'No mutual friends'} />
 
   return (
     <>
-      <div className={'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3'}>
-        {data.data.map(({ id, image, name }) => (
-          <PeopleCard key={id} id={id} image={image} name={name} />
-        ))}
-      </div>
-      {(data.hasNext || page !== 1) && (
+      <Search
+        searchValue={search}
+        onChange={onSearch}
+        inputId={'mutual-list'}
+        onClear={clearSearch}
+        placeholder={'Search by name'}
+      />
+      {(isPending || !data) && <FriendListLoader />}
+      {data && data.data.length === 0 && <NoData text={'No mutual friends'} />}
+      {data && data.data.length > 0 && (
+        <div className={'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3'}>
+          {data.data.map(({ id, image, name }) => (
+            <PeopleCard key={id} id={id} image={image} name={name} />
+          ))}
+        </div>
+      )}
+      {data && (data.hasNext || page !== 1) && (
         <PageChanger
           page={page}
           hasNext={data.hasNext}

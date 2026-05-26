@@ -4,7 +4,7 @@ import prisma from '@/lib/prisma'
 import { getServerSession } from '@/lib/get-server-session'
 import { ERRORS } from '@/constants/errors'
 import { MAX_PROFILE_RECORDS } from '@/constants/limits'
-import type { FriendLists, User } from '@/generated/prisma'
+import { type FriendLists, Prisma, type User } from '@/generated/prisma'
 
 export type TFriend = Promise<
   | { error: string }
@@ -15,19 +15,42 @@ export type TFriend = Promise<
     }
 >
 
-export async function getFriendList(userId: string, page: number): TFriend {
+export async function getFriendList(
+  userId: string,
+  page: number,
+  search: string,
+): TFriend {
   try {
     const session = await getServerSession()
     if (!session) {
       return { error: ERRORS.UNAUTHORIZED }
     }
+
+    const where: Prisma.FriendListsWhereInput =
+      search.length > 0
+        ? {
+            OR: [
+              {
+                userToId: userId,
+                status: 'FRIEND',
+                userFrom: { name: { contains: search, mode: 'insensitive' } },
+              },
+              {
+                userFromId: userId,
+                status: 'FRIEND',
+                userTo: { name: { contains: search, mode: 'insensitive' } },
+              },
+            ],
+          }
+        : {
+            OR: [
+              { userToId: userId, status: 'FRIEND' },
+              { userFromId: userId, status: 'FRIEND' },
+            ],
+          }
+
     const friends = await prisma.friendLists.findMany({
-      where: {
-        OR: [
-          { userToId: userId, status: 'FRIEND' },
-          { userFromId: userId, status: 'FRIEND' },
-        ],
-      },
+      where,
       take: MAX_PROFILE_RECORDS,
       skip: MAX_PROFILE_RECORDS * (page - 1),
       include: {
@@ -35,14 +58,7 @@ export async function getFriendList(userId: string, page: number): TFriend {
         userTo: { select: { id: true, name: true, image: true } },
       },
     })
-    const count = await prisma.friendLists.count({
-      where: {
-        OR: [
-          { userToId: userId, status: 'FRIEND' },
-          { userFromId: userId, status: 'FRIEND' },
-        ],
-      },
-    })
+    const count = await prisma.friendLists.count({ where })
     const transformedFriends = friends.map((item) => ({
       id: item.userTo.id === userId ? item.userFrom.id : item.userTo.id,
       name: item.userTo.id === userId ? item.userFrom.name : item.userTo.name,
@@ -61,18 +77,27 @@ export async function getFriendList(userId: string, page: number): TFriend {
   }
 }
 
-export async function getRequestList(page: number): TFriend {
+export async function getRequestList(page: number, search: string): TFriend {
   try {
     const session = await getServerSession()
     if (!session) {
       return { error: ERRORS.UNAUTHORIZED }
     }
 
+    const where: Prisma.FriendListsWhereInput =
+      search.length > 0
+        ? {
+            userFrom: { name: { contains: search, mode: 'insensitive' } },
+            userToId: session.user.id,
+            status: 'PENDING',
+          }
+        : {
+            userToId: session.user.id,
+            status: 'PENDING',
+          }
+
     const data = await prisma.friendLists.findMany({
-      where: {
-        userToId: session.user.id,
-        status: 'PENDING',
-      },
+      where,
       take: MAX_PROFILE_RECORDS,
       skip: MAX_PROFILE_RECORDS * (page - 1),
       include: {
@@ -86,12 +111,7 @@ export async function getRequestList(page: number): TFriend {
       createdAt: item.createdAt,
     }))
 
-    const count = await prisma.friendLists.count({
-      where: {
-        userToId: session.user.id,
-        status: 'PENDING',
-      },
-    })
+    const count = await prisma.friendLists.count({ where })
 
     return {
       data: transformedData,
@@ -103,18 +123,27 @@ export async function getRequestList(page: number): TFriend {
   }
 }
 
-export async function getSentList(page: number): TFriend {
+export async function getSentList(page: number, search: string): TFriend {
   try {
     const session = await getServerSession()
     if (!session) {
       return { error: ERRORS.UNAUTHORIZED }
     }
 
+    const where: Prisma.FriendListsWhereInput =
+      search.length > 0
+        ? {
+            userTo: { name: { contains: search, mode: 'insensitive' } },
+            userFromId: session.user.id,
+            status: 'PENDING',
+          }
+        : {
+            userFromId: session.user.id,
+            status: 'PENDING',
+          }
+
     const data = await prisma.friendLists.findMany({
-      where: {
-        userFromId: session.user.id,
-        status: 'PENDING',
-      },
+      where,
       take: MAX_PROFILE_RECORDS,
       skip: MAX_PROFILE_RECORDS * (page - 1),
       include: {
@@ -129,12 +158,7 @@ export async function getSentList(page: number): TFriend {
       createdAt: item.createdAt,
     }))
 
-    const count = await prisma.friendLists.count({
-      where: {
-        userFromId: session.user.id,
-        status: 'PENDING',
-      },
-    })
+    const count = await prisma.friendLists.count({ where })
 
     return {
       data: transformedData,
@@ -146,7 +170,11 @@ export async function getSentList(page: number): TFriend {
   }
 }
 
-export async function getMutualList(userId: string, page: number): TFriend {
+export async function getMutualList(
+  userId: string,
+  page: number,
+  search: string,
+): TFriend {
   try {
     const session = await getServerSession()
     if (!session) {
@@ -161,13 +189,32 @@ export async function getMutualList(userId: string, page: number): TFriend {
     }
 
     return prisma.$transaction(async (tx) => {
+      const where = (id: string): Prisma.FriendListsWhereInput => {
+        return search.length > 0
+          ? {
+              OR: [
+                {
+                  userToId: id,
+                  status: 'FRIEND',
+                  userFrom: { name: { contains: search, mode: 'insensitive' } },
+                },
+                {
+                  userFromId: id,
+                  status: 'FRIEND',
+                  userTo: { name: { contains: search, mode: 'insensitive' } },
+                },
+              ],
+            }
+          : {
+              OR: [
+                { userToId: id, status: 'FRIEND' },
+                { userFromId: id, status: 'FRIEND' },
+              ],
+            }
+      }
+
       const myFriends = await tx.friendLists.findMany({
-        where: {
-          OR: [
-            { userToId: session.user.id, status: 'FRIEND' },
-            { userFromId: session.user.id, status: 'FRIEND' },
-          ],
-        },
+        where: where(session.user.id),
         select: {
           userFromId: true,
           userToId: true,
@@ -175,12 +222,7 @@ export async function getMutualList(userId: string, page: number): TFriend {
       })
 
       const usersFriends = await tx.friendLists.findMany({
-        where: {
-          OR: [
-            { userToId: userId, status: 'FRIEND' },
-            { userFromId: userId, status: 'FRIEND' },
-          ],
-        },
+        where: where(userId),
         select: {
           userFromId: true,
           userToId: true,

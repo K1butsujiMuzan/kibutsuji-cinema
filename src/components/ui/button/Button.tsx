@@ -2,6 +2,7 @@
 
 import React, { type ButtonHTMLAttributes } from 'react'
 import { cn } from '@/lib/utils'
+import { memo } from 'react'
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: Readonly<React.ReactNode>
@@ -9,7 +10,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string
 }
 
-export default function Button({
+export default memo(function Button({
   children,
   onClick,
   className,
@@ -28,4 +29,4 @@ export default function Button({
       {children}
     </button>
   )
-}
+})

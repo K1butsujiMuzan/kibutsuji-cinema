@@ -12,5 +12,9 @@ export default function usePagination() {
     [],
   )
 
-  return { page, onNextPage, onPreviousPage }
+  const setFirstPage = useCallback(() => {
+    setPage(1)
+  }, [])
+
+  return { page, onNextPage, onPreviousPage, setFirstPage }
 }

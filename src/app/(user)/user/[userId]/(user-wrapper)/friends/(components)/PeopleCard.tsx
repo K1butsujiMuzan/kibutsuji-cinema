@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { dateTransformer } from '@/utils/date-check'
 import Link from 'next/link'
 import { PAGES } from '@/configs/pages.config'
+import { memo } from 'react'
 
 interface Props {
   id: string
@@ -11,7 +12,7 @@ interface Props {
   children?: React.ReactNode
 }
 
-export default function PeopleCard({
+export default memo(function PeopleCard({
   image,
   id,
   name,
@@ -21,7 +22,7 @@ export default function PeopleCard({
   return (
     <div
       className={
-        'rounded-md overflow-hidden flex items-center bg-pink-50 dark:bg-gray-750 gap-3 pr-3'
+        'rounded-md overflow-hidden flex items-center border border-pink-50 dark:border-gray-200 gap-3 pr-3'
       }
     >
       <Link
@@ -29,7 +30,7 @@ export default function PeopleCard({
         className={'relative w-14 h-14 aspect-square'}
       >
         <Image
-          className={'rounded-sm object-cover'}
+          className={'object-cover'}
           src={image ? image : '/images/global/base-avatar.jpg'}
           alt={name}
           fill={true}
@@ -49,4 +50,4 @@ export default function PeopleCard({
       )}
     </div>
   )
-}
+})

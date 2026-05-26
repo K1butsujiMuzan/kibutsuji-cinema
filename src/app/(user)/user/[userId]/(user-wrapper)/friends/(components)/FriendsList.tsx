@@ -6,14 +6,13 @@ import { getFriendList } from '@/server-actions/friends-list'
 import PeopleCard from '@/app/(user)/user/[userId]/(user-wrapper)/friends/(components)/PeopleCard'
 import { RemoveFriendIcon } from '@/components/icons/UserFriendsIcons'
 import { unfriendUserFriend } from '@/server-actions/user-friends'
-import useOnFriendSuccess from '@/hooks/useOnFriendSuccess'
 import RefetchErrorData from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/RefetchErrorData'
 import NoData from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/NoData'
 import FriendListLoader from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/(loaders)/FriendListLoader'
 import PageChanger from '@/components/ui/page-changer/PageChanger'
-import { keepPreviousData } from '@tanstack/query-core'
 import Button from '@/components/ui/button/Button'
-import usePagination from '@/hooks/usePagination'
+import Search from '@/components/ui/search/Search'
+import useFriend from '@/hooks/useFriend'
 
 interface Props {
   userId: string
@@ -21,14 +20,22 @@ interface Props {
 }
 
 export default function FriendsList({ userId, isProfile }: Props) {
-  const { page, onPreviousPage, onNextPage } = usePagination()
-  const onSuccess = useOnFriendSuccess([QUERY_KEYS.FRIEND_LIST, userId, page])
+  const {
+    search,
+    debouncedSearch,
+    QUERY_KEY,
+    onSearch,
+    clearSearch,
+    onPreviousPage,
+    page,
+    onNextPage,
+    onSuccess,
+  } = useFriend([QUERY_KEYS.FRIEND_LIST, userId])
 
   const { data, isPending, isFetching, refetch } = useQuery({
-    queryFn: async () => getFriendList(userId, page),
-    queryKey: [QUERY_KEYS.FRIEND_LIST, userId, page],
+    queryFn: async () => getFriendList(userId, page, debouncedSearch),
+    queryKey: QUERY_KEY,
     staleTime: 0,
-    placeholderData: keepPreviousData,
   })
 
   const unfriendMutation = useMutation({
@@ -47,8 +54,7 @@ export default function FriendsList({ userId, isProfile }: Props) {
     },
   })
 
-  if (isPending || data === undefined) return <FriendListLoader />
-  if ('error' in data)
+  if (data && 'error' in data)
     return (
       <RefetchErrorData
         error={data.error}
@@ -56,35 +62,45 @@ export default function FriendsList({ userId, isProfile }: Props) {
         disabled={isFetching}
       />
     )
-  if (data.data.length === 0) return <NoData text={'No friends'} />
 
   return (
     <>
-      <div className={'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3'}>
-        {data.data.map(({ id, name, image, createdAt }) => {
-          return (
-            <PeopleCard
-              key={id}
-              id={id}
-              image={image}
-              name={name}
-              createdAt={createdAt}
-            >
-              {isProfile && (
-                <Button
-                  className={'text-red-400'}
-                  aria-label={'delete friend'}
-                  onClick={() => unfriendMutation.mutate(id)}
-                  disabled={unfriendMutation.isPending}
-                >
-                  <RemoveFriendIcon />
-                </Button>
-              )}
-            </PeopleCard>
-          )
-        })}
-      </div>
-      {(data.hasNext || page !== 1) && (
+      <Search
+        searchValue={search}
+        onChange={onSearch}
+        inputId={'friend-list'}
+        onClear={clearSearch}
+        placeholder={'Search by name'}
+      />
+      {(isPending || !data) && <FriendListLoader />}
+      {data && data.data.length === 0 && <NoData text={'No friends'} />}
+      {data && data.data.length > 0 && (
+        <div className={'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3'}>
+          {data.data.map(({ id, name, image, createdAt }) => {
+            return (
+              <PeopleCard
+                key={id}
+                id={id}
+                image={image}
+                name={name}
+                createdAt={createdAt}
+              >
+                {isProfile && (
+                  <Button
+                    className={'text-red-400'}
+                    aria-label={'delete friend'}
+                    onClick={() => unfriendMutation.mutate(id)}
+                    disabled={unfriendMutation.isPending}
+                  >
+                    <RemoveFriendIcon />
+                  </Button>
+                )}
+              </PeopleCard>
+            )
+          })}
+        </div>
+      )}
+      {data && (data.hasNext || page !== 1) && (
         <PageChanger
           page={page}
           hasNext={data.hasNext}
