@@ -11,7 +11,7 @@ export default async function UserInformation({ userId }: Props) {
   const userData = await findUserById(userId)
 
   if (!userData) {
-    return notFound()
+    notFound()
   }
 
   const { image, name, createdAt } = userData

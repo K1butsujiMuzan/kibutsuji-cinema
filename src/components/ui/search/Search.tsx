@@ -1,20 +1,22 @@
-import type { InputHTMLAttributes } from 'react'
+import type { FormEvent, InputHTMLAttributes } from 'react'
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   inputId: string
   onClear: () => void
   searchValue: string
+  onFormSubmit: (event: FormEvent<HTMLFormElement>) => void
 }
 
 export default function Search({
   inputId,
   onClear,
   searchValue,
+  onFormSubmit,
   ...rest
 }: Props) {
   return (
     <form
-      onSubmit={(event) => event.preventDefault()}
+      onSubmit={onFormSubmit}
       className={
         'border border-pink-50 dark:border-gray-200 rounded-md flex items-center relative'
       }

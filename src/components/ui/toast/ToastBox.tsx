@@ -8,10 +8,6 @@ export default function ToastBox() {
   const box = document.getElementById('toasts-box') as HTMLDivElement
   const toasts = useToasts()
 
-  if (!box) {
-    return null
-  }
-
   return createPortal(
     <>
       {toasts.length > 0 &&

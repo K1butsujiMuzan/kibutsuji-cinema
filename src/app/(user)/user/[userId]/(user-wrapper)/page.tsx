@@ -1,5 +1,7 @@
 import { getServerSession } from '@/lib/get-server-session'
 import { findUserById } from '@/server-actions/find-user-by-id'
+import { notFound, redirect } from 'next/navigation'
+import { PAGES } from '@/configs/pages.config'
 
 export default async function User({
   params,
@@ -10,8 +12,12 @@ export default async function User({
   const userData = await findUserById(userId)
   const session = await getServerSession()
 
-  if (!userData || !session) {
-    return null
+  if (!session) {
+    redirect(PAGES.LOGIN)
+  }
+
+  if (!userData) {
+    notFound()
   }
 
   return (

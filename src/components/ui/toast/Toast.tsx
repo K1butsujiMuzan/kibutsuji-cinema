@@ -8,7 +8,8 @@ import {
   ToastErrorIcon,
   ToastSuccessIcon,
 } from '@/components/ui/toast/ToastIcons'
-import CloseModalButton from '@/components/ui/close-modal-button/CloseModalButton'
+import Button from '@/components/ui/button/Button'
+import CloseIcon from '@/components/icons/CloseIcon'
 
 export default function Toast({ id, title, message, isSuccess }: TToast) {
   const closeModal = useRemoveToast()
@@ -41,7 +42,7 @@ export default function Toast({ id, title, message, isSuccess }: TToast) {
       aria-atomic={true}
       aria-live={isSuccess ? 'polite' : 'assertive'}
       className={cn(
-        'text-gray-700 dark:text-gray-100 bg-pink-50 dark:bg-gray-750 p-3 flex items-start gap-3 rounded-xl overflow-hidden relative transition duration-300',
+        'text-gray-700 dark:text-gray-100 bg-pink-50 dark:bg-gray-750 p-3 flex items-center gap-3 rounded-xl overflow-hidden relative transition duration-300',
         'after:content-[""] after:block after:bg-pink-300 after:h-1 after:w-full after:absolute after:left-0 after:bottom-0 hide-toast-indicator',
         {
           'translate-x-[calc(100%+1rem)] opacity-0': !isShown,
@@ -51,12 +52,14 @@ export default function Toast({ id, title, message, isSuccess }: TToast) {
     >
       <div className={'flex items-center gap-3'}>
         {isSuccess ? <ToastSuccessIcon /> : <ToastErrorIcon />}
-        <div>
-          <p className={'font-semibold text-xl leading-6'}>{title}</p>
-          <p className={'text-base leading-5'}>{message}</p>
+        <div className={'max-w-[calc(100dvw-9rem)] sm:max-w-100'}>
+          <p className={'font-semibold text-xl leading-6 truncate'}>{title}</p>
+          <p className={'leading-5 text-sm truncate'}>{message}</p>
         </div>
       </div>
-      <CloseModalButton onClose={onClose} />
+      <Button onClick={onClose} className={'p-1'} aria-label={'close toast'}>
+        <CloseIcon />
+      </Button>
     </div>
   )
 }

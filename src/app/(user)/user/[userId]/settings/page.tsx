@@ -16,11 +16,11 @@ export default async function Settings({
   const session = await getServerSession()
 
   if (!session) {
-    return redirect(PAGES.LOGIN)
+    redirect(PAGES.LOGIN)
   }
 
   if (session && session.user.id !== userId) {
-    return redirect(PAGES.USER(session.user.id))
+    redirect(PAGES.USER(session.user.id))
   }
 
   return <main className={'p-4'}>Settings</main>

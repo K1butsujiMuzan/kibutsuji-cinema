@@ -1,20 +1,16 @@
 'use client'
 
 import FriendsButton from '@/app/(user)/user/[userId]/(user-wrapper)/friends/(components)/FriendsButton'
-import {
-  FRIENDS_PARAMS,
-  friendsData,
-} from '@/app/(user)/user/[userId]/(user-wrapper)/friends/(components)/friends.data'
+import { FRIENDS_DATA, FRIENDS_PARAMS } from '@/configs/friends.config'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { PAGES } from '@/configs/pages.config'
 
 interface Props {
   userId: string
-  sessionId: string
   isProfile: boolean
 }
 
-export default function FriendsPanel({ userId, sessionId, isProfile }: Props) {
+export default function FriendsPanel({ userId, isProfile }: Props) {
   const searchParams = useSearchParams()
   const router = useRouter()
 
@@ -28,10 +24,10 @@ export default function FriendsPanel({ userId, sessionId, isProfile }: Props) {
     <ul
       className={'flex gap-2 overflow-auto no-scrollbar snap-x snap-mandatory'}
     >
-      {friendsData.map(({ text, type, value }) => {
+      {FRIENDS_DATA.map(({ text, type, value }) => {
         if (
-          (type === 'profile' && userId === sessionId) ||
-          (type === 'user' && userId !== sessionId) ||
+          (type === 'profile' && isProfile) ||
+          (type === 'user' && !isProfile) ||
           type === 'public'
         ) {
           return (

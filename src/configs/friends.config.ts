@@ -11,7 +11,7 @@ type TFriends = {
   type: 'profile' | 'user' | 'public'
 }
 
-export const friendsData: TFriends[] = [
+export const FRIENDS_DATA: TFriends[] = [
   {
     text: 'Friends list',
     value: FRIENDS_PARAMS.FRIENDS,

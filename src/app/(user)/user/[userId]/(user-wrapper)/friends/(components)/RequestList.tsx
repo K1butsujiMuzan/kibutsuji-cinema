@@ -23,7 +23,8 @@ import useFriend from '@/hooks/useFriend'
 export default function RequestList() {
   const {
     search,
-    debouncedSearch,
+    onSubmit,
+    submitSearch,
     QUERY_KEY,
     onSearch,
     clearSearch,
@@ -34,7 +35,7 @@ export default function RequestList() {
   } = useFriend([QUERY_KEYS.REQUEST_LIST])
 
   const { data, isPending, isFetching, refetch } = useQuery({
-    queryFn: async () => getRequestList(page, debouncedSearch),
+    queryFn: async () => getRequestList(page, submitSearch),
     queryKey: QUERY_KEY,
     staleTime: 0,
   })
@@ -83,6 +84,7 @@ export default function RequestList() {
   return (
     <>
       <Search
+        onFormSubmit={onSubmit}
         searchValue={search}
         onChange={onSearch}
         inputId={'request-list'}

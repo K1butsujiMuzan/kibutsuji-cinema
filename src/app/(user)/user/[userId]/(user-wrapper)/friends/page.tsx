@@ -3,16 +3,13 @@ import type { Metadata } from 'next'
 import { findUserById } from '@/server-actions/find-user-by-id'
 import FriendsPanel from '@/app/(user)/user/[userId]/(user-wrapper)/friends/(components)/FriendsPanel'
 import { Suspense } from 'react'
-import { redirect } from 'next/navigation'
-import { PAGES } from '@/configs/pages.config'
-import {
-  FRIENDS_PARAMS,
-  friendsData,
-} from '@/app/(user)/user/[userId]/(user-wrapper)/friends/(components)/friends.data'
+import { FRIENDS_PARAMS } from '@/configs/friends.config'
 import FriendsList from '@/app/(user)/user/[userId]/(user-wrapper)/friends/(components)/FriendsList'
 import RequestList from '@/app/(user)/user/[userId]/(user-wrapper)/friends/(components)/RequestList'
 import SentList from '@/app/(user)/user/[userId]/(user-wrapper)/friends/(components)/SentList'
 import MutualList from '@/app/(user)/user/[userId]/(user-wrapper)/friends/(components)/MutualList'
+import { notFound, redirect } from 'next/navigation'
+import { PAGES } from '@/configs/pages.config'
 
 export const metadata: Metadata = {
   title: 'friends',
@@ -29,24 +26,15 @@ export default async function Friends({ params, searchParams }: Props) {
   const userData = await findUserById(userId)
   const session = await getServerSession()
 
-  if (!userData || !session) {
-    return null
+  if (!session) {
+    redirect(PAGES.LOGIN)
   }
 
-  const isExistingType = (Object.values(FRIENDS_PARAMS) as string[]).includes(
-    type ?? '',
-  )
-  const accessType =
-    friendsData.find((item) => item.value === type)?.type ?? 'public'
-
-  if (
-    !type ||
-    !isExistingType ||
-    (accessType === 'user' && userId === session.user.id) ||
-    (accessType === 'profile' && userId !== session.user.id)
-  ) {
-    redirect(`${PAGES.FRIENDS(userId)}?type=${FRIENDS_PARAMS.FRIENDS}`)
+  if (!userData) {
+    notFound()
   }
+
+  const isProfile = session.user.id === userId
 
   return (
     <>
@@ -57,15 +45,11 @@ export default async function Friends({ params, searchParams }: Props) {
         }
       >
         <Suspense>
-          <FriendsPanel
-            userId={userId}
-            isProfile={session.user.id === userId}
-            sessionId={session.user.id}
-          />
+          <FriendsPanel userId={userId} isProfile={isProfile} />
         </Suspense>
         {type === FRIENDS_PARAMS.MUTUAL && <MutualList userId={userId} />}
         {type === FRIENDS_PARAMS.FRIENDS && (
-          <FriendsList userId={userId} isProfile={session.user.id === userId} />
+          <FriendsList userId={userId} isProfile={isProfile} />
         )}
         {type === FRIENDS_PARAMS.SENT && <SentList />}
         {type === FRIENDS_PARAMS.RECEIVED && <RequestList />}

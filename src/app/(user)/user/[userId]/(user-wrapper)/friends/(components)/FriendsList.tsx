@@ -22,18 +22,19 @@ interface Props {
 export default function FriendsList({ userId, isProfile }: Props) {
   const {
     search,
-    debouncedSearch,
     QUERY_KEY,
+    submitSearch,
     onSearch,
     clearSearch,
     onPreviousPage,
     page,
+    onSubmit,
     onNextPage,
     onSuccess,
   } = useFriend([QUERY_KEYS.FRIEND_LIST, userId])
 
   const { data, isPending, isFetching, refetch } = useQuery({
-    queryFn: async () => getFriendList(userId, page, debouncedSearch),
+    queryFn: async () => getFriendList(userId, page, submitSearch),
     queryKey: QUERY_KEY,
     staleTime: 0,
   })
@@ -66,6 +67,7 @@ export default function FriendsList({ userId, isProfile }: Props) {
   return (
     <>
       <Search
+        onFormSubmit={onSubmit}
         searchValue={search}
         onChange={onSearch}
         inputId={'friend-list'}

@@ -35,12 +35,16 @@ export async function getFriendList(
               {
                 userToId: userId,
                 status: 'FRIEND',
-                userFrom: { name: { contains: trimmedSearch, mode: 'insensitive' } },
+                userFrom: {
+                  name: { contains: trimmedSearch, mode: 'insensitive' },
+                },
               },
               {
                 userFromId: userId,
                 status: 'FRIEND',
-                userTo: { name: { contains: trimmedSearch, mode: 'insensitive' } },
+                userTo: {
+                  name: { contains: trimmedSearch, mode: 'insensitive' },
+                },
               },
             ],
           }
@@ -91,7 +95,9 @@ export async function getRequestList(page: number, search: string): TFriend {
     const where: Prisma.FriendListsWhereInput =
       trimmedSearch.length > 0
         ? {
-            userFrom: { name: { contains: trimmedSearch, mode: 'insensitive' } },
+            userFrom: {
+              name: { contains: trimmedSearch, mode: 'insensitive' },
+            },
             userToId: session.user.id,
             status: 'PENDING',
           }
@@ -204,12 +210,16 @@ export async function getMutualList(
                 {
                   userToId: id,
                   status: 'FRIEND',
-                  userFrom: { name: { contains: trimmedSearch, mode: 'insensitive' } },
+                  userFrom: {
+                    name: { contains: trimmedSearch, mode: 'insensitive' },
+                  },
                 },
                 {
                   userFromId: id,
                   status: 'FRIEND',
-                  userTo: { name: { contains: trimmedSearch, mode: 'insensitive' } },
+                  userTo: {
+                    name: { contains: trimmedSearch, mode: 'insensitive' },
+                  },
                 },
               ],
             }

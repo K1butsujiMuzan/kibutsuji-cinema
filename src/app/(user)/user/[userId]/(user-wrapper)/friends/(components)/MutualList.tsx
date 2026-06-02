@@ -18,7 +18,8 @@ interface Props {
 export default function MutualList({ userId }: Props) {
   const {
     search,
-    debouncedSearch,
+    onSubmit,
+    submitSearch,
     QUERY_KEY,
     onSearch,
     clearSearch,
@@ -28,7 +29,7 @@ export default function MutualList({ userId }: Props) {
   } = useFriend([QUERY_KEYS.MUTUAL_LIST, userId])
 
   const { data, isPending, isFetching, refetch } = useQuery({
-    queryFn: async () => getMutualList(userId, page, debouncedSearch),
+    queryFn: async () => getMutualList(userId, page, submitSearch),
     queryKey: QUERY_KEY,
     staleTime: 0,
   })
@@ -45,6 +46,7 @@ export default function MutualList({ userId }: Props) {
   return (
     <>
       <Search
+        onFormSubmit={onSubmit}
         searchValue={search}
         onChange={onSearch}
         inputId={'mutual-list'}

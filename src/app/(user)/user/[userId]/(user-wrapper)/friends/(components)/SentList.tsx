@@ -17,7 +17,8 @@ import useFriend from '@/hooks/useFriend'
 export default function SentList() {
   const {
     search,
-    debouncedSearch,
+    onSubmit,
+    submitSearch,
     QUERY_KEY,
     onSearch,
     clearSearch,
@@ -28,7 +29,7 @@ export default function SentList() {
   } = useFriend([QUERY_KEYS.SENT_LIST])
 
   const { data, isPending, isFetching, refetch } = useQuery({
-    queryFn: async () => getSentList(page, debouncedSearch),
+    queryFn: async () => getSentList(page, submitSearch),
     queryKey: QUERY_KEY,
     staleTime: 0,
   })
@@ -61,6 +62,7 @@ export default function SentList() {
   return (
     <>
       <Search
+        onFormSubmit={onSubmit}
         searchValue={search}
         onChange={onSearch}
         inputId={'sent-list'}

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
+import { FRIENDS_DATA, FRIENDS_PARAMS } from '@/configs/friends.config'
 
 const notAllowedAfterVerification: string[] = [
   '/welcome',
@@ -40,6 +41,35 @@ export async function proxy(request: NextRequest) {
       return NextResponse.redirect(new URL('/welcome', request.url))
     }
   }
+
+  const segments = request.nextUrl.pathname.split('/')
+
+  if (
+    segments.length === 4 &&
+    segments[1] === 'user' &&
+    segments[3] === 'friends'
+  ) {
+    const type = request.nextUrl.searchParams.get('type')
+    const isExistingType = (Object.values(FRIENDS_PARAMS) as string[]).includes(
+      type ?? '',
+    )
+    const accessType =
+      FRIENDS_DATA.find((item) => item.value === type)?.type ?? 'public'
+    const isProfile = session?.user?.id === segments[2]
+
+    if (
+      !type ||
+      !isExistingType ||
+      (accessType === 'user' && isProfile) ||
+      (accessType === 'profile' && !isProfile)
+    ) {
+      const url = request.nextUrl.clone()
+      url.searchParams.set('type', 'friends')
+      return NextResponse.redirect(url)
+    }
+  }
+
+  /* localhost:3000/user/12345/friends   */
 
   if (isEmailVerified) {
     const isGuestURL = notAllowedAfterVerification.some((link) =>

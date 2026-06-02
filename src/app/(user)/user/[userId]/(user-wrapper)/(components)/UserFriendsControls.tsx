@@ -25,6 +25,7 @@ import FriendListStatus = $Enums.FriendListStatus
 import { useMemo } from 'react'
 import { useAddToast } from '@/stores/useToastsStore'
 import UserFriendLoading from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/(loaders)/UserFriendLoading'
+import { ERRORS } from '@/constants/errors'
 
 interface Props {
   userId: string
@@ -45,6 +46,15 @@ export default function UserFriendsControls({ userId }: Props) {
 
   const onSuccess = async (data: { error: string | null }) => {
     if (data.error) {
+      if (
+        data.error === ERRORS.ALREADY_FRIENDS ||
+        data.error === ERRORS.USER_BLOCKED_YOU ||
+        data.error === ERRORS.YOU_BLOCKED_USER
+      ) {
+        await queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.FRIENDS, userId],
+        })
+      }
       return addToast({ title: data.error, message: '', isSuccess: false })
     }
     await queryClient.invalidateQueries({
