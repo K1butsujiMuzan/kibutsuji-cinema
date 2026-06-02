@@ -26,19 +26,21 @@ export async function getFriendList(
       return { error: ERRORS.UNAUTHORIZED }
     }
 
+    const trimmedSearch = search.trim()
+
     const where: Prisma.FriendListsWhereInput =
-      search.length > 0
+      trimmedSearch.length > 0
         ? {
             OR: [
               {
                 userToId: userId,
                 status: 'FRIEND',
-                userFrom: { name: { contains: search, mode: 'insensitive' } },
+                userFrom: { name: { contains: trimmedSearch, mode: 'insensitive' } },
               },
               {
                 userFromId: userId,
                 status: 'FRIEND',
-                userTo: { name: { contains: search, mode: 'insensitive' } },
+                userTo: { name: { contains: trimmedSearch, mode: 'insensitive' } },
               },
             ],
           }
@@ -84,10 +86,12 @@ export async function getRequestList(page: number, search: string): TFriend {
       return { error: ERRORS.UNAUTHORIZED }
     }
 
+    const trimmedSearch = search.trim()
+
     const where: Prisma.FriendListsWhereInput =
-      search.length > 0
+      trimmedSearch.length > 0
         ? {
-            userFrom: { name: { contains: search, mode: 'insensitive' } },
+            userFrom: { name: { contains: trimmedSearch, mode: 'insensitive' } },
             userToId: session.user.id,
             status: 'PENDING',
           }
@@ -130,10 +134,12 @@ export async function getSentList(page: number, search: string): TFriend {
       return { error: ERRORS.UNAUTHORIZED }
     }
 
+    const trimmedSearch = search.trim()
+
     const where: Prisma.FriendListsWhereInput =
-      search.length > 0
+      trimmedSearch.length > 0
         ? {
-            userTo: { name: { contains: search, mode: 'insensitive' } },
+            userTo: { name: { contains: trimmedSearch, mode: 'insensitive' } },
             userFromId: session.user.id,
             status: 'PENDING',
           }
@@ -188,20 +194,22 @@ export async function getMutualList(
       }
     }
 
+    const trimmedSearch = search.trim()
+
     return prisma.$transaction(async (tx) => {
       const where = (id: string): Prisma.FriendListsWhereInput => {
-        return search.length > 0
+        return trimmedSearch.length > 0
           ? {
               OR: [
                 {
                   userToId: id,
                   status: 'FRIEND',
-                  userFrom: { name: { contains: search, mode: 'insensitive' } },
+                  userFrom: { name: { contains: trimmedSearch, mode: 'insensitive' } },
                 },
                 {
                   userFromId: id,
                   status: 'FRIEND',
-                  userTo: { name: { contains: search, mode: 'insensitive' } },
+                  userTo: { name: { contains: trimmedSearch, mode: 'insensitive' } },
                 },
               ],
             }
