@@ -11,14 +11,7 @@ type TInitialToast = {
 }
 
 const initialState: TInitialToast = {
-  toasts: [
-    {
-      id: 'asdasd',
-      message: 'asdassssssssssssssssssssssssdas',
-      title: 'asdassssssssssssssssssssssssssssssssssssssssssd',
-      isSuccess: true,
-    },
-  ],
+  toasts: [],
 }
 
 type TToastsStore = TInitialToast & TToastsActions
