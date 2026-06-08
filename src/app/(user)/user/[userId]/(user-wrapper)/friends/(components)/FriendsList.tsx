@@ -13,6 +13,7 @@ import PageChanger from '@/components/ui/page-changer/PageChanger'
 import Button from '@/components/ui/button/Button'
 import Search from '@/components/ui/search/Search'
 import useFriend from '@/hooks/useFriend'
+import { useOnSuccess } from '@/hooks/useOnSuccess'
 
 interface Props {
   userId: string
@@ -30,8 +31,8 @@ export default function FriendsList({ userId, isProfile }: Props) {
     page,
     onSubmit,
     onNextPage,
-    onSuccess,
   } = useFriend([QUERY_KEYS.FRIEND_LIST, userId])
+  const { onSuccess } = useOnSuccess()
 
   const { data, isPending, isFetching, refetch } = useQuery({
     queryFn: async () => getFriendList(userId, page, submitSearch),
@@ -42,7 +43,7 @@ export default function FriendsList({ userId, isProfile }: Props) {
   const unfriendMutation = useMutation({
     mutationFn: async (id: string) => unfriendUserFriend(id),
     onSuccess: async (result) => {
-      await onSuccess(result)
+      await onSuccess(result, QUERY_KEY)
       if (
         data &&
         !('error' in data) &&

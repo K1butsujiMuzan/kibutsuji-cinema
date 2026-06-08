@@ -32,7 +32,7 @@ export async function GET(request: NextRequest) {
 
     if (!existingUser) {
       return cors(
-        NextResponse.json({ error: ERRORS.NOT_FOUND('User') }, { status: 404 }),
+        NextResponse.json({ error: ERRORS.NO_DATA('User') }, { status: 404 }),
       )
     }
 

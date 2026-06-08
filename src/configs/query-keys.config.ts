@@ -4,4 +4,5 @@ export const QUERY_KEYS = {
   REQUEST_LIST: 'request-list',
   SENT_LIST: 'sent-list',
   MUTUAL_LIST: 'mutual-list',
+  ANIME_BOOKMARK: 'anime-bookmark',
 } as const

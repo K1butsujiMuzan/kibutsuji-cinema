@@ -143,7 +143,7 @@ export async function POST(request: NextRequest) {
     if (!existingComment) {
       return cors(
         NextResponse.json(
-          { error: ERRORS.NOT_FOUND('Comment') },
+          { error: ERRORS.NO_DATA('Comment') },
           { status: 404 },
         ),
       )
@@ -225,7 +225,7 @@ export async function PUT(request: NextRequest) {
 
     if (!likeById) {
       return cors(
-        NextResponse.json({ error: ERRORS.NOT_FOUND('Like') }, { status: 404 }),
+        NextResponse.json({ error: ERRORS.NO_DATA('Like') }, { status: 404 }),
       )
     }
 

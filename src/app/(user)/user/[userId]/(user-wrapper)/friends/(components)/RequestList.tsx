@@ -19,6 +19,7 @@ import Button from '@/components/ui/button/Button'
 import PageChanger from '@/components/ui/page-changer/PageChanger'
 import Search from '@/components/ui/search/Search'
 import useFriend from '@/hooks/useFriend'
+import { useOnSuccess } from '@/hooks/useOnSuccess'
 
 export default function RequestList() {
   const {
@@ -31,8 +32,8 @@ export default function RequestList() {
     onPreviousPage,
     page,
     onNextPage,
-    onSuccess,
   } = useFriend([QUERY_KEYS.REQUEST_LIST])
+  const { onSuccess } = useOnSuccess()
 
   const { data, isPending, isFetching, refetch } = useQuery({
     queryFn: async () => getRequestList(page, submitSearch),
@@ -43,7 +44,7 @@ export default function RequestList() {
   const declineMutation = useMutation({
     mutationFn: async (id: string) => declineUserFriend(id),
     onSuccess: async (result) => {
-      await onSuccess(result)
+      await onSuccess(result, QUERY_KEY)
       if (
         data &&
         !('error' in data) &&
@@ -59,7 +60,7 @@ export default function RequestList() {
   const acceptMutation = useMutation({
     mutationFn: async (id: string) => acceptUserFriend(id),
     onSuccess: async (result) => {
-      await onSuccess(result)
+      await onSuccess(result, QUERY_KEY)
       if (
         data &&
         !('error' in data) &&

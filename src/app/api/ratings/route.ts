@@ -208,10 +208,7 @@ export async function PUT(request: NextRequest) {
 
     if (!ratingById) {
       return cors(
-        NextResponse.json(
-          { error: ERRORS.NOT_FOUND('Rating') },
-          { status: 404 },
-        ),
+        NextResponse.json({ error: ERRORS.NO_DATA('Rating') }, { status: 404 }),
       )
     }
 

@@ -143,10 +143,7 @@ export async function POST(request: NextRequest) {
 
     if (!existingAnime) {
       return cors(
-        NextResponse.json(
-          { error: ERRORS.NOT_FOUND('Anime') },
-          { status: 404 },
-        ),
+        NextResponse.json({ error: ERRORS.NO_DATA('Anime') }, { status: 404 }),
       )
     }
 
@@ -235,7 +232,7 @@ export async function PUT(request: NextRequest) {
     if (!episodeById) {
       return cors(
         NextResponse.json(
-          { error: ERRORS.NOT_FOUND('Episode') },
+          { error: ERRORS.NO_DATA('Episode') },
           { status: 404 },
         ),
       )

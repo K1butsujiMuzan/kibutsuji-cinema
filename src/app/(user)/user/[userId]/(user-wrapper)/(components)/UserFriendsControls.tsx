@@ -26,6 +26,7 @@ import { useMemo } from 'react'
 import { useAddToast } from '@/stores/useToastsStore'
 import UserFriendLoading from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/(loaders)/UserFriendLoading'
 import { ERRORS } from '@/constants/errors'
+import type { TErrorResponse } from '@/shared/types/error-response.type'
 
 interface Props {
   userId: string
@@ -44,7 +45,7 @@ export default function UserFriendsControls({ userId }: Props) {
 
   const queryClient = useQueryClient()
 
-  const onSuccess = async (data: { error: string | null }) => {
+  const onSuccess = async (data: TErrorResponse) => {
     if (data.error) {
       if (
         data.error === ERRORS.ALREADY_FRIENDS ||

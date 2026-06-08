@@ -3,7 +3,7 @@ export function PremiumMostPopular() {
     <svg
       aria-hidden={true}
       role={'img'}
-      className={'text-pink-400 -rotate-60'}
+      className={'shrink-0 text-pink-400 -rotate-60'}
       xmlns="http://www.w3.org/2000/svg"
       width="21"
       height="20"

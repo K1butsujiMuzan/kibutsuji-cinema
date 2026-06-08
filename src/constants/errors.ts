@@ -8,7 +8,8 @@ export const ERRORS = {
   DELETE_DATA_LIMIT: `You can only delete ${DELETE_LIMIT} records per request`,
   DELETE_YOURSELF: 'You cannot delete yourself',
   ROLE_YOURSELF: 'You cannot change your role',
-  NOT_FOUND: (label: string) => `${label} not found, please use existing id`,
+  NO_DATA: (label: string) => `${label} not found, please use existing id`,
+  NOT_FOUND: 'Not found',
   NOT_DATA_PERIOD: `There is no data for the selected period`,
   MIN_LENGTH: (label: string, length: number) =>
     `${label} must be at least ${length} characters long.`,

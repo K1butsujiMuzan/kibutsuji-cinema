@@ -36,6 +36,7 @@
   --color-pink-500: #513094;
 
   --color-red-200: #de7072;
+  --color-red-250: #ff6666;
   --color-red-300: #f44336;
   --color-red-400: #ed1818;
 
@@ -51,6 +52,9 @@
   --color-gray-750: #252527;
   --color-gray-800: #1c1c1c;
   --color-gray-950: #0a0a0a;
+
+  --color-green-400: #3cce7b;
+  --color-orange-400: #ff9b40;
 }
 
 .no-scrollbar {

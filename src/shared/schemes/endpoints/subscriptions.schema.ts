@@ -10,7 +10,7 @@ export const updateSubscriptionsSchema = z.object(
       .string({ error: ERRORS.INVALID('id') })
       .trim()
       .min(ID_MIN_LENGTH, { error: ERRORS.MIN_LENGTH('Id', ID_MIN_LENGTH) }),
-    type: z.enum([SubscriptionType.FAN, SubscriptionType.MEGAFAN], {
+    type: z.enum([SubscriptionType.FAN, SubscriptionType.MEGA_FAN], {
       error: ERRORS.INVALID('type'),
     }),
     endDate: z.iso
@@ -25,7 +25,7 @@ export const updateSubscriptionsSchema = z.object(
 
 export const createSubscriptionsSchema = z.object(
   {
-    type: z.enum([SubscriptionType.FAN, SubscriptionType.MEGAFAN], {
+    type: z.enum([SubscriptionType.FAN, SubscriptionType.MEGA_FAN], {
       error: ERRORS.INVALID('type'),
     }),
     endDate: z.iso

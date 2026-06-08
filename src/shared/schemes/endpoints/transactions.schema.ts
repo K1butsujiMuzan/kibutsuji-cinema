@@ -9,7 +9,7 @@ export const updateTransactionsSchema = z.object(
       .string({ error: ERRORS.INVALID('id') })
       .trim()
       .min(ID_MIN_LENGTH, { error: ERRORS.MIN_LENGTH('Id', ID_MIN_LENGTH) }),
-    subscription: z.enum([SubscriptionType.FAN, SubscriptionType.MEGAFAN], {
+    subscription: z.enum([SubscriptionType.FAN, SubscriptionType.MEGA_FAN], {
       error: ERRORS.INVALID('subscription'),
     }),
     sum: z
@@ -22,7 +22,7 @@ export const updateTransactionsSchema = z.object(
 
 export const createTransactionsSchema = z.object(
   {
-    subscription: z.enum([SubscriptionType.FAN, SubscriptionType.MEGAFAN], {
+    subscription: z.enum([SubscriptionType.FAN, SubscriptionType.MEGA_FAN], {
       error: ERRORS.INVALID('subscription'),
     }),
     userId: z

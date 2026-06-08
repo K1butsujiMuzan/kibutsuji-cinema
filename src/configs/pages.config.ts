@@ -15,4 +15,6 @@ export const PAGES = {
   FRIENDS: (id: string) => `/user/${id}/friends`,
   SETTINGS: (id: string) => `/user/${id}/settings`,
   NEW_ANIME: '/new-anime',
+  ANIME: (slug: string) => `/anime/${slug}`,
+  EPISODE: (animeSlug: string, id: string) => `/anime/${animeSlug}/${id}`,
 } as const

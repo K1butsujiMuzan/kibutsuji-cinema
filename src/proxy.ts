@@ -2,16 +2,17 @@ import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
 import { FRIENDS_DATA, FRIENDS_PARAMS } from '@/configs/friends.config'
+import { PAGES } from '@/configs/pages.config'
 
 const notAllowedAfterVerification: string[] = [
-  '/welcome',
-  '/login',
-  '/register',
-  '/reset-password',
-  '/new-password',
+  PAGES.WELCOME,
+  PAGES.LOGIN,
+  PAGES.REGISTER,
+  PAGES.RESET,
+  PAGES.NEW_PASSWORD,
 ]
 
-const adminURLs: string[] = ['/new-anime']
+const adminURLs: string[] = [PAGES.NEW_ANIME]
 
 const forAuthorized: string[] = []
 
@@ -26,11 +27,11 @@ export async function proxy(request: NextRequest) {
 
   if (!isEmailVerified) {
     if (pathName.startsWith('/user')) {
-      return NextResponse.redirect(new URL('/login', request.url))
+      return NextResponse.redirect(new URL(PAGES.LOGIN, request.url))
     }
 
-    if (pathName === '/') {
-      return NextResponse.redirect(new URL('/welcome', request.url))
+    if (pathName === PAGES.MAIN) {
+      return NextResponse.redirect(new URL(PAGES.WELCOME, request.url))
     }
 
     const isForAuthorizedURL = forAuthorized.some((link) => {
@@ -38,7 +39,7 @@ export async function proxy(request: NextRequest) {
     })
 
     if (isForAuthorizedURL) {
-      return NextResponse.redirect(new URL('/welcome', request.url))
+      return NextResponse.redirect(new URL(PAGES.WELCOME, request.url))
     }
   }
 
@@ -69,14 +70,12 @@ export async function proxy(request: NextRequest) {
     }
   }
 
-  /* localhost:3000/user/12345/friends   */
-
   if (isEmailVerified) {
     const isGuestURL = notAllowedAfterVerification.some((link) =>
       pathName.startsWith(link),
     )
     if (isGuestURL) {
-      return NextResponse.redirect(new URL('/', request.url))
+      return NextResponse.redirect(new URL(PAGES.MAIN, request.url))
     }
   }
 
@@ -86,7 +85,7 @@ export async function proxy(request: NextRequest) {
     })
     if (isAdminURL) {
       return NextResponse.redirect(
-        new URL(isEmailVerified ? '/' : '/welcome', request.url),
+        new URL(isEmailVerified ? PAGES.MAIN : PAGES.WELCOME, request.url),
       )
     }
   }

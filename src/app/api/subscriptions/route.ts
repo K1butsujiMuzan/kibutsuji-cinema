@@ -158,7 +158,7 @@ export async function PUT(request: NextRequest) {
     if (!subscriptionById) {
       return cors(
         NextResponse.json(
-          { error: ERRORS.NOT_FOUND('Subscription') },
+          { error: ERRORS.NO_DATA('Subscription') },
           { status: 404 },
         ),
       )

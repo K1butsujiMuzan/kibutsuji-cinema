@@ -21,7 +21,11 @@ export default function MainQueryProvider({
   return (
     <QueryClientProvider client={queryClient}>
       {children}
-      {/*<ReactQueryDevtools theme={'dark'} initialIsOpen={false} position={'right'} />*/}
+      <ReactQueryDevtools
+        theme={'dark'}
+        initialIsOpen={false}
+        position={'right'}
+      />
     </QueryClientProvider>
   )
 }

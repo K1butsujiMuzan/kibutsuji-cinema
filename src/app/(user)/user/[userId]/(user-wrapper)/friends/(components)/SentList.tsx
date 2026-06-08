@@ -13,6 +13,7 @@ import Button from '@/components/ui/button/Button'
 import PageChanger from '@/components/ui/page-changer/PageChanger'
 import Search from '@/components/ui/search/Search'
 import useFriend from '@/hooks/useFriend'
+import { useOnSuccess } from '@/hooks/useOnSuccess'
 
 export default function SentList() {
   const {
@@ -25,8 +26,8 @@ export default function SentList() {
     onPreviousPage,
     page,
     onNextPage,
-    onSuccess,
   } = useFriend([QUERY_KEYS.SENT_LIST])
+  const { onSuccess } = useOnSuccess()
 
   const { data, isPending, isFetching, refetch } = useQuery({
     queryFn: async () => getSentList(page, submitSearch),
@@ -37,7 +38,7 @@ export default function SentList() {
   const cancelSentMutation = useMutation({
     mutationFn: async (id: string) => cancelUserFriend(id),
     onSuccess: async (result) => {
-      await onSuccess(result)
+      await onSuccess(result, QUERY_KEY)
       if (
         data &&
         !('error' in data) &&

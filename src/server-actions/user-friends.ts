@@ -58,7 +58,7 @@ export async function addUserFriend(userId: string): Promise<TErrorResponse> {
     const { sessionId } = sessionCheck
 
     const result: TErrorResponse = await prisma.$transaction(
-      async (tx): Promise<{ error: string | null }> => {
+      async (tx): Promise<TErrorResponse> => {
         const userFriendRequest = await tx.friendLists.findFirst({
           where: {
             OR: [

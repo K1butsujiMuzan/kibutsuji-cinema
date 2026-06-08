@@ -1,6 +1,7 @@
 export default function CloseIcon() {
   return (
     <svg
+      className={'shrink-0'}
       aria-hidden={true}
       role={'img'}
       width="24"

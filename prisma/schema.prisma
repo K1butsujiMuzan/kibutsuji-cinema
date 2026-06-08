@@ -28,9 +28,9 @@ enum AnimeStatus {
 }
 
 enum AnimeType {
-  TVSERIES
+  TV_SERIES
   MOVIE
-  SHORTFILM
+  SHORT_FILM
   SPECIAL
   OVA
   ONA
@@ -51,7 +51,7 @@ enum LikeValue {
 
 enum SubscriptionType {
   FAN
-  MEGAFAN
+  MEGA_FAN
 }
 
 enum AnimeAccessType {
@@ -226,7 +226,7 @@ model Anime {
   episodesCount    Int             @map("episodes_count")
   episodesReleased Int             @default(0) @map("episodes_released")
   episodesLength   Int             @map("episodes_length")
-  type             AnimeType       @default(TVSERIES)
+  type             AnimeType       @default(TV_SERIES)
   status           AnimeStatus     @default(ANNOUNCEMENT)
   views            Int             @default(0)
   access           AnimeAccessType @default(FREE)

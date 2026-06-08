@@ -12,7 +12,9 @@ export default function NotFoundWrapper() {
   const pageText = useMemo(() => {
     return pathName.startsWith('/user')
       ? 'User not found'
-      : 'Page not found or has been moved'
+      : pathName.startsWith('/anime')
+        ? 'Anime not found'
+        : 'Page not found or has been moved'
   }, [pathName])
 
   return (

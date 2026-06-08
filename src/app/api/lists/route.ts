@@ -153,7 +153,7 @@ export async function PUT(request: NextRequest) {
 
     if (!listById) {
       return cors(
-        NextResponse.json({ error: ERRORS.NOT_FOUND('List') }, { status: 404 }),
+        NextResponse.json({ error: ERRORS.NO_DATA('List') }, { status: 404 }),
       )
     }
 

@@ -96,7 +96,7 @@ export async function POST(request: NextRequest) {
     if (!existingEpisode) {
       return cors(
         NextResponse.json(
-          { error: ERRORS.NOT_FOUND('Episode') },
+          { error: ERRORS.NO_DATA('Episode') },
           { status: 404 },
         ),
       )
@@ -152,7 +152,7 @@ export async function PUT(request: NextRequest) {
     if (!commentById) {
       return cors(
         NextResponse.json(
-          { error: ERRORS.NOT_FOUND('Comment') },
+          { error: ERRORS.NO_DATA('Comment') },
           { status: 404 },
         ),
       )

@@ -149,10 +149,7 @@ export async function PUT(request: NextRequest) {
 
     if (!genreById) {
       return cors(
-        NextResponse.json(
-          { error: ERRORS.NOT_FOUND('Genre') },
-          { status: 404 },
-        ),
+        NextResponse.json({ error: ERRORS.NO_DATA('Genre') }, { status: 404 }),
       )
     }
 

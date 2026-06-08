@@ -12,7 +12,7 @@ export const animeCheck = async (
 
   if (!existingAnime) {
     return cors(
-      NextResponse.json({ error: ERRORS.NOT_FOUND('Anime') }, { status: 404 }),
+      NextResponse.json({ error: ERRORS.NO_DATA('Anime') }, { status: 404 }),
     )
   }
 

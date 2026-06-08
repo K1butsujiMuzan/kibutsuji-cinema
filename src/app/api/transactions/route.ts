@@ -143,7 +143,7 @@ export async function PUT(request: NextRequest) {
     if (!transactionById) {
       return cors(
         NextResponse.json(
-          { error: ERRORS.NOT_FOUND('Transaction') },
+          { error: ERRORS.NO_DATA('Transaction') },
           { status: 404 },
         ),
       )

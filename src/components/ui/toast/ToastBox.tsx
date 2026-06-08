@@ -3,10 +3,21 @@
 import { createPortal } from 'react-dom'
 import { useToasts } from '@/stores/useToastsStore'
 import Toast from '@/components/ui/toast/Toast'
+import { useEffect, useState } from 'react'
 
 export default function ToastBox() {
-  const box = document.getElementById('toasts-box') as HTMLDivElement
+  const [mounted, setMounted] = useState(false)
   const toasts = useToasts()
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) return null
+
+  const box = document.getElementById('toasts-box') as HTMLDivElement
+
+  if (!box) return null
 
   return createPortal(
     <>

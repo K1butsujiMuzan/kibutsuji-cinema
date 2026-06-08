@@ -1,3 +1,5 @@
+import { cn } from '@/lib/utils'
+
 interface Props {
   className?: string
 }
@@ -5,7 +7,7 @@ interface Props {
 export default function PageChangerIcon({ className }: Props) {
   return (
     <svg
-      className={className}
+      className={cn('shrink-0', className)}
       role={'img'}
       aria-hidden={true}
       width="20"
