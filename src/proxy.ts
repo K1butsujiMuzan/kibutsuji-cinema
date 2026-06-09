@@ -64,7 +64,7 @@ export async function proxy(request: NextRequest) {
       (accessType === 'user' && isProfile) ||
       (accessType === 'profile' && !isProfile)
     ) {
-      const url = request.nextUrl.clone()
+      const url = new URL(request.url)
       url.searchParams.set('type', 'friends')
       return NextResponse.redirect(url)
     }
