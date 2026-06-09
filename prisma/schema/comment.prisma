@@ -1,0 +1,20 @@
+model Comment {
+  id   String @id @default(cuid())
+  text String @db.Text
+
+  episodeId String       @map("episode_id")
+  episode   AnimeEpisode @relation(fields: [episodeId], references: [id], onDelete: Cascade)
+
+  userId        String @map("user_id")
+  user          User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  commentRating Int    @default(0) @map("comment_rating")
+
+  likes CommentLike[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([episodeId])
+  @@index([userId])
+  @@map("comments")
+}

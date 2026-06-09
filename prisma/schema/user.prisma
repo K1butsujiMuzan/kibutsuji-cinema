@@ -1,0 +1,26 @@
+model User {
+  id                     String  @id @default(cuid())
+  name                   String
+  email                  String  @unique
+  role                   Role    @default(USER)
+  emailVerified          Boolean @default(false)
+  isReceiveNotifications Boolean @default(false)
+  image                  String?
+
+  subscription         Subscription?
+  sessions             Session[]
+  accounts             Account[]
+  comments             Comment[]
+  ratings              AnimeRating[]
+  lists                UserList[]
+  likes                CommentLike[]
+  transactions         Transaction[]
+  sentRequests         FriendList[]  @relation(name: "sentRequests")
+  receivedRequests     FriendList[]  @relation(name: "receivedRequests")
+  subscriptionsAuthors Author[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("user")
+}

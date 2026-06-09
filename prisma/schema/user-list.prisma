@@ -1,0 +1,16 @@
+model UserList {
+  id   String @id @default(cuid())
+  list List
+
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  animeId String @map("anime_id")
+  anime   Anime  @relation(fields: [animeId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([animeId, userId])
+  @@map("lists")
+}

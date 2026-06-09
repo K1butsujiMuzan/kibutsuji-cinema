@@ -31,6 +31,7 @@ export const updateAnimeSchema = z.object(
     description: z
       .string({ error: ERRORS.INVALID('description') })
       .trim()
+      .min(10, { error: ERRORS.MIN_LENGTH('Description', 10) })
       .max(MAX_DESCRIPTION_LENGTH, {
         error: ERRORS.MAX_VALUE('Description', MAX_DESCRIPTION_LENGTH),
       })
@@ -38,14 +39,17 @@ export const updateAnimeSchema = z.object(
     image: z
       .string({ error: ERRORS.INVALID('image') })
       .trim()
+      .min(3, { error: ERRORS.MIN_LENGTH('Image', 3) })
       .nullable(),
     backgroundImage: z
       .string({ error: ERRORS.INVALID('background image') })
       .trim()
+      .min(3, { error: ERRORS.MIN_LENGTH('Background image', 3) })
       .nullable(),
     originalTitle: z
       .string({ error: ERRORS.INVALID('original title') })
       .trim()
+      .min(3, { error: ERRORS.MIN_LENGTH('Original title', 3) })
       .nullable(),
     episodesCount: z
       .number({ error: ERRORS.INVALID('episodes count') })

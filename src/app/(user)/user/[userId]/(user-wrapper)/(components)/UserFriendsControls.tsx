@@ -20,8 +20,7 @@ import {
   RemoveFriendIcon,
   UnblockUserIcon,
 } from '@/components/icons/UserFriendsIcons'
-import { $Enums } from '@/generated/prisma'
-import FriendListStatus = $Enums.FriendListStatus
+import { FriendListStatus } from '@/generated/prisma'
 import { useMemo } from 'react'
 import { useAddToast } from '@/stores/useToastsStore'
 import UserFriendLoading from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/(loaders)/UserFriendLoading'

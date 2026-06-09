@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { dateTransformer } from '@/utils/date-check'
+import { dateTransformer } from '@/utils/date-utils'
 import { findUserById } from '@/server-actions/find-user-by-id'
 import { notFound } from 'next/navigation'
 

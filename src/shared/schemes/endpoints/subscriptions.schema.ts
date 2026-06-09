@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { ERRORS } from '@/constants/errors'
 import { ID_MIN_LENGTH } from '@/constants/limits'
 import { SubscriptionType } from '@/generated/prisma'
-import { endDateCheck } from '@/utils/date-check'
+import { endDateCheck } from '@/utils/date-utils'
 
 export const updateSubscriptionsSchema = z.object(
   {

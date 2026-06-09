@@ -1,0 +1,11 @@
+model AnimeGenre {
+  id   String @id @default(cuid())
+  name String @unique
+
+  anime Anime[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("anime_genres")
+}

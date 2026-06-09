@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { dateTransformer } from '@/utils/date-check'
+import { dateTransformer } from '@/utils/date-utils'
 import Link from 'next/link'
 import { PAGES } from '@/configs/pages.config'
 import { memo } from 'react'

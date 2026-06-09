@@ -21,6 +21,7 @@ export const updateUsersSchema = z.object(
     image: z
       .string({ error: ERRORS.INVALID('image') })
       .trim()
+      .min(3, { error: ERRORS.MIN_LENGTH('Image', 3) })
       .nullable(),
     isReceiveNotifications: z.boolean({
       error: ERRORS.INVALID('is receive notifications'),

@@ -3,8 +3,8 @@
 import { getServerSession } from '@/lib/get-server-session'
 import { ERRORS } from '@/constants/errors'
 import prisma from '@/lib/prisma'
-import type { FriendLists } from '@/generated/prisma'
 import type { TErrorResponse } from '@/shared/types/error-response.type'
+import type { FriendList } from '@/generated/prisma'
 
 async function checkSessionAndId(
   userId: string,
@@ -23,7 +23,7 @@ async function checkSessionAndId(
   return { success: true, sessionId: session.user.id }
 }
 
-export async function getUserFriend(userId: string): Promise<FriendLists[]> {
+export async function getUserFriend(userId: string): Promise<FriendList[]> {
   try {
     const sessionCheck = await checkSessionAndId(userId)
 
@@ -33,7 +33,7 @@ export async function getUserFriend(userId: string): Promise<FriendLists[]> {
 
     const { sessionId } = sessionCheck
 
-    return await prisma.friendLists.findMany({
+    return await prisma.friendList.findMany({
       where: {
         OR: [
           { userToId: userId, userFromId: sessionId },
@@ -59,7 +59,7 @@ export async function addUserFriend(userId: string): Promise<TErrorResponse> {
 
     const result: TErrorResponse = await prisma.$transaction(
       async (tx): Promise<TErrorResponse> => {
-        const userFriendRequest = await tx.friendLists.findFirst({
+        const userFriendRequest = await tx.friendList.findFirst({
           where: {
             OR: [
               { userToId: userId, userFromId: sessionId },
@@ -80,7 +80,7 @@ export async function addUserFriend(userId: string): Promise<TErrorResponse> {
             return { error: ERRORS.USER_BLOCKED_YOU }
           }
 
-          await tx.friendLists.update({
+          await tx.friendList.update({
             where: {
               id: userFriendRequest.id,
             },
@@ -91,7 +91,7 @@ export async function addUserFriend(userId: string): Promise<TErrorResponse> {
           return { error: null }
         }
 
-        await tx.friendLists.create({
+        await tx.friendList.create({
           data: {
             userFromId: sessionId,
             userToId: userId,
@@ -121,7 +121,7 @@ export async function cancelUserFriend(
 
     const { sessionId } = sessionCheck
 
-    await prisma.friendLists.deleteMany({
+    await prisma.friendList.deleteMany({
       where: {
         userToId: userId,
         userFromId: sessionId,
@@ -145,7 +145,7 @@ export async function blockUser(userId: string): Promise<TErrorResponse> {
     const { sessionId } = sessionCheck
 
     await prisma.$transaction(async (tx) => {
-      await tx.friendLists.deleteMany({
+      await tx.friendList.deleteMany({
         where: {
           OR: [
             { status: 'FRIEND', userToId: userId, userFromId: sessionId },
@@ -164,7 +164,7 @@ export async function blockUser(userId: string): Promise<TErrorResponse> {
         },
       })
 
-      await tx.friendLists.upsert({
+      await tx.friendList.upsert({
         where: {
           userFromId_userToId: {
             userToId: userId,
@@ -199,7 +199,7 @@ export async function unblockUser(userId: string): Promise<TErrorResponse> {
 
     const { sessionId } = sessionCheck
 
-    await prisma.friendLists.deleteMany({
+    await prisma.friendList.deleteMany({
       where: {
         userToId: userId,
         userFromId: sessionId,
@@ -224,7 +224,7 @@ export async function acceptUserFriend(
 
     const { sessionId } = sessionCheck
 
-    await prisma.friendLists.updateMany({
+    await prisma.friendList.updateMany({
       where: {
         userToId: sessionId,
         userFromId: userId,
@@ -252,7 +252,7 @@ export async function declineUserFriend(
 
     const { sessionId } = sessionCheck
 
-    await prisma.friendLists.deleteMany({
+    await prisma.friendList.deleteMany({
       where: {
         userToId: sessionId,
         userFromId: userId,
@@ -278,7 +278,7 @@ export async function unfriendUserFriend(
 
     const { sessionId } = sessionCheck
 
-    await prisma.friendLists.deleteMany({
+    await prisma.friendList.deleteMany({
       where: {
         OR: [
           { userToId: userId, userFromId: sessionId, status: 'FRIEND' },

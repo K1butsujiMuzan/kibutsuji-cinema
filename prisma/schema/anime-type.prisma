@@ -1,0 +1,9 @@
+enum AnimeType {
+  TV_SERIES
+  MOVIE
+  SHORT_FILM
+  SPECIAL
+  OVA
+  ONA
+  CLIP
+}

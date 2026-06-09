@@ -1,0 +1,37 @@
+model Anime {
+  id               String          @id @default(cuid())
+  slug             String          @unique
+  title            String
+  image            String?
+  backgroundImage  String?         @map("background_image")
+  originalTitle    String?         @map("original_title")
+  description      String?         @db.Text
+  ageLimit         AgeLimit        @map("age_limit")
+  releaseDate      DateTime        @map("release_date")
+  rating           Float           @default(0)
+  episodesCount    Int             @map("episodes_count")
+  episodesReleased Int             @default(0) @map("episodes_released")
+  episodesLength   Int             @map("episodes_length")
+  type             AnimeType       @default(TV_SERIES)
+  status           AnimeStatus     @default(ANNOUNCEMENT)
+  views            Int             @default(0)
+  access           AnimeAccessType @default(FREE)
+
+  genres   AnimeGenre[]
+  episodes AnimeEpisode[]
+  ratings  AnimeRating[]
+  list     UserList[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  authorName String? @map("author_name")
+  author     Author? @relation(fields: [authorName], references: [englishName], onDelete: SetNull)
+
+  @@index([title])
+  @@index([releaseDate])
+  @@index([ageLimit])
+  @@index([status])
+  @@index([type])
+  @@map("anime")
+}

@@ -1,0 +1,14 @@
+model Author {
+  id           String  @id @default(cuid())
+  englishName  String  @unique @map("english_name")
+  originalName String?
+  image        String?
+
+  subscribers User[]
+  anime       Anime[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("authors")
+}

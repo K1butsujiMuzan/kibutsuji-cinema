@@ -1,0 +1,18 @@
+model AnimeRating {
+  id     String @id @default(cuid())
+  rating Float  @default(0.0)
+
+  animeId String @map("anime_id")
+  anime   Anime  @relation(fields: [animeId], references: [id], onDelete: Cascade)
+
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([animeId, userId])
+  @@index([animeId])
+  @@index([userId])
+  @@map("anime_ratings")
+}

@@ -1,0 +1,15 @@
+model Subscription {
+  id      String           @id @default(cuid())
+  type    SubscriptionType
+  endDate DateTime         @map("end_date")
+
+  userId String @unique @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([endDate])
+  @@index([userId])
+  @@map("subscriptions")
+}

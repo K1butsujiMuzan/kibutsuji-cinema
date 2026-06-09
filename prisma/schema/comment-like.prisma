@@ -1,0 +1,16 @@
+model CommentLike {
+  id    String    @id @default(cuid())
+  value LikeValue
+
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  commentId String  @map("comment_id")
+  comment   Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([commentId, userId])
+  @@map("comment_likes")
+}

@@ -1,0 +1,18 @@
+model AnimeEpisode {
+  id            String @id @default(cuid())
+  episodeNumber Int    @default(1) @map("episode_number")
+  title         String
+  views         Int    @default(0)
+
+  animeId String @map("anime_id")
+  anime   Anime  @relation(fields: [animeId], references: [id], onDelete: Cascade)
+
+  comments Comment[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([animeId, episodeNumber])
+  @@index([title])
+  @@map("anime_episodes")
+}

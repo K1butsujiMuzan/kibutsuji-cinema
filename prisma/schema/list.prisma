@@ -1,0 +1,7 @@
+enum List {
+  WATCHING
+  PLANNED
+  COMPLETED
+  ABANDONED
+  FAVORITE
+}

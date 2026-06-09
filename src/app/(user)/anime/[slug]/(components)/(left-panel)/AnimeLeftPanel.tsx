@@ -1,9 +1,9 @@
-import AnimeImage from '@/app/(user)/anime/[slug]/(components)/AnimeImage'
+import AnimeImage from '@/app/(user)/anime/[slug]/(components)/(left-panel)/AnimeImage'
 import type { Anime } from '@/generated/prisma'
-import AnimeWatchLink from '@/app/(user)/anime/[slug]/(components)/AnimeWatchLink'
-import AnimeNoEpisodes from '@/app/(user)/anime/[slug]/(components)/AnimeNoEpisodes'
-import AnimeBookmark from '@/app/(user)/anime/[slug]/(components)/AnimeBookmark'
-import AnimeLeftInformation from '@/app/(user)/anime/[slug]/(components)/AnimeLeftInformation'
+import AnimeWatchLink from '@/app/(user)/anime/[slug]/(components)/(left-panel)/AnimeWatchLink'
+import AnimeNoEpisodes from '@/app/(user)/anime/[slug]/(components)/(left-panel)/AnimeNoEpisodes'
+import AnimeBookmark from '@/app/(user)/anime/[slug]/(components)/(left-panel)/AnimeBookmark'
+import AnimeLeftInformation from '@/app/(user)/anime/[slug]/(components)/(left-panel)/AnimeLeftInformation'
 
 interface Props {
   anime: Anime

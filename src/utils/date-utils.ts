@@ -9,3 +9,11 @@ export const endDateCheck = (value: string): boolean => {
 export const dateTransformer = (value: Date) => {
   return `${value.getDate().toString().padStart(2, '0')}.${(value.getMonth() + 1).toString().padStart(2, '0')}.${value.getFullYear()}`
 }
+
+export const dateMonthYearTransformer = (value: Date) => {
+  return new Intl.DateTimeFormat('en-EN', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  }).format(value)
+}
