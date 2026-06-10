@@ -51,22 +51,24 @@ export async function proxy(request: NextRequest) {
     segments[3] === 'friends'
   ) {
     const type = request.nextUrl.searchParams.get('type')
-    const isExistingType = (Object.values(FRIENDS_PARAMS) as string[]).includes(
-      type ?? '',
-    )
-    const accessType =
-      FRIENDS_DATA.find((item) => item.value === type)?.type ?? 'public'
-    const isProfile = session?.user?.id === segments[2]
+    if(type !== FRIENDS_PARAMS.FRIENDS) {
+      const isExistingType = (Object.values(FRIENDS_PARAMS) as string[]).includes(
+        type ?? '',
+      )
+      const accessType =
+        FRIENDS_DATA.find((item) => item.value === type)?.type ?? 'public'
+      const isProfile = session?.user?.id ? session.user.id === segments[2] : false
 
-    if (
-      !type ||
-      !isExistingType ||
-      (accessType === 'user' && isProfile) ||
-      (accessType === 'profile' && !isProfile)
-    ) {
-      const url = new URL(request.url)
-      url.searchParams.set('type', 'friends')
-      return NextResponse.redirect(url)
+      if (
+        !type ||
+        !isExistingType ||
+        (accessType === 'user' && isProfile) ||
+        (accessType === 'profile' && !isProfile)
+      ) {
+        const url = new URL(request.url)
+        url.searchParams.set('type', 'friends')
+        return NextResponse.redirect(url)
+      }
     }
   }
 
