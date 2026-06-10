@@ -43,12 +43,12 @@ export async function proxy(request: NextRequest) {
     }
   }
 
-  const segments = request.nextUrl.pathname.split('/')
+  const segments = request.nextUrl.pathname.split('/').filter(Boolean)
 
   if (
-    segments.length === 4 &&
-    segments[1] === 'user' &&
-    segments[3] === 'friends'
+    segments.length === 3 &&
+    segments[0] === 'user' &&
+    segments[2] === 'friends'
   ) {
     const type = request.nextUrl.searchParams.get('type')
     if(type !== FRIENDS_PARAMS.FRIENDS) {
@@ -57,7 +57,14 @@ export async function proxy(request: NextRequest) {
       )
       const accessType =
         FRIENDS_DATA.find((item) => item.value === type)?.type ?? 'public'
-      const isProfile = session?.user?.id ? session.user.id === segments[2] : false
+      const isProfile = session?.user?.id ? session.user.id === segments[1] : false
+
+      console.log(segments)
+      console.log('type: ', type)
+      console.log('isExistingType: ', isExistingType)
+      console.log('isProfile: ', isProfile)
+      console.log(accessType === 'user' && isProfile)
+      console.log(accessType === 'profile' && !isProfile)
 
       if (
         !type ||
