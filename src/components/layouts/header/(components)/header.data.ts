@@ -25,7 +25,7 @@ export const headerUserMenuModalPublish: THeaderUserMenuModalLink[] = [
     icon: CommentIcon,
   },
   {
-    href: (id) => PAGES.FRIENDS(id),
+    href: (id) => PAGES.FRIENDS(id, 'friends'),
     text: 'Friends list',
     icon: FriendsListIcon,
   },

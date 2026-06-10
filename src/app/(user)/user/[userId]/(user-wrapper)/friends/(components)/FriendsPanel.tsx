@@ -1,7 +1,11 @@
 'use client'
 
 import FriendsButton from '@/app/(user)/user/[userId]/(user-wrapper)/friends/(components)/FriendsButton'
-import { FRIENDS_DATA, FRIENDS_PARAMS } from '@/configs/friends.config'
+import {
+  FRIENDS_DATA,
+  FRIENDS_PARAMS,
+  type TFriendsType,
+} from '@/configs/friends.config'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { PAGES } from '@/configs/pages.config'
 
@@ -14,10 +18,8 @@ export default function FriendsPanel({ userId, isProfile }: Props) {
   const searchParams = useSearchParams()
   const router = useRouter()
 
-  const onHandleClick = (value: string) => {
-    const params = new URLSearchParams(searchParams.toString())
-    params.set('type', value)
-    router.push(`${PAGES.FRIENDS(userId)}?${params.toString()}`)
+  const onHandleClick = (value: TFriendsType) => {
+    router.push(PAGES.FRIENDS(userId, value))
   }
 
   return (
@@ -27,7 +29,7 @@ export default function FriendsPanel({ userId, isProfile }: Props) {
       {FRIENDS_DATA.map(({ text, type, value }) => {
         if (
           (type === 'profile' && isProfile) ||
-          (type === 'user' && !isProfile) ||
+          (type === 'another-user' && !isProfile) ||
           type === 'public'
         ) {
           return (

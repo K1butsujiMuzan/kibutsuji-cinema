@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
-import { FRIENDS_DATA, FRIENDS_PARAMS } from '@/configs/friends.config'
 import { PAGES } from '@/configs/pages.config'
 
 const notAllowedAfterVerification: string[] = [
@@ -40,42 +39,6 @@ export async function proxy(request: NextRequest) {
 
     if (isForAuthorizedURL) {
       return NextResponse.redirect(new URL(PAGES.WELCOME, request.url))
-    }
-  }
-
-  const segments = request.nextUrl.pathname.split('/').filter(Boolean)
-
-  if (
-    segments.length === 3 &&
-    segments[0] === 'user' &&
-    segments[2] === 'friends'
-  ) {
-    const type = request.nextUrl.searchParams.get('type')
-    if(type !== FRIENDS_PARAMS.FRIENDS) {
-      const isExistingType = (Object.values(FRIENDS_PARAMS) as string[]).includes(
-        type ?? '',
-      )
-      const accessType =
-        FRIENDS_DATA.find((item) => item.value === type)?.type ?? 'public'
-      const isProfile = session?.user?.id ? session.user.id === segments[1] : false
-
-      console.log(segments)
-      console.log('type: ', type)
-      console.log('isExistingType: ', isExistingType)
-      console.log('isProfile: ', isProfile)
-      console.log(accessType === 'user' && isProfile)
-      console.log(accessType === 'profile' && !isProfile)
-
-      if (
-        !type ||
-        !isExistingType ||
-        (accessType === 'user' && isProfile) ||
-        (accessType === 'profile' && !isProfile)
-      ) {
-        const url = new URL(request.url)
-        url.searchParams.set('type', 'friends')
-        return NextResponse.redirect(url)
-      }
     }
   }
 

@@ -5,10 +5,12 @@ export const FRIENDS_PARAMS = {
   SENT: 'sent',
 } as const
 
+export type TFriendsType = (typeof FRIENDS_PARAMS)[keyof typeof FRIENDS_PARAMS]
+
 type TFriends = {
   text: string
-  value: (typeof FRIENDS_PARAMS)[keyof typeof FRIENDS_PARAMS]
-  type: 'profile' | 'user' | 'public'
+  value: TFriendsType
+  type: 'profile' | 'another-user' | 'public'
 }
 
 export const FRIENDS_DATA: TFriends[] = [
@@ -20,7 +22,7 @@ export const FRIENDS_DATA: TFriends[] = [
   {
     text: 'Mutual friends',
     value: FRIENDS_PARAMS.MUTUAL,
-    type: 'user',
+    type: 'another-user',
   },
   {
     text: 'Friend requests',

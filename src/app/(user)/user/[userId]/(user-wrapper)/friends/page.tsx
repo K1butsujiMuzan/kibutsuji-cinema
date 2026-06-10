@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import { findUserById } from '@/server-actions/find-user-by-id'
 import FriendsPanel from '@/app/(user)/user/[userId]/(user-wrapper)/friends/(components)/FriendsPanel'
 import { Suspense } from 'react'
-import { FRIENDS_PARAMS } from '@/configs/friends.config'
+import { FRIENDS_DATA, FRIENDS_PARAMS } from '@/configs/friends.config'
 import FriendsList from '@/app/(user)/user/[userId]/(user-wrapper)/friends/(components)/FriendsList'
 import RequestList from '@/app/(user)/user/[userId]/(user-wrapper)/friends/(components)/RequestList'
 import SentList from '@/app/(user)/user/[userId]/(user-wrapper)/friends/(components)/SentList'
@@ -22,7 +22,7 @@ interface Props {
 
 export default async function Friends({ params, searchParams }: Props) {
   const { userId } = await params
-  const { type } = await searchParams
+  const { type = FRIENDS_PARAMS.FRIENDS } = await searchParams
   const userData = await findUserById(userId)
   const session = await getServerSession()
 
@@ -34,7 +34,21 @@ export default async function Friends({ params, searchParams }: Props) {
     notFound()
   }
 
+  const isExistingType = (Object.values(FRIENDS_PARAMS) as string[]).includes(
+    type,
+  )
+
+  const accessType =
+    FRIENDS_DATA.find((item) => item.value === type)?.type ?? 'public'
   const isProfile = session.user.id === userId
+
+  if (
+    !isExistingType ||
+    (accessType === 'another-user' && isProfile) ||
+    (accessType === 'profile' && !isProfile)
+  ) {
+    redirect(PAGES.FRIENDS(userId, 'friends'))
+  }
 
   return (
     <>
