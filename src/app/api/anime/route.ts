@@ -218,6 +218,16 @@ export async function PUT(request: NextRequest) {
       )
     }
 
+    const existingSlug = await prisma.anime.findUnique({
+      where: { slug },
+    })
+
+    if (existingSlug && existingSlug.id !== id) {
+      return cors(
+        NextResponse.json({ error: ERRORS.EXISTS('Slug') }, { status: 409 }),
+      )
+    }
+
     if (authorName) {
       const existingAuthor = await prisma.author.findUnique({
         where: { englishName: authorName },
@@ -246,16 +256,6 @@ export async function PUT(request: NextRequest) {
           ),
         )
       }
-    }
-
-    const existingSlug = await prisma.anime.findUnique({
-      where: { slug },
-    })
-
-    if (existingSlug && existingSlug.id !== id) {
-      return cors(
-        NextResponse.json({ error: ERRORS.EXISTS('Slug') }, { status: 409 }),
-      )
     }
 
     const genresArray = await genresCheck(genreNames)

@@ -42,7 +42,7 @@ export const updateAnimeSchema = z.object(
       .min(3, { error: ERRORS.MIN_LENGTH('Image', 3) })
       .nullable(),
     authorName: z
-      .string({ error: ERRORS.INVALID('author name') })
+      .string({ error: ERRORS.INVALID('authors name') })
       .trim()
       .min(3, { error: ERRORS.MIN_LENGTH('Author name', 3) })
       .nullable(),

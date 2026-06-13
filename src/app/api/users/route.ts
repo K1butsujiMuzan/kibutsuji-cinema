@@ -6,7 +6,6 @@ import { auth } from '@/lib/auth'
 import { Prisma, Role } from '@/generated/prisma'
 import { userAccessCheck } from '@/lib/routes-helpers/user-access-check'
 import { getPageParams } from '@/lib/routes-helpers/get-page-params'
-import { nullTransform } from '@/lib/routes-helpers/null-transform'
 import {
   createUsersSchema,
   updateUsersSchema,
@@ -238,7 +237,7 @@ export async function PUT(request: NextRequest) {
         emailVerified,
         name,
         email,
-        image: nullTransform(image),
+        image,
       },
     })
 

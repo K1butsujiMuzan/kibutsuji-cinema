@@ -7,12 +7,6 @@ import prisma from '@/lib/prisma'
 import { ERRORS } from '@/constants/errors'
 import { deleteCheck } from '@/lib/routes-helpers/delete-check'
 import {
-  createAnimeSchema,
-  updateAnimeSchema,
-} from '@/shared/schemes/endpoints/anime.schema'
-import { genresCheck } from '@/lib/routes-helpers/genres-check'
-import { nullTransform } from '@/lib/routes-helpers/null-transform'
-import {
   createAuthorSchema,
   updateAuthorSchema,
 } from '@/shared/schemes/endpoints/author.schema'
