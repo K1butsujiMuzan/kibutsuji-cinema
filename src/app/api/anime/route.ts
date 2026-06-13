@@ -5,7 +5,6 @@ import prisma from '@/lib/prisma'
 import { userAccessCheck } from '@/lib/routes-helpers/user-access-check'
 import { genresCheck } from '@/lib/routes-helpers/genres-check'
 import { getPageParams } from '@/lib/routes-helpers/get-page-params'
-import { nullTransform } from '@/lib/routes-helpers/null-transform'
 import {
   createAnimeSchema,
   updateAnimeSchema,
@@ -106,6 +105,7 @@ export async function POST(request: NextRequest) {
       backgroundImage,
       originalTitle,
       genreNames,
+      authorName,
     } = parsedData.data
 
     const existingSlug = await prisma.anime.findUnique({
@@ -116,6 +116,21 @@ export async function POST(request: NextRequest) {
       return cors(
         NextResponse.json({ error: ERRORS.EXISTS('Slug') }, { status: 409 }),
       )
+    }
+
+    if (authorName) {
+      const existingAuthor = await prisma.author.findUnique({
+        where: { englishName: authorName },
+      })
+
+      if (!existingAuthor) {
+        return cors(
+          NextResponse.json(
+            { error: ERRORS.NO_DATA('Author', 'name') },
+            { status: 404 },
+          ),
+        )
+      }
     }
 
     const genresArray = await genresCheck(genreNames)
@@ -135,11 +150,12 @@ export async function POST(request: NextRequest) {
         title,
         slug,
         releaseDate,
+        authorName,
         episodesReleased: 0,
-        description: nullTransform(description),
-        image: nullTransform(image),
-        backgroundImage: nullTransform(backgroundImage),
-        originalTitle: nullTransform(originalTitle),
+        description,
+        image,
+        backgroundImage,
+        originalTitle,
         genres: {
           connect: genresArray.data,
         },
@@ -191,6 +207,7 @@ export async function PUT(request: NextRequest) {
       backgroundImage,
       originalTitle,
       genreNames,
+      authorName,
     } = parsedData.data
 
     const animeById = await prisma.anime.findUnique({ where: { id } })
@@ -199,6 +216,21 @@ export async function PUT(request: NextRequest) {
       return cors(
         NextResponse.json({ error: ERRORS.NO_DATA('Anime') }, { status: 404 }),
       )
+    }
+
+    if (authorName) {
+      const existingAuthor = await prisma.author.findUnique({
+        where: { englishName: authorName },
+      })
+
+      if (!existingAuthor) {
+        return cors(
+          NextResponse.json(
+            { error: ERRORS.NO_DATA('Author', 'name') },
+            { status: 404 },
+          ),
+        )
+      }
     }
 
     if (animeById.episodesCount !== episodesCount) {
@@ -246,10 +278,11 @@ export async function PUT(request: NextRequest) {
         releaseDate,
         slug,
         title,
-        description: nullTransform(description),
-        image: nullTransform(image),
-        backgroundImage: nullTransform(backgroundImage),
-        originalTitle: nullTransform(originalTitle),
+        description,
+        image,
+        authorName,
+        backgroundImage,
+        originalTitle,
         genres: {
           set: genresArray.data,
         },
