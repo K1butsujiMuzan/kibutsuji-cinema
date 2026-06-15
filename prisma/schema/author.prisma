@@ -1,6 +1,7 @@
 model Author {
   id           String  @id @default(cuid())
-  englishName  String  @unique @map("english_name")
+  slug         String  @unique
+  englishName  String  @map("english_name")
   originalName String?
   image        String?
 

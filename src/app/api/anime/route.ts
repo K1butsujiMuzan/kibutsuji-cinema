@@ -105,7 +105,7 @@ export async function POST(request: NextRequest) {
       backgroundImage,
       originalTitle,
       genreNames,
-      authorName,
+      authorSlug,
     } = parsedData.data
 
     const existingSlug = await prisma.anime.findUnique({
@@ -118,15 +118,15 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    if (authorName) {
+    if (authorSlug) {
       const existingAuthor = await prisma.author.findUnique({
-        where: { englishName: authorName },
+        where: { slug: authorSlug },
       })
 
       if (!existingAuthor) {
         return cors(
           NextResponse.json(
-            { error: ERRORS.NO_DATA('Author', 'name') },
+            { error: ERRORS.NO_DATA('Author', 'slug') },
             { status: 404 },
           ),
         )
@@ -150,7 +150,7 @@ export async function POST(request: NextRequest) {
         title,
         slug,
         releaseDate,
-        authorName,
+        authorSlug,
         episodesReleased: 0,
         description,
         image,
@@ -207,7 +207,7 @@ export async function PUT(request: NextRequest) {
       backgroundImage,
       originalTitle,
       genreNames,
-      authorName,
+      authorSlug,
     } = parsedData.data
 
     const animeById = await prisma.anime.findUnique({ where: { id } })
@@ -228,15 +228,15 @@ export async function PUT(request: NextRequest) {
       )
     }
 
-    if (authorName) {
+    if (authorSlug) {
       const existingAuthor = await prisma.author.findUnique({
-        where: { englishName: authorName },
+        where: { slug: authorSlug },
       })
 
       if (!existingAuthor) {
         return cors(
           NextResponse.json(
-            { error: ERRORS.NO_DATA('Author', 'name') },
+            { error: ERRORS.NO_DATA('Author', 'slug') },
             { status: 404 },
           ),
         )
@@ -280,7 +280,7 @@ export async function PUT(request: NextRequest) {
         title,
         description,
         image,
-        authorName,
+        authorSlug,
         backgroundImage,
         originalTitle,
         genres: {

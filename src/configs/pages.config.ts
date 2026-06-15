@@ -26,5 +26,6 @@ export const PAGES = {
   SETTINGS: (id: string) => `${PAGES.USER(id)}/settings`,
   NEW_ANIME: '/new-anime',
   ANIME: (slug: string) => `/anime/${slug}`,
+  AUTHOR: (slug: string) => `/author/${slug}`,
   EPISODE: (animeSlug: string, id: string) => `/anime/${animeSlug}/${id}`,
 } as const

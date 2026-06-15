@@ -86,16 +86,16 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const { image, englishName, originalName } = parsedData.data
+    const { image, englishName, originalName, slug } = parsedData.data
 
     const existingAuthor = await prisma.author.findUnique({
-      where: { englishName },
+      where: { slug },
     })
 
     if (existingAuthor) {
       return cors(
         NextResponse.json(
-          { error: ERRORS.EXISTS('Author with this english name') },
+          { error: ERRORS.EXISTS('Author with this slug') },
           { status: 409 },
         ),
       )
@@ -103,6 +103,7 @@ export async function POST(request: NextRequest) {
 
     await prisma.author.create({
       data: {
+        slug,
         image,
         englishName,
         originalName,
@@ -138,7 +139,7 @@ export async function PUT(request: NextRequest) {
       )
     }
 
-    const { id, image, englishName, originalName } = parsedData.data
+    const { id, image, englishName, originalName, slug } = parsedData.data
 
     const currentAuthor = await prisma.author.findUnique({
       where: {
@@ -153,13 +154,13 @@ export async function PUT(request: NextRequest) {
     }
 
     const existingAuthor = await prisma.author.findUnique({
-      where: { englishName },
+      where: { slug },
     })
 
     if (existingAuthor && existingAuthor.id !== id) {
       return cors(
         NextResponse.json(
-          { error: ERRORS.EXISTS('Author with this english name') },
+          { error: ERRORS.EXISTS('Author with this slug') },
           { status: 409 },
         ),
       )
@@ -170,6 +171,7 @@ export async function PUT(request: NextRequest) {
         id,
       },
       data: {
+        slug,
         image,
         englishName,
         originalName,

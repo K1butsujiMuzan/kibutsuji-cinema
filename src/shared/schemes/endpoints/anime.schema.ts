@@ -41,10 +41,11 @@ export const updateAnimeSchema = z.object(
       .trim()
       .min(3, { error: ERRORS.MIN_LENGTH('Image', 3) })
       .nullable(),
-    authorName: z
-      .string({ error: ERRORS.INVALID('authors name') })
+    authorSlug: z
+      .string({ error: ERRORS.INVALID('author slug') })
       .trim()
-      .min(3, { error: ERRORS.MIN_LENGTH('Author name', 3) })
+      .min(3, { error: ERRORS.MIN_LENGTH('Author slug', 3) })
+      .regex(SLUG_REGEXP, { error: ERRORS.INVALID('author slug format') })
       .nullable(),
     backgroundImage: z
       .string({ error: ERRORS.INVALID('background image') })

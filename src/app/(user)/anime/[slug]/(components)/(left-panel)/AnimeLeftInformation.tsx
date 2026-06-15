@@ -5,6 +5,7 @@ import { dateMonthYearTransformer } from '@/utils/date-utils'
 import AnimeEpisodesCount from '@/app/(user)/anime/[slug]/(components)/(left-panel)/AnimeEpisodesCount'
 import { ANIME_STATUS_TEXT } from '@/constants/anime-status-text'
 import AnimeInformationContainer from '@/app/(user)/anime/[slug]/(components)/(left-panel)/AnimeInformationContainer'
+import { PAGES } from '@/configs/pages.config'
 
 interface Props {
   anime: Anime
@@ -37,8 +38,12 @@ export default function AnimeLeftInformation({ anime }: Props) {
         text={anime.views.toLocaleString('en-EN')}
         title={'Views'}
       />
-      {anime.authorName && (
-        <AnimeCatalogLink href={'#'} text={anime.authorName} title={'Author'} />
+      {anime.authorSlug && (
+        <AnimeCatalogLink
+          href={PAGES.AUTHOR(anime.authorSlug)}
+          text={anime.authorSlug}
+          title={'Author'}
+        />
       )}
     </div>
   )
