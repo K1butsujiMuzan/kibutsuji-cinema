@@ -45,11 +45,11 @@ export default function MainThemeButton({ className }: Props) {
       type="button"
       onClick={toggleTheme}
       className={cn('group', className)}
-      aria-label={`Current theme: ${theme}. Click to change theme`}
+      aria-label={`current theme: ${theme}. Click to change theme`}
     >
       <span
         className={
-          'flex justify-center items-center  p-2 rounded-md group-hover:bg-pink-100 dark:group-hover:bg-gray-600 group-active:bg-pink-100 dark:group-active:bg-gray-600 group-active:scale-97 transition duration-300'
+          'flex justify-center items-center p-2 rounded-md group-hover:bg-pink-100 dark:group-hover:bg-gray-600 group-active:bg-pink-100 dark:group-active:bg-gray-600 group-active:scale-97 transition duration-300'
         }
       >
         {theme === THEMES.DARK ? (

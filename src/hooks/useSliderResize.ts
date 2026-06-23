@@ -1,3 +1,5 @@
+'use client'
+
 import { type Dispatch, type SetStateAction, useEffect } from 'react'
 import { type RefObject } from 'react'
 

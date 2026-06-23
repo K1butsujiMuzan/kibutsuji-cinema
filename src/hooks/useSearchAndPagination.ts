@@ -1,3 +1,5 @@
+'use client'
+
 import {
   type ChangeEvent,
   type FormEvent,
@@ -8,7 +10,7 @@ import {
 import usePagination from '@/hooks/usePagination'
 import { type QueryKey } from '@tanstack/react-query'
 
-export default function useFriend(queryKey: QueryKey) {
+export default function useSearchAndPagination(queryKey: QueryKey) {
   const [search, setSearch] = useState<string>('')
   const [submitSearch, setSubmitSearch] = useState<string>('')
   const { page, setFirstPage, onPreviousPage, onNextPage } = usePagination()

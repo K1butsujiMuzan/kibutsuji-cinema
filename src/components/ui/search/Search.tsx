@@ -55,6 +55,7 @@ export default function Search({
         }
         id={inputId}
         name={inputId}
+        autoComplete={'off'}
         type={'search'}
       />
       {searchValue.length > 0 && (

@@ -23,7 +23,7 @@ import {
 import { FriendListStatus } from '@/generated/prisma'
 import { useMemo } from 'react'
 import { useAddToast } from '@/stores/useToastsStore'
-import UserFriendLoading from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/(loaders)/UserFriendLoading'
+import UserFriendLoading from '@/app/(user)/user/[userId]/(user-wrapper)/(loaders)/UserFriendLoading'
 import { ERRORS } from '@/constants/errors'
 import type { TErrorResponse } from '@/shared/types/error-response.type'
 

@@ -1,4 +1,4 @@
-import FriendListLoader from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/(loaders)/FriendListLoader'
+import FriendListLoader from '@/app/(user)/user/[userId]/(user-wrapper)/(loaders)/FriendListLoader'
 
 export default function Loading() {
   return (

@@ -6,13 +6,13 @@ import { getFriendList } from '@/server-actions/friends-list'
 import PeopleCard from '@/app/(user)/user/[userId]/(user-wrapper)/friends/(components)/PeopleCard'
 import { RemoveFriendIcon } from '@/components/icons/UserFriendsIcons'
 import { unfriendUserFriend } from '@/server-actions/user-friends'
-import RefetchErrorData from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/RefetchErrorData'
+import RefetchErrorData from '@/components/ui/refetch-error-data/RefetchErrorData'
 import NoData from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/NoData'
-import FriendListLoader from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/(loaders)/FriendListLoader'
+import FriendListLoader from '@/app/(user)/user/[userId]/(user-wrapper)/(loaders)/FriendListLoader'
 import PageChanger from '@/components/ui/page-changer/PageChanger'
 import Button from '@/components/ui/button/Button'
 import Search from '@/components/ui/search/Search'
-import useFriend from '@/hooks/useFriend'
+import useSearchAndPagination from '@/hooks/useSearchAndPagination'
 import { useOnSuccess } from '@/hooks/useOnSuccess'
 
 interface Props {
@@ -31,7 +31,7 @@ export default function FriendsList({ userId, isProfile }: Props) {
     page,
     onSubmit,
     onNextPage,
-  } = useFriend([QUERY_KEYS.FRIEND_LIST, userId])
+  } = useSearchAndPagination([QUERY_KEYS.FRIEND_LIST, userId])
   const { onSuccess } = useOnSuccess()
 
   const { data, isPending, isFetching, refetch } = useQuery({

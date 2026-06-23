@@ -28,6 +28,7 @@ model Anime {
   authorSlug String? @map("author_slug")
   author     Author? @relation(fields: [authorSlug], references: [slug], onDelete: SetNull)
 
+  @@unique([rating, id])
   @@index([title])
   @@index([releaseDate])
   @@index([ageLimit])

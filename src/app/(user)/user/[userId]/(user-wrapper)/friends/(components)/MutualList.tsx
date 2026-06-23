@@ -4,12 +4,12 @@ import { useQuery } from '@tanstack/react-query'
 import { QUERY_KEYS } from '@/configs/query-keys.config'
 import { getMutualList } from '@/server-actions/friends-list'
 import PeopleCard from '@/app/(user)/user/[userId]/(user-wrapper)/friends/(components)/PeopleCard'
-import RefetchErrorData from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/RefetchErrorData'
+import RefetchErrorData from '@/components/ui/refetch-error-data/RefetchErrorData'
 import NoData from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/NoData'
-import FriendListLoader from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/(loaders)/FriendListLoader'
+import FriendListLoader from '@/app/(user)/user/[userId]/(user-wrapper)/(loaders)/FriendListLoader'
 import PageChanger from '@/components/ui/page-changer/PageChanger'
 import Search from '@/components/ui/search/Search'
-import useFriend from '@/hooks/useFriend'
+import useSearchAndPagination from '@/hooks/useSearchAndPagination'
 
 interface Props {
   userId: string
@@ -26,7 +26,7 @@ export default function MutualList({ userId }: Props) {
     onPreviousPage,
     page,
     onNextPage,
-  } = useFriend([QUERY_KEYS.MUTUAL_LIST, userId])
+  } = useSearchAndPagination([QUERY_KEYS.MUTUAL_LIST, userId])
 
   const { data, isPending, isFetching, refetch } = useQuery({
     queryFn: async () => getMutualList(userId, page, submitSearch),

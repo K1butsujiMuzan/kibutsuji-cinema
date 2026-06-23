@@ -12,13 +12,13 @@ import {
   acceptUserFriend,
   declineUserFriend,
 } from '@/server-actions/user-friends'
-import RefetchErrorData from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/RefetchErrorData'
+import RefetchErrorData from '@/components/ui/refetch-error-data/RefetchErrorData'
 import NoData from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/NoData'
-import FriendListLoader from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/(loaders)/FriendListLoader'
+import FriendListLoader from '@/app/(user)/user/[userId]/(user-wrapper)/(loaders)/FriendListLoader'
 import Button from '@/components/ui/button/Button'
 import PageChanger from '@/components/ui/page-changer/PageChanger'
 import Search from '@/components/ui/search/Search'
-import useFriend from '@/hooks/useFriend'
+import useSearchAndPagination from '@/hooks/useSearchAndPagination'
 import { useOnSuccess } from '@/hooks/useOnSuccess'
 
 export default function RequestList() {
@@ -32,7 +32,7 @@ export default function RequestList() {
     onPreviousPage,
     page,
     onNextPage,
-  } = useFriend([QUERY_KEYS.REQUEST_LIST])
+  } = useSearchAndPagination([QUERY_KEYS.REQUEST_LIST])
   const { onSuccess } = useOnSuccess()
 
   const { data, isPending, isFetching, refetch } = useQuery({

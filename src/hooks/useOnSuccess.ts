@@ -1,3 +1,5 @@
+'use client'
+
 import type { TErrorResponse } from '@/shared/types/error-response.type'
 import { type QueryKey, useQueryClient } from '@tanstack/react-query'
 import { useAddToast } from '@/stores/useToastsStore'

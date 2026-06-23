@@ -1,8 +1,8 @@
 import AnimeTopInformation from '@/app/(user)/anime/[slug]/(components)/AnimeTopInformation'
-import type { Anime } from '@/generated/prisma'
+import type { TAnimePage } from '@/shared/types/anime-page.type'
 
 interface Props {
-  anime: Anime
+  anime: TAnimePage
 }
 
 export default function AnimeRightPanel({ anime }: Props) {

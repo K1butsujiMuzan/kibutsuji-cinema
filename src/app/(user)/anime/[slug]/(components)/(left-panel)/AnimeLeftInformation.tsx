@@ -1,4 +1,3 @@
-import type { Anime } from '@/generated/prisma'
 import AnimeCatalogLink from '@/app/(user)/anime/[slug]/(components)/(left-panel)/AnimeCatalogLink'
 import { ANIME_TYPE_TEXT } from '@/constants/anime-type-text'
 import { dateMonthYearTransformer } from '@/utils/date-utils'
@@ -6,9 +5,10 @@ import AnimeEpisodesCount from '@/app/(user)/anime/[slug]/(components)/(left-pan
 import { ANIME_STATUS_TEXT } from '@/constants/anime-status-text'
 import AnimeInformationContainer from '@/app/(user)/anime/[slug]/(components)/(left-panel)/AnimeInformationContainer'
 import { PAGES } from '@/configs/pages.config'
+import type { TAnimePage } from '@/shared/types/anime-page.type'
 
 interface Props {
-  anime: Anime
+  anime: TAnimePage
 }
 
 export default function AnimeLeftInformation({ anime }: Props) {
@@ -38,10 +38,10 @@ export default function AnimeLeftInformation({ anime }: Props) {
         text={anime.views.toLocaleString('en-EN')}
         title={'Views'}
       />
-      {anime.authorSlug && (
+      {anime.authorSlug && anime.author && (
         <AnimeCatalogLink
           href={PAGES.AUTHOR(anime.authorSlug)}
-          text={anime.authorSlug}
+          text={anime.author.englishName}
           title={'Author'}
         />
       )}

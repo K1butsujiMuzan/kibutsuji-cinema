@@ -1,12 +1,12 @@
 import { findUserById } from '@/server-actions/find-user-by-id'
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
-import UserWrapperLoader from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/(loaders)/UserWrapperLoader'
+import UserWrapperLoader from '@/app/(user)/user/[userId]/(user-wrapper)/(loaders)/UserWrapperLoader'
 import Line from '@/components/ui/line/Line'
 import UserLinks from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/UserLinks'
 import UserInformation from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/UserInformation'
 import UserInformationController from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/UserInformationController'
-import UserFriendLoading from '@/app/(user)/user/[userId]/(user-wrapper)/(components)/(loaders)/UserFriendLoading'
+import UserFriendLoading from '@/app/(user)/user/[userId]/(user-wrapper)/(loaders)/UserFriendLoading'
 
 interface Props {
   children: React.ReactNode

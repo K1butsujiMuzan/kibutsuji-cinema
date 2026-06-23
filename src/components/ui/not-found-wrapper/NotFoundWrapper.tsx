@@ -14,7 +14,9 @@ export default function NotFoundWrapper() {
       ? 'User not found'
       : pathName.startsWith('/anime')
         ? 'Anime not found'
-        : 'Page not found or has been moved'
+        : pathName.startsWith('/author')
+          ? 'Author not found'
+          : 'Page not found or has been moved'
   }, [pathName])
 
   return (
