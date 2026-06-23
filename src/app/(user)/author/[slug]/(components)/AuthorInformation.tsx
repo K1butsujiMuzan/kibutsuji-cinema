@@ -5,14 +5,12 @@ import AuthorTitles from '@/app/(user)/author/[slug]/(components)/AuthorTitles'
 interface Props {
   englishName: string
   originalName: string | null
-  titles: number
   authorSlug: string
 }
 
 export default function AuthorInformation({
   englishName,
   originalName,
-  titles,
   authorSlug,
 }: Props) {
   return (
@@ -26,8 +24,8 @@ export default function AuthorInformation({
           'flex flex-col lg:flex-row justify-between gap-3 lg:gap-1 items-center lg:items-start'
         }
       >
-        <div className={'flex flex-col gap-1 items-center lg:items-start'}>
-          <h1 className={'text-2xl font-semibold'}>{englishName}</h1>
+        <div className={'flex flex-col gap-1 text-center lg:text-left'}>
+          <h1 className={'text-xl md:text-2xl font-semibold'}>{englishName}</h1>
           {originalName && (
             <h2 className={'text-gray-650 dark:text-gray-150'}>
               {originalName}

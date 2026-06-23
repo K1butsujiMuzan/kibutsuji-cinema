@@ -19,6 +19,7 @@ import {
 import Loader from '@/components/ui/loader/Loader'
 import { useMemo } from 'react'
 import { useAddToast } from '@/stores/useToastsStore'
+import BlockLoader from '@/components/ui/block-loader/BlockLoader'
 
 interface Props {
   authorSlug: string
@@ -82,13 +83,7 @@ export default function AuthorSubscribeButton({ authorSlug }: Props) {
   })
 
   if (typeof data === 'undefined') {
-    return (
-      <div
-        className={
-          'bg-pink-50 dark:bg-gray-750 w-30 h-9 rounded-md animate-pulse'
-        }
-      />
-    )
+    return <BlockLoader className={'w-30 h-9 rounded-md'} />
   }
 
   return (

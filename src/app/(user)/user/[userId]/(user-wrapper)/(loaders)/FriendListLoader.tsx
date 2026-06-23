@@ -1,4 +1,5 @@
 import { MAX_PROFILE_RECORDS } from '@/constants/limits'
+import BlockLoader from '@/components/ui/block-loader/BlockLoader'
 
 export default function FriendListLoader() {
   return (
@@ -6,26 +7,14 @@ export default function FriendListLoader() {
       {[...new Array(MAX_PROFILE_RECORDS)].map((_, index) => (
         <div
           className={
-            'border border-pink-50 dark:border-gray-200 h-14.5 w-full rounded-md overflow-hidden flex items-center gap-3 animate-pulse'
+            'border border-pink-50 dark:border-gray-200 h-14.5 w-full rounded-md overflow-hidden flex items-center gap-3'
           }
           key={`loader-${index}`}
         >
-          <span
-            className={
-              'h-14 aspect-square bg-pink-50 dark:bg-gray-750 block animate-pulse'
-            }
-          />
+          <BlockLoader className={'h-14 aspect-square'} />
           <div className={'flex flex-col gap-1.5'}>
-            <span
-              className={
-                'rounded-sm bg-pink-50 dark:bg-gray-750 h-4.5 w-30 block animate-pulse'
-              }
-            />
-            <span
-              className={
-                'rounded-sm bg-pink-50 dark:bg-gray-750 h-3.5 w-15 block animate-pulse'
-              }
-            />
+            <BlockLoader className={'h-4.5 w-30'} />
+            <BlockLoader className={'h-3.5 w-15'} />
           </div>
         </div>
       ))}

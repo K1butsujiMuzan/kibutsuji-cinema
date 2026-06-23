@@ -4,7 +4,7 @@ import CountAndTitle from '@/components/ui/count-and-title/CountAndTitle'
 import { useQuery } from '@tanstack/react-query'
 import { getAuthorTitles } from '@/server-actions/author/get-author-titles'
 import { QUERY_KEYS } from '@/configs/query-keys.config'
-import CountAndTitleLoader from '@/components/ui/count-and-title/CountAndTitleLoader'
+import BlockLoader from '@/components/ui/block-loader/BlockLoader'
 
 interface Props {
   authorSlug: string
@@ -17,7 +17,7 @@ export default function AuthorTitles({ authorSlug }: Props) {
   })
 
   if (isPending || data === undefined) {
-    return <CountAndTitleLoader className={'w-20'} />
+    return <BlockLoader className={'w-20 h-6.75'} />
   }
 
   return <CountAndTitle count={data} text={'Titles'} />

@@ -32,11 +32,10 @@ export default async function AuthorPage({ params }: Props) {
           className={'h-41 w-29.5 md:h-66 md:w-47'}
           sizes={'(max-width: 800px) 118px, 188px'}
         />
-        <div className={'flex flex-col gap-4'}>
+        <div className={'flex flex-col gap-4 w-full'}>
           <AuthorInformation
             englishName={author.englishName}
             originalName={author.originalName}
-            titles={author._count.anime}
             authorSlug={slug}
           />
           {author._count.anime > 0 && <AuthorAnimeList authorSlug={slug} />}

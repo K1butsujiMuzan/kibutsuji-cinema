@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import { QUERY_KEYS } from '@/configs/query-keys.config'
 import { getAuthorSubscribers } from '@/server-actions/author/get-author-subscribers'
 import CountAndTitle from '@/components/ui/count-and-title/CountAndTitle'
-import CountAndTitleLoader from '@/components/ui/count-and-title/CountAndTitleLoader'
+import BlockLoader from '@/components/ui/block-loader/BlockLoader'
 
 interface Props {
   authorSlug: string
@@ -17,7 +17,7 @@ export default function AuthorSubscribers({ authorSlug }: Props) {
   })
 
   if (isPending || data === undefined) {
-    return <CountAndTitleLoader />
+    return <BlockLoader className={'h-6.75 w-30'} />
   }
 
   return <CountAndTitle count={data} text={'Subscribers'} />

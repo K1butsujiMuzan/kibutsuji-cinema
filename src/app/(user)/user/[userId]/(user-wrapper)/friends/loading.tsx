@@ -3,6 +3,10 @@ import FriendListLoader from '@/app/(user)/user/[userId]/(user-wrapper)/(loaders
 export default function Loading() {
   return (
     <section
+      role={'status'}
+      aria-live={'polite'}
+      aria-busy={true}
+      aria-label={'friends page loading'}
       className={
         'py-3 px-4 rounded-lg overflow-hidden flex flex-col gap-4 bg-white dark:bg-gray-800 w-full'
       }
