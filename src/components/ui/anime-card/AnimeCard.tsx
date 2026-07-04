@@ -17,7 +17,7 @@ export default function AnimeCard({
       <Link
         href={PAGES.ANIME(slug)}
         className={
-          'p-1.5 flex flex-col relative hover:bg-pink-100 dark:hover:bg-gray-600 sm:active:bg-pink-100 sm:dark:active:bg-gray-600 transition duration-300 rounded-md'
+          'p-1.5 rounded-md flex flex-col relative hover:bg-pink-100 dark:hover:bg-gray-600 active:bg-pink-100 dark:active:bg-gray-600 transition duration-300'
         }
       >
         <figure>

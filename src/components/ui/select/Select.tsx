@@ -149,7 +149,7 @@ export default function Select<T extends string>({
       onKeyDown={focusTab}
       onBlur={onBlur}
       ref={containerRef}
-      className={'relative'}
+      className={'relative w-full min-w-0'}
     >
       <span id={labelId} className={'sr-only'}>
         {label}

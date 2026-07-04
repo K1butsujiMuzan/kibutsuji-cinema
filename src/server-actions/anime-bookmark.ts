@@ -60,3 +60,24 @@ export const upsertAnimeBookmark = async (
     return { error: ERRORS.SOMETHING_WRONG }
   }
 }
+
+export const removeAnimeBookmark = async (
+  animeId: string,
+): Promise<TErrorResponse> => {
+  try {
+    const session = await getServerSession()
+    if (!session) {
+      return { error: ERRORS.UNAUTHORIZED }
+    }
+    await prisma.userList.deleteMany({
+      where: {
+        animeId,
+        userId: session.user.id,
+      },
+    })
+    return { error: null }
+  } catch (error) {
+    console.error(error)
+    return { error: ERRORS.SOMETHING_WRONG }
+  }
+}

@@ -1,6 +1,6 @@
 import AnimeWatchLink from '@/app/(user)/anime/[slug]/(components)/(left-panel)/AnimeWatchLink'
 import AnimeNoEpisodes from '@/app/(user)/anime/[slug]/(components)/(left-panel)/AnimeNoEpisodes'
-import AnimeBookmark from '@/app/(user)/anime/[slug]/(components)/(left-panel)/AnimeBookmark'
+import AnimeBookmark from '@/components/ui/anime-bookmark/AnimeBookmark'
 import AnimeLeftInformation from '@/app/(user)/anime/[slug]/(components)/(left-panel)/AnimeLeftInformation'
 import type {
   TAnimePage,

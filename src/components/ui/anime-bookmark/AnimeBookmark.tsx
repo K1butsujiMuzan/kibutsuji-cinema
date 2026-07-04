@@ -10,6 +10,7 @@ import {
 import { QUERY_KEYS } from '@/configs/query-keys.config'
 import {
   getAnimeBookmark,
+  removeAnimeBookmark,
   upsertAnimeBookmark,
 } from '@/server-actions/anime-bookmark'
 import { List, type UserList } from '@/generated/prisma'
@@ -18,6 +19,8 @@ import { AddIcon } from '@/components/icons/HeaderUserMenuModalIcons'
 import PageChangerIcon from '@/components/icons/PageChangerIcon'
 import { useMemo } from 'react'
 import { useOnSuccess } from '@/hooks/useOnSuccess'
+import Button from '@/components/ui/button/Button'
+import { RemoveFriendIcon } from '@/components/icons/UserFriendsIcons'
 
 interface Props {
   animeId: string
@@ -72,6 +75,13 @@ export default function AnimeBookmark({ animeId }: Props) {
     },
   })
 
+  const removeMutation = useMutation({
+    mutationFn: async () => removeAnimeBookmark(animeId),
+    onSuccess: async (data) => {
+      await onSuccess(data, queryKey)
+    },
+  })
+
   const onSelect = (value: List) => {
     if (value !== list) {
       upsertMutation.mutate(value)
@@ -100,34 +110,50 @@ export default function AnimeBookmark({ animeId }: Props) {
   }
 
   return (
-    <Select
-      label={'add anime to list'}
-      disabled={isFetching || upsertMutation.isPending}
-      onSelect={onSelect}
-      options={[
-        {
-          value: List.WATCHING,
-          color: 'text-orange-400',
-        },
-        {
-          value: List.PLANNED,
-          color: 'text-blue-500',
-        },
-        {
-          value: List.ABANDONED,
-          color: 'text-red-400',
-        },
-        {
-          value: List.COMPLETED,
-          color: 'text-green-400',
-        },
-        {
-          value: List.FAVORITE,
-          color: 'text-red-250',
-        },
-      ]}
-      Icon={list === null ? <AddIcon /> : <BookmarkIcon />}
-      defaultValue={list === null ? 'Add to plans' : list}
-    />
+    <div className={'flex items-center gap-2 w-full max-w-full'}>
+      <Select
+        label={'add anime to list'}
+        disabled={
+          isFetching || upsertMutation.isPending || removeMutation.isPending
+        }
+        onSelect={onSelect}
+        options={[
+          {
+            value: List.WATCHING,
+            color: 'text-orange-400',
+          },
+          {
+            value: List.PLANNED,
+            color: 'text-blue-500',
+          },
+          {
+            value: List.ABANDONED,
+            color: 'text-red-400',
+          },
+          {
+            value: List.COMPLETED,
+            color: 'text-green-400',
+          },
+          {
+            value: List.FAVORITE,
+            color: 'text-red-250',
+          },
+        ]}
+        Icon={list === null ? <AddIcon /> : <BookmarkIcon />}
+        defaultValue={list === null ? 'Add to plans' : list}
+      />
+      {list && (
+        <Button
+          disabled={
+            isFetching || upsertMutation.isPending || removeMutation.isPending
+          }
+          className={'p-2.5 text-red-400 shrink-0'}
+          onClick={() => removeMutation.mutate()}
+          aria-label={'remove from list'}
+        >
+          <RemoveFriendIcon />
+        </Button>
+      )}
+    </div>
   )
 }

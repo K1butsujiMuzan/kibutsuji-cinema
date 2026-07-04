@@ -17,7 +17,7 @@ export default function PremiumLink({
     <Link
       href={PAGES.LOGIN}
       className={cn(
-        'py-1.75 border border-pink-400 rounded-md justify-center font-semibold',
+        'py-1.75 border border-pink-400 rounded-md justify-center font-semibold transition duration-300',
         {
           'text-white bg-pink-400 hover:bg-pink-450 active:bg-pink-500':
             isMostPopular && !isTransparent,
