@@ -1,9 +1,7 @@
 export default function BookmarkIcon() {
   return (
     <svg
-      className={'shrink-0'}
       aria-hidden={true}
-      role={'img'}
       width="16"
       height="16"
       viewBox="0 0 16 16"

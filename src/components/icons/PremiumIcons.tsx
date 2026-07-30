@@ -2,8 +2,7 @@ export function PremiumMostPopular() {
   return (
     <svg
       aria-hidden={true}
-      role={'img'}
-      className={'shrink-0 text-pink-400 -rotate-60'}
+      className={'text-pink-400 -rotate-60'}
       xmlns="http://www.w3.org/2000/svg"
       width="21"
       height="20"
@@ -22,8 +21,7 @@ export function PremiumAdvantage() {
   return (
     <svg
       aria-hidden={true}
-      role={'img'}
-      className={'fill-pink-400 shrink-0 mt-0.25'}
+      className={'fill-pink-400 mt-0.25'}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 16 16"
       width={16}

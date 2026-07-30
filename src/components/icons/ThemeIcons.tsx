@@ -7,8 +7,7 @@ interface Props {
 export function ThemeIconDark({ className }: Props) {
   return (
     <svg
-      className={cn('shrink-0 aspect-square', className)}
-      role={'img'}
+      className={cn('aspect-square', className)}
       aria-hidden={true}
       width="24"
       height="24"
@@ -30,8 +29,7 @@ export function ThemeIconDark({ className }: Props) {
 export function ThemeIconLight({ className }: Props) {
   return (
     <svg
-      className={cn('shrink-0 aspect-square', className)}
-      role={'img'}
+      className={cn('aspect-square', className)}
       aria-hidden={true}
       width="24"
       height="24"
@@ -53,8 +51,7 @@ export function ThemeIconLight({ className }: Props) {
 export function ThemeIconSystem({ className }: Props) {
   return (
     <svg
-      className={cn('shrink-0 aspect-square', className)}
-      role={'img'}
+      className={cn('aspect-square', className)}
       aria-hidden={true}
       width="24"
       height="24"

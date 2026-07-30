@@ -34,9 +34,8 @@ export default memo(function HeaderUserMenuModalLogoutButton() {
       }
     >
       <svg
-        className={'shrink-0 text-red-300 dark:text-red-200'}
+        className={'text-red-300 dark:text-red-200'}
         aria-hidden={true}
-        role={'img'}
         width="16"
         height="16"
         viewBox="0 0 16 16"

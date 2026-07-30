@@ -1,8 +1,6 @@
 export const CatalogIcon = () => {
   return (
     <svg
-      className={'shrink-0'}
-      role={'img'}
       aria-hidden={true}
       width="24"
       height="24"
@@ -38,8 +36,6 @@ export const CatalogIcon = () => {
 export const NewsIcon = () => {
   return (
     <svg
-      className={'shrink-0'}
-      role={'img'}
       aria-hidden={true}
       width="24"
       height="24"

@@ -15,7 +15,6 @@ export default memo(function Logo({ className }: Props) {
       className={cn('group', className)}
     >
       <svg
-        role={'img'}
         aria-hidden={true}
         className={'text-pink-300 h-10 w-auto'}
         width="285"

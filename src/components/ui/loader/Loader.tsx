@@ -7,8 +7,7 @@ interface Props {
 export default function Loader({ className }: Props) {
   return (
     <svg
-      className={cn('shrink-0 text-pink-400', className)}
-      role={'img'}
+      className={cn('text-pink-400', className)}
       aria-hidden={true}
       stroke="hsl(228, 97%, 42%)"
       viewBox="0 0 24 24"

@@ -44,8 +44,6 @@ export default function LoginGoogle() {
     >
       <span>Continue with Google</span>
       <svg
-        className={'shrink-0'}
-        role={'img'}
         aria-hidden={true}
         width="24"
         height="24"

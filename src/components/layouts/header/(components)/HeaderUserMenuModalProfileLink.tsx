@@ -22,8 +22,6 @@ export default memo(function HeaderUserMenuModalProfileLink({
       }
     >
       <svg
-        className={'shrink-0'}
-        role={'img'}
         aria-hidden={true}
         width="16"
         height="16"
@@ -51,7 +49,6 @@ export default memo(function HeaderUserMenuModalProfileLink({
         <div className={'flex items-center gap-0.5'}>
           <span className={'text-xs'}>My profile</span>
           <svg
-            role={'img'}
             aria-hidden={true}
             width="10"
             height="10"

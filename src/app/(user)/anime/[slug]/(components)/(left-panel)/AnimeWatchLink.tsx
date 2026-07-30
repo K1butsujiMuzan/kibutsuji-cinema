@@ -15,8 +15,6 @@ export default function AnimeWatchLink({ animeSlug, firstEpisode }: Props) {
       href={PAGES.EPISODE(animeSlug, firstEpisode.toString())}
     >
       <svg
-        className={'shrink-0'}
-        role={'img'}
         aria-hidden={true}
         width="16"
         height="16"

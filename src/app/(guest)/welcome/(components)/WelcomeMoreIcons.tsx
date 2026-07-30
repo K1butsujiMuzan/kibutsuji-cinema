@@ -2,7 +2,6 @@ export function WelcomeMoreIconView() {
   return (
     <svg
       className={'h-12.5 lg:h-16'}
-      role={'img'}
       aria-hidden={true}
       width="64"
       height="64"
@@ -34,7 +33,6 @@ export function WelcomeMoreIconAccess() {
   return (
     <svg
       className={'h-12.5 lg:h-16'}
-      role={'img'}
       aria-hidden={true}
       width="64"
       height="64"
@@ -61,7 +59,6 @@ export function WelcomeMoreIconEpisodes() {
   return (
     <svg
       className={'h-12.5 lg:h-16'}
-      role={'img'}
       aria-hidden={true}
       width="64"
       height="64"
@@ -118,7 +115,6 @@ export function WelcomeMoreIconStore() {
   return (
     <svg
       className={'h-12.5 lg:h-16'}
-      role={'img'}
       aria-hidden={true}
       width="64"
       height="64"
@@ -168,7 +164,6 @@ export function WelcomeMoreIconVault() {
   return (
     <svg
       className={'h-12.5 lg:h-16'}
-      role={'img'}
       aria-hidden={true}
       width="64"
       height="64"
@@ -190,7 +185,6 @@ export function WelcomeMoreIconOffers() {
   return (
     <svg
       className={'h-12.5 lg:h-16'}
-      role={'img'}
       aria-hidden={true}
       width="64"
       height="64"
@@ -212,7 +206,6 @@ export function WelcomeMoreIconDevices() {
   return (
     <svg
       className={'h-12.5 lg:h-16'}
-      role={'img'}
       aria-hidden={true}
       width="64"
       height="64"
@@ -234,7 +227,6 @@ export function WelcomeMoreIconDownload() {
   return (
     <svg
       className={'h-12.5 lg:h-16'}
-      role={'img'}
       aria-hidden={true}
       width="64"
       height="64"

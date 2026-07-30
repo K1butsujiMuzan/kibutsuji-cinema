@@ -23,7 +23,6 @@ export default function Search({
     >
       <button aria-label={'search'} className={'p-3 shrink-0'} type={'submit'}>
         <svg
-          role={'img'}
           aria-hidden={true}
           width="16"
           height="16"
@@ -68,7 +67,6 @@ export default function Search({
           }
         >
           <svg
-            role={'img'}
             aria-hidden={true}
             width="12"
             height="12"

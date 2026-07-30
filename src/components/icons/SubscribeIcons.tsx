@@ -1,8 +1,6 @@
 export const SubscribeIcon = () => {
   return (
     <svg
-      className={'shrink-0'}
-      role={'img'}
       aria-hidden={true}
       width="16"
       height="16"
@@ -28,8 +26,6 @@ export const SubscribeIcon = () => {
 export const UnsubscribeIcon = () => {
   return (
     <svg
-      className={'shrink-0'}
-      role={'img'}
       aria-hidden={true}
       width="16"
       height="16"

@@ -1,8 +1,6 @@
 export const AddFriendIcon = () => {
   return (
     <svg
-      className={'shrink-0'}
-      role={'img'}
       aria-hidden={true}
       width="16"
       height="16"
@@ -36,8 +34,6 @@ export const AddFriendIcon = () => {
 export const BlockUserIcon = () => {
   return (
     <svg
-      className={'shrink-0'}
-      role={'img'}
       aria-hidden={true}
       width="16"
       height="16"
@@ -56,8 +52,6 @@ export const BlockUserIcon = () => {
 export const RemoveFriendIcon = () => {
   return (
     <svg
-      className={'shrink-0'}
-      role={'img'}
       aria-hidden={true}
       width="16"
       height="16"
@@ -89,8 +83,6 @@ export const RemoveFriendIcon = () => {
 export const AcceptFriendIcon = () => {
   return (
     <svg
-      className={'shrink-0'}
-      role={'img'}
       aria-hidden={true}
       width="16"
       height="16"
@@ -113,8 +105,6 @@ export const AcceptFriendIcon = () => {
 export const UnblockUserIcon = () => {
   return (
     <svg
-      className={'shrink-0'}
-      role={'img'}
       aria-hidden={true}
       width="16"
       height="16"

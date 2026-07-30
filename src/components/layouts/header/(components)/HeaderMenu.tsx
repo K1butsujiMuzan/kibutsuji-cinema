@@ -71,7 +71,6 @@ export default memo(function HeaderUserMenu({
           }
         >
           <svg
-            role={'img'}
             aria-hidden={true}
             width="24"
             height="24"

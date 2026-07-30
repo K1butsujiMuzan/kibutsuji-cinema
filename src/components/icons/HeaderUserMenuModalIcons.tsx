@@ -1,9 +1,7 @@
 export function CommentIcon() {
   return (
     <svg
-      className={'shrink-0'}
       aria-hidden={true}
-      role={'img'}
       width="16"
       height="16"
       viewBox="0 0 16 16"
@@ -30,9 +28,7 @@ export function CommentIcon() {
 export function FriendsListIcon() {
   return (
     <svg
-      className={'shrink-0'}
       aria-hidden={true}
-      role={'img'}
       width="16"
       height="16"
       viewBox="0 0 16 16"
@@ -57,9 +53,7 @@ export function FriendsListIcon() {
 export function AddIcon() {
   return (
     <svg
-      className={'shrink-0'}
       aria-hidden={true}
-      role={'img'}
       width="16"
       height="16"
       viewBox="0 0 16 16"
@@ -77,9 +71,7 @@ export function AddIcon() {
 export function SettingsIcon() {
   return (
     <svg
-      className={'shrink-0'}
       aria-hidden={true}
-      role={'img'}
       width="16"
       height="16"
       viewBox="0 0 16 16"

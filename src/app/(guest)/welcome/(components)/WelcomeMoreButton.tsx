@@ -12,7 +12,6 @@ export default function WelcomeMoreButton() {
     >
       <span className={'text-sm leading-4.5'}>Compare all plans</span>
       <svg
-        role={'img'}
         aria-hidden={true}
         width="24"
         height="24"

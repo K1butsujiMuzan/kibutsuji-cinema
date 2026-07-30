@@ -52,7 +52,6 @@ export default function LoginCheckbox({
           tabIndex={-1}
         />
         <svg
-          role={'img'}
           aria-hidden={true}
           className={
             'hidden peer-checked:block text-pink-400 stroke-1 stroke-pink-400'

@@ -29,7 +29,6 @@ export default function WelcomeSliderButton({
       type="button"
     >
       <svg
-        role={'img'}
         className={'h-10 w-10'}
         aria-hidden={true}
         width="24"

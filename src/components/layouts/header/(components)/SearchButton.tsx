@@ -17,8 +17,6 @@ export default function SearchButton({ className }: Props) {
         }
       >
         <svg
-          className={'shrink-0'}
-          role={'img'}
           aria-hidden={true}
           width="24"
           height="24"
