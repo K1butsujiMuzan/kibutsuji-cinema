@@ -3,11 +3,11 @@ interface Props {
   originalTitle: string | null
 }
 
-export default function AnimeTopInformation({ title, originalTitle }: Props) {
+export default function AnimeInformation({ title, originalTitle }: Props) {
   return (
     <div>
       <h1 className={'text-2xl font-semibold'}>{title}</h1>
-      {originalTitle && <h2 className={'text-18 '}>{originalTitle}</h2>}
+      {originalTitle && <h2 className={'text-18'}>{originalTitle}</h2>}
     </div>
   )
 }

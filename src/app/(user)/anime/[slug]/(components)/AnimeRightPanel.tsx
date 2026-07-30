@@ -1,14 +1,20 @@
-import AnimeTopInformation from '@/app/(user)/anime/[slug]/(components)/AnimeTopInformation'
+import AnimeInformation from '@/app/(user)/anime/[slug]/(components)/AnimeInformation'
 import type { TAnimePage } from '@/shared/types/anime-page.type'
+import { cn } from '@/lib/utils'
 
 interface Props {
   anime: TAnimePage
+  hasBanner: boolean
 }
 
-export default function AnimeRightPanel({ anime }: Props) {
+export default function AnimeRightPanel({ anime, hasBanner }: Props) {
   return (
-    <div>
-      <AnimeTopInformation
+    <div
+      className={cn('', {
+        'py-4': hasBanner,
+      })}
+    >
+      <AnimeInformation
         title={anime.title}
         originalTitle={anime.originalTitle}
       />

@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import AnimeLeftPanel from '@/app/(user)/anime/[slug]/(components)/(left-panel)/AnimeLeftPanel'
 import AnimeRightPanel from '@/app/(user)/anime/[slug]/(components)/AnimeRightPanel'
 import { getServerSession } from '@/lib/get-server-session'
+import AnimeBanner from '@/app/(user)/anime/[slug]/(components)/AnimeBanner'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -17,17 +18,25 @@ export default async function AnimePage({ params }: Props) {
     notFound()
   }
 
+  console.log(animeData.anime.backgroundImage)
+
   return (
     <main className={'p-4 pb-8'}>
       <div className={'max-w-370 mx-auto'}>
-        <div className={'h-90 bg-gray-400 rounded-xl'}></div>
-        <section className={'grid grid-cols-[16.25rem_1fr] px-4'}>
+        {!!animeData.anime.backgroundImage && (
+          <AnimeBanner image={animeData.anime.backgroundImage} />
+        )}
+        <section className={'grid grid-cols-[16.25rem_1fr] px-4 gap-8'}>
           <AnimeLeftPanel
+            hasBanner={!!animeData.anime.backgroundImage}
             isAuthorized={!!session}
             anime={animeData.anime}
             firstEpisode={animeData.firstEpisode}
           />
-          <AnimeRightPanel anime={animeData.anime} />
+          <AnimeRightPanel
+            hasBanner={!!animeData.anime.backgroundImage}
+            anime={animeData.anime}
+          />
         </section>
       </div>
     </main>

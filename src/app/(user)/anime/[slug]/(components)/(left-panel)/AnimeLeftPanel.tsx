@@ -7,19 +7,26 @@ import type {
   TAnimePageFirstEpisode,
 } from '@/shared/types/anime-page.type'
 import CloudinaryImageButton from '@/components/ui/cloudinary-image-button/CloudinaryImageButton'
+import { cn } from '@/lib/utils'
 
 interface Props extends TAnimePageFirstEpisode {
   anime: TAnimePage
+  hasBanner: boolean
   isAuthorized: boolean
 }
 
 export default function AnimeLeftPanel({
   anime,
   firstEpisode,
+  hasBanner,
   isAuthorized,
 }: Props) {
   return (
-    <div className={'flex flex-col gap-4'}>
+    <div
+      className={cn('flex flex-col gap-4', {
+        ' -mt-20': hasBanner,
+      })}
+    >
       <CloudinaryImageButton
         image={anime.image}
         title={anime.title}
