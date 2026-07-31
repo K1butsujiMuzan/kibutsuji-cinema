@@ -1,9 +1,9 @@
-import WelcomeHero from '@/app/(guest)/welcome/(components)/WelcomeHero'
-import WelcomeWatch from '@/app/(guest)/welcome/(components)/WelcomeWatch'
-import WelcomePremium from '@/app/(guest)/welcome/(components)/WelcomePremium'
-import WelcomeSubscription from '@/app/(guest)/welcome/(components)/WelcomeSubscription'
-import WelcomeMore from '@/app/(guest)/welcome/(components)/WelcomeMore'
-import WelcomeQuestions from '@/app/(guest)/welcome/(components)/WelcomeQuestions'
+import WelcomeHero from '@/components/widgets/welcome/welcome-hero/WelcomeHero'
+import WelcomeWatch from '@/components/widgets/welcome/welcome-watch/WelcomeWatch'
+import WelcomePremium from '@/components/widgets/welcome/welcome-premium/WelcomePremium'
+import WelcomeSubscription from '@/components/widgets/welcome/welcome-subscription/WelcomeSubscription'
+import WelcomeMore from '@/components/widgets/welcome/welcome-more/WelcomeMore'
+import WelcomeQuestions from '@/components/widgets/welcome/welcome-questions/WelcomeQuestions'
 import type { Metadata } from 'next'
 import GuestHeader from '@/components/layouts/guest-header/GuestHeader'
 
@@ -22,11 +22,7 @@ export default function Welcome() {
         <WelcomeSubscription />
         <WelcomeMore />
         <WelcomeQuestions />
-        <p
-          className={
-            'font-semibold text-center leading-4.5 text-sm md:text-base md:leading-6 px-5'
-          }
-        >
+        <p className={'font-semibold text-center text-sm md:text-base px-3'}>
           *Device and content availability may vary by country or region.
         </p>
       </main>

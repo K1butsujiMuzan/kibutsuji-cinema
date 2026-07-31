@@ -85,7 +85,7 @@ export default function Premium({ titleId }: Props) {
         aria-labelledby={isMonthly ? 'tab-monthly' : 'tab-annually'}
         role={'region'}
         className={
-          'flex justify-center flex-col md:flex-row mx-auto gap-5 text-center w-full overflow-auto'
+          'flex justify-center flex-col md:flex-row gap-5 text-center w-full overflow-x-auto no-scrollbar'
         }
       >
         {premium.map((container) => (
@@ -96,7 +96,7 @@ export default function Premium({ titleId }: Props) {
           />
         ))}
       </div>
-      <small className={'text-center text-xs max-w-167.5 mx-2.5 font-semibold'}>
+      <small className={'text-center text-xs max-w-167.5 font-semibold'}>
         This offer is valid for new subscribers only. Your subscription
         automatically renews after the trial period at the price you selected
         when comparing plans. You can cancel at any time. Restrictions and other

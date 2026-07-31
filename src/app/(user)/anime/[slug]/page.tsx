@@ -1,9 +1,9 @@
 import { findAnimeBySlug } from '@/server-actions/find-anime-by-slug'
 import { notFound } from 'next/navigation'
-import AnimeLeftPanel from '@/app/(user)/anime/[slug]/(components)/(left-panel)/AnimeLeftPanel'
-import AnimeRightPanel from '@/app/(user)/anime/[slug]/(components)/AnimeRightPanel'
+import AnimeLeftPanel from '@/components/widgets/anime/left-panel/AnimeLeftPanel'
+import AnimeRightPanel from '@/components/widgets/anime/right-panel/AnimeRightPanel'
 import { getServerSession } from '@/lib/get-server-session'
-import AnimeBanner from '@/app/(user)/anime/[slug]/(components)/AnimeBanner'
+import AnimeBanner from '@/components/widgets/anime/banner/AnimeBanner'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -17,8 +17,6 @@ export default async function AnimePage({ params }: Props) {
   if (!animeData.anime) {
     notFound()
   }
-
-  console.log(animeData.anime.backgroundImage)
 
   return (
     <main className={'p-4 pb-8'}>

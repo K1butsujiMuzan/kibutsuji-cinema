@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { tosData, tosPreface } from '@/app/(public)/tos/tos.data'
+import { tosData, tosPreface } from '@/components/widgets/tos/tos.data'
 import TextPage from '@/components/ui/text-page/TextPage'
 
 export const metadata: Metadata = {

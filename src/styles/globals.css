@@ -68,6 +68,13 @@ svg {
   scrollbar-width: none;
 }
 
+.main-container {
+  width: 100%;
+  max-width: calc(92.5rem + (2 * 0.75rem));
+  margin-inline: auto;
+  padding-inline: 0.75rem;
+}
+
 .toasts-box {
   z-index: 100;
   position: fixed;

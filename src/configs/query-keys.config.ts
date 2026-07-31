@@ -9,4 +9,5 @@ export const QUERY_KEYS = {
   AUTHOR_SUBSCRIPTION: 'author-subscription',
   AUTHOR_SUBSCRIBERS: 'author-subscribers',
   AUTHOR_TITLES: 'author-titles',
+  WELCOME_ANIME: 'welcome-anime',
 } as const

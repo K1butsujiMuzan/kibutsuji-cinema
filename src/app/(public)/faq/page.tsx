@@ -1,4 +1,4 @@
-import { faqData } from '@/app/(public)/faq/faq.data'
+import { faqData } from '@/components/widgets/faq/faq.data'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {

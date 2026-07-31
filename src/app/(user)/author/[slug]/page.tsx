@@ -1,8 +1,8 @@
 import prisma from '@/lib/prisma'
 import { notFound } from 'next/navigation'
 import CloudinaryImageButton from '@/components/ui/cloudinary-image-button/CloudinaryImageButton'
-import AuthorInformation from '@/app/(user)/author/[slug]/(components)/AuthorInformation'
-import AuthorAnimeList from '@/app/(user)/author/[slug]/(components)/AuthorAnimeList'
+import AuthorInformation from '@/components/widgets/author/AuthorInformation'
+import AuthorAnimeList from '@/components/widgets/author/AuthorAnimeList'
 
 interface Props {
   params: Promise<{ slug: string }>
