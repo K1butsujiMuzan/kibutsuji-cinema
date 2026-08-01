@@ -60,10 +60,6 @@
   --color-orange-400: #ff9b40;
 }
 
-svg {
-  flex-shrink: 0;
-}
-
 .no-scrollbar {
   scrollbar-width: none;
 }

@@ -1,4 +1,5 @@
 import type { TTextPageData } from '@/shared/types/text-page.type'
+import { LINKS } from '@/configs/links.config'
 
 export const privacyPolicyPreface: string[] = [
   '<b>Last Updated:</b> April 8, 2026',
@@ -131,7 +132,7 @@ export const privacyPolicyData: TTextPageData[] = [
         ],
       },
       {
-        text: 'To exercise your rights, please contact us at <b><a class="text-pink-400 dark:text-pink-200 hover:text-gray-700 dark:hover:text-gray-100 hover:underline active:text-gray-700 dark:active:text-gray-100 active:underline transition duration-300" href="mailto:privacy@kibutsuji.me">privacy@kibutsuji.me</a></b>.',
+        text: `To exercise your rights, please contact us at <b><a class="text-pink-400 dark:text-pink-200 hover:text-gray-700 dark:hover:text-gray-100 hover:underline active:text-gray-700 dark:active:text-gray-100 active:underline transition duration-300" href="${LINKS.EMAIL_PRIVACY.href}">${LINKS.EMAIL_PRIVACY.label}</a></b>.`,
       },
     ],
   },
@@ -182,7 +183,7 @@ export const privacyPolicyData: TTextPageData[] = [
         text: 'If you have any questions about this Privacy Policy or our data practices, please contact us at:',
       },
       {
-        text: 'Email: <b><a class="text-pink-400 dark:text-pink-200 hover:text-gray-700 dark:hover:text-gray-100 hover:underline active:text-gray-700 dark:active:text-gray-100 active:underline transition duration-300" href="mailto:privacy@kibutsuji.me">privacy@kibutsuji.me</a></b>',
+        text: `Email: <b><a class="text-pink-400 dark:text-pink-200 hover:text-gray-700 dark:hover:text-gray-100 hover:underline active:text-gray-700 dark:active:text-gray-100 active:underline transition duration-300" href="${LINKS.EMAIL_PRIVACY.href}">${LINKS.EMAIL_PRIVACY.label}</a></b>`,
       },
     ],
   },

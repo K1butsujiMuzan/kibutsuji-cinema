@@ -19,9 +19,7 @@ export default function WelcomeMoreSlider() {
           }
         >
           <Icon />
-          <p className={'text-sm leading-4.5 font-medium text-center'}>
-            {text}
-          </p>
+          <p className={'text-sm font-medium text-center'}>{text}</p>
         </li>
       ))}
     </Slider>

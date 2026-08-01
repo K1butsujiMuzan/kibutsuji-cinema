@@ -15,7 +15,7 @@ export default function Welcome() {
   return (
     <>
       <GuestHeader />
-      <main className={'mb-4 flex flex-col gap-12 md:gap-24'}>
+      <main className={'pb-8 flex flex-col gap-12 md:gap-24'}>
         <WelcomeHero />
         <WelcomePremium />
         <WelcomeWatch />

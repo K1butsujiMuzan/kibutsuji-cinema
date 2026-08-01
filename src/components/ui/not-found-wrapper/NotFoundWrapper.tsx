@@ -20,7 +20,9 @@ export default function NotFoundWrapper() {
   }, [pathName])
 
   return (
-    <main className={'p-4 flex flex-col gap-6 justify-center items-center'}>
+    <main
+      className={'pb-8 px-3 flex flex-col gap-6 justify-center items-center'}
+    >
       <h1 className={'sr-only'}>{pageText}</h1>
       <div className={'flex flex-col items-center gap-2'}>
         <Hime text={pageText} type={'sad'} />

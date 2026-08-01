@@ -10,10 +10,10 @@ interface Props {
 
 export default function TextPage({ title, preface, textPageData }: Props) {
   return (
-    <main className={'pt-8 pb-12 px-5 md:py-24 md:px-10'}>
-      <section className={'max-w-290 flex flex-col gap-9 md:gap-12 mx-auto'}>
+    <main className={'pb-8 pt-4'}>
+      <section className={'flex flex-col gap-5 md:gap-10 main-container'}>
         <h1 className={'text-22 md:text-28 font-medium'}>{title}</h1>
-        <div className={'flex flex-col gap-4.5 md:gap-6.5'}>
+        <div className={'flex flex-col gap-4 md:gap-6'}>
           {preface.map((item, index) => (
             <p
               key={`preface-${index}`}
@@ -23,12 +23,9 @@ export default function TextPage({ title, preface, textPageData }: Props) {
             </p>
           ))}
         </div>
-        <div className={'flex flex-col gap-4.5 md:gap-6.5'}>
+        <div className={'flex flex-col gap-5 md:gap-10'}>
           {textPageData.map((item) => (
-            <div
-              key={item.label}
-              className={'flex flex-col gap-4.5 md:gap-6.5'}
-            >
+            <div key={item.label} className={'flex flex-col gap-4 md:gap-6'}>
               <h2 className={'text-xl md:text-22 font-medium'}>{item.label}</h2>
               {!!item.paragraphs &&
                 item.paragraphs.map((paragraph, index) => (

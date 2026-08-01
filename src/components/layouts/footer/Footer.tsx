@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { footerLinks } from '@/components/layouts/footer/footer.data'
 import MiniLogo from '@/components/ui/logo/MiniLogo'
+import { LINKS } from '@/configs/links.config'
 
 export default function Footer() {
   return (
@@ -17,9 +18,9 @@ export default function Footer() {
               className={
                 'border-b hover:text-pink-400 hover:dark:text-pink-200 active:text-pink-400 active:dark:text-pink-200 transition duration-300 whitespace-nowrap'
               }
-              href={'mailto:information@kibutsuji.me'}
+              href={LINKS.EMAIL_INFO.href}
             >
-              information@kibutsuji.me
+              {LINKS.EMAIL_INFO.label}
             </a>
           </div>
           <nav>

@@ -1,4 +1,5 @@
 import type { TTextPageData } from '@/shared/types/text-page.type'
+import { LINKS } from '@/configs/links.config'
 
 export const tosPreface: string[] = [
   '<b>These Terms of Service</b> govern the relationship between you and Kibutsuji regarding your access to and use of our website, streaming services, mobile applications, products, services, and any related features. By creating an account, clicking the <b>"I Agree"</b> button, or otherwise accessing or using any Service, you agree to be bound by these Terms. If you do not agree, you may not use any Kibutsuji Service.',
@@ -136,7 +137,7 @@ export const tosData: TTextPageData[] = [
     label: '12. Resolving Disputes Between You and Kibutsuji',
     paragraphs: [
       {
-        text: 'All disputes arising out of these Terms or your use of the Services must first be resolved through <b>informal dispute resolution</b>. To initiate informal resolution, you must send a written description of the dispute to <b><a class="text-pink-400 dark:text-pink-200 hover:text-gray-700 dark:hover:text-gray-100 hover:underline active:text-gray-700 dark:active:text-gray-100 active:underline transition duration-300" href="mailto:information@kibutsuji.me">information@kibutsuji.me</a></b>. You and Kibutsuji agree to negotiate in good faith for 60 days. If the dispute is not resolved, either party may initiate binding arbitration.',
+        text: `All disputes arising out of these Terms or your use of the Services must first be resolved through <b>informal dispute resolution</b>. To initiate informal resolution, you must send a written description of the dispute to <b><a class="text-pink-400 dark:text-pink-200 hover:text-gray-700 dark:hover:text-gray-100 hover:underline active:text-gray-700 dark:active:text-gray-100 active:underline transition duration-300" href="${LINKS.EMAIL_INFO.href}">${LINKS.EMAIL_INFO.label}</a></b>. You and Kibutsuji agree to negotiate in good faith for 60 days. If the dispute is not resolved, either party may initiate binding arbitration.`,
       },
       {
         text: 'The arbitration will be conducted by a single arbitrator under the rules of a recognized arbitration provider. The arbitration will be conducted in your county of residence (if you are a US resident) or in New York, NY (if you are outside the US). The arbitrator may award any relief that would be available in court.',
@@ -145,7 +146,7 @@ export const tosData: TTextPageData[] = [
         text: '<b>YOU AGREE THAT ANY ARBITRATION WILL BE CONDUCTED ONLY ON AN INDIVIDUAL BASIS AND NOT AS A CLASS OR REPRESENTATIVE ACTION. YOU WAIVE THE RIGHT TO A JURY TRIAL TO THE FULLEST EXTENT PERMITTED BY LAW</b>.',
       },
       {
-        text: 'You may opt out of this Arbitration Agreement within 30 days of your first use of the Service by sending a written notice to <b><a class="text-pink-400 dark:text-pink-200 hover:text-gray-700 dark:hover:text-gray-100 hover:underline active:text-gray-700 dark:active:text-gray-100 active:underline transition duration-300" href="mailto:information@kibutsuji.me">information@kibutsuji.me</a></b>.',
+        text: `You may opt out of this Arbitration Agreement within 30 days of your first use of the Service by sending a written notice to <b><a class="text-pink-400 dark:text-pink-200 hover:text-gray-700 dark:hover:text-gray-100 hover:underline active:text-gray-700 dark:active:text-gray-100 active:underline transition duration-300" href="${LINKS.EMAIL_INFO.href}">${LINKS.EMAIL_INFO.label}</a></b>.`,
       },
     ],
   },
@@ -199,7 +200,7 @@ export const tosData: TTextPageData[] = [
         text: 'If you have any questions about these Terms, please contact us at:',
       },
       {
-        text: '<b><a class="text-pink-400 dark:text-pink-200 hover:text-gray-700 dark:hover:text-gray-100 hover:underline active:text-gray-700 dark:active:text-gray-100 active:underline transition duration-300" href="mailto:information@kibutsuji.me">information@kibutsuji.me</a></b>',
+        text: `<b><a class="text-pink-400 dark:text-pink-200 hover:text-gray-700 dark:hover:text-gray-100 hover:underline active:text-gray-700 dark:active:text-gray-100 active:underline transition duration-300" href="${LINKS.EMAIL_INFO.href}">${LINKS.EMAIL_INFO.label}</a></b>`,
       },
     ],
   },

@@ -1,3 +1,5 @@
+import { LINKS } from '@/configs/links.config'
+
 export default function WelcomeQuestions() {
   return (
     <section
@@ -14,9 +16,9 @@ export default function WelcomeQuestions() {
           className={
             'text-pink-400 dark:text-pink-200 hover:text-gray-700 dark:hover:text-gray-100 hover:underline active:text-gray-700 dark:active:text-gray-100 active:underline transition duration-300'
           }
-          href="mailto:information@kibutsuji.me"
+          href={LINKS.EMAIL_INFO.href}
         >
-          information@kibutsuji.me
+          {LINKS.EMAIL_INFO.label}
         </a>
       </span>
     </section>

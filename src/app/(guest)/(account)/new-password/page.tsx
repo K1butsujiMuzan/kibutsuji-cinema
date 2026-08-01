@@ -8,8 +8,8 @@ export const metadata: Metadata = {
 
 export default function NewPassword() {
   return (
-    <main className={'py-10 md:pb-15 md:pt-35 flex justify-center'}>
-      <div className={'px-10 w-full flex flex-col items-center gap-5'}>
+    <main className={'pb-8 pt-4 md:pt-35'}>
+      <div className={'flex flex-col items-center gap-4 main-container'}>
         <Suspense>
           <NewPasswordForm />
         </Suspense>

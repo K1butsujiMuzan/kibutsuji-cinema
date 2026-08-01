@@ -7,11 +7,7 @@ export const metadata: Metadata = {
 
 export default function Faq() {
   return (
-    <main
-      className={
-        'pt-8 pb-12 px-5 md:py-24 md:px-10 flex flex-col gap-5 md:gap-10'
-      }
-    >
+    <main className={'pb-8 pt-4 flex flex-col gap-5 md:gap-10 px-3'}>
       <h1
         className={
           'text-28 md:text-54 leading-9 md:leading-16 text-center font-bold'
