@@ -79,6 +79,9 @@ export default function AuthorAnimeList({ authorSlug }: Props) {
                 title={title}
                 rating={rating}
                 slug={slug}
+                sizes={
+                  '(max-width: 300px) 100vw, (max-width: 480px) 50vw, (max-width: 800px) 33vw, (max-width: 1280px) 25vw, 16vw'
+                }
               />
             ))}
       </div>

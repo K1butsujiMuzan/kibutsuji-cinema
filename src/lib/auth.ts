@@ -14,6 +14,12 @@ export const auth = betterAuth({
       prompt: 'select_account',
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      mapProfileToUser: (profile) => {
+        return {
+          ...profile,
+          image: undefined,
+        }
+      },
     },
   },
 

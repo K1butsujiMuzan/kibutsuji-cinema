@@ -6,8 +6,8 @@ import type {
   TAnimePage,
   TAnimePageFirstEpisode,
 } from '@/shared/types/anime-page.type'
-import CloudinaryImageButton from '@/components/ui/cloudinary-image-button/CloudinaryImageButton'
 import { cn } from '@/lib/utils'
+import Image from 'next/image'
 
 interface Props extends TAnimePageFirstEpisode {
   anime: TAnimePage
@@ -27,12 +27,15 @@ export default function AnimeLeftPanel({
         ' -mt-20': hasBanner,
       })}
     >
-      <CloudinaryImageButton
-        image={anime.image}
-        title={anime.title}
-        className={'w-full h-91'}
-        sizes={'260px'}
-      />
+      <span className={'relative rounded-md overflow-hidden h-91 w-full'}>
+        <Image
+          src={anime.image ?? '/images/global/base-avatar.jpg'}
+          alt={anime.title}
+          className={'object-cover'}
+          fill={true}
+          sizes={'260px'}
+        />
+      </span>
       {firstEpisode > 0 ? (
         <AnimeWatchLink animeSlug={anime.slug} firstEpisode={firstEpisode} />
       ) : (

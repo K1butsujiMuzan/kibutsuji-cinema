@@ -2,6 +2,7 @@
 
 import type { Anime } from '@/generated/prisma'
 import prisma from '@/lib/prisma'
+import { createImageUrl } from '@/utils/createImageUrl'
 
 type TAnimeInformation = Pick<
   Anime,
@@ -10,7 +11,7 @@ type TAnimeInformation = Pick<
 
 export const getPopularAnime = async (): Promise<TAnimeInformation[]> => {
   try {
-    return prisma.anime.findMany({
+    const anime = await prisma.anime.findMany({
       take: 20,
       orderBy: {
         views: 'desc',
@@ -24,6 +25,11 @@ export const getPopularAnime = async (): Promise<TAnimeInformation[]> => {
         title: true,
       },
     })
+
+    return anime.map((item) => ({
+      ...item,
+      image: item.image ? createImageUrl(item.image) : null,
+    }))
   } catch (error) {
     console.error(error)
     return []

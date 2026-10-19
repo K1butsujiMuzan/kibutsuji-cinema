@@ -5,8 +5,9 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: '*.googleusercontent.com',
-        pathname: '**',
+        hostname:
+          'br-royal-recipe-alcytjw9.storage.c-3.eu-central-1.aws.neon.tech',
+        pathname: '/**',
       },
     ],
   },

@@ -46,6 +46,7 @@ export default function WelcomeWatchSlider() {
             type={type}
             image={image}
             title={title}
+            sizes={'200px'}
           />
         </li>
       ))}

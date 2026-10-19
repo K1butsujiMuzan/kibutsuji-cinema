@@ -1,9 +1,13 @@
 import type { Anime } from '@/generated/prisma'
-import CloudinaryImage from '@/components/ui/cloudinary-image/CloudinaryImage'
 import Link from 'next/link'
 import { PAGES } from '@/configs/pages.config'
 import { ANIME_TYPE_TEXT } from '@/constants/anime-type-text'
 import { cn } from '@/lib/utils'
+import Image from 'next/image'
+
+type Props = {
+  sizes: string
+} & Pick<Anime, 'type' | 'image' | 'title' | 'rating' | 'slug'>
 
 export default function AnimeCard({
   type,
@@ -11,7 +15,8 @@ export default function AnimeCard({
   title,
   rating,
   slug,
-}: Pick<Anime, 'type' | 'image' | 'title' | 'rating' | 'slug'>) {
+  sizes,
+}: Props) {
   return (
     <article>
       <Link
@@ -21,15 +26,20 @@ export default function AnimeCard({
         }
       >
         <figure>
-          <CloudinaryImage
-            image={image}
-            title={title}
-            sizes={
-              '(max-width: 300px) 100vw, (max-width: 480px) 50vw, (max-width: 800px) 33vw, (max-width: 1280px) 25vw, 16vw'
+          <span
+            className={
+              'block rounded-md relative w-full aspect-5/7 overflow-hidden'
             }
-            className={'w-full aspect-5/7'}
-            imageClassName={'rounded-md'}
-          />
+          >
+            <Image
+              src={image ?? '/images/global/base-avatar.jpg'}
+              alt={title}
+              fill={true}
+              sizes={sizes}
+              className={'object-cover'}
+              unoptimized={true}
+            />
+          </span>
           <figcaption className={'pt-2'}>
             <span className={'font-medium text-18 line-clamp-2 leading-[1.25]'}>
               {title}
