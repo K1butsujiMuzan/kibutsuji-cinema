@@ -1,6 +1,6 @@
 'use client'
 
-import { THEMES } from '@/constants/theme'
+import { THEMES } from '@/shared/constants/theme'
 import { useTheme } from 'next-themes'
 import { useCallback } from 'react'
 

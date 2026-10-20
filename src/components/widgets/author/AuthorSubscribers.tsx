@@ -1,7 +1,7 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { QUERY_KEYS } from '@/configs/query-keys.config'
+import { QUERY_KEYS } from '@/shared/configs/query-keys.config'
 import { getAuthorSubscribers } from '@/server-actions/author/get-author-subscribers'
 import CountAndTitle from '@/components/ui/count-and-title/CountAndTitle'
 import BlockLoader from '@/components/ui/block-loader/BlockLoader'

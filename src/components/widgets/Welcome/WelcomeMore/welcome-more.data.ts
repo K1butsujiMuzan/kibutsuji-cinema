@@ -7,14 +7,10 @@ import {
   WelcomeMoreIconStore,
   WelcomeMoreIconVault,
   WelcomeMoreIconView,
-} from '@/components/widgets/welcome/welcome-more/WelcomeMoreIcons'
+} from '@/components/widgets/Welcome/WelcomeMore/WelcomeMoreIcons'
+import type { TWelcomeMoreIconSlide } from '@/components/widgets/Welcome/WelcomeMore/welcome-more.types'
 
-type TIconSlide = {
-  icon: React.ComponentType
-  text: string
-}
-
-export const sliderIcons: TIconSlide[] = [
+export const sliderIcons: TWelcomeMoreIconSlide[] = [
   {
     icon: WelcomeMoreIconView,
     text: 'View without ads',

@@ -1,7 +1,8 @@
-import { DELETE_LIMIT } from '@/constants/limits'
+import { DELETE_LIMIT } from '@/shared/constants/limits'
 
 export const ERRORS = {
   SOMETHING_WRONG: 'Something went wrong',
+  INTERNAL_ERROR: 'Something went wrong, please try again later',
   PROVIDER_FAILED: 'Error logging in through the provider',
   INSUFFICIENT_RIGHTS: 'Insufficient rights',
   TRANSMITTED_DATA: 'Incorrectly transmitted data',

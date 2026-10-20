@@ -1,6 +1,6 @@
 'use server'
 
-import { ERRORS } from '@/constants/errors'
+import { ERRORS } from '@/shared/configs/errors.config'
 import prisma from '@/lib/prisma'
 import { getServerSession } from '@/lib/get-server-session'
 import type { TErrorResponse } from '@/shared/types/error-response.type'

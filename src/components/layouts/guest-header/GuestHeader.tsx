@@ -1,6 +1,6 @@
 import AccentLink from '@/components/ui/accent-link/AccentLink'
 import MainThemeButton from '@/components/ui/theme-buttons/MainThemeButton'
-import { PAGES } from '@/configs/pages.config'
+import { PAGES } from '@/shared/configs/pages.config'
 import Logo from '@/components/ui/logo/Logo'
 import MiniLogo from '@/components/ui/logo/MiniLogo'
 

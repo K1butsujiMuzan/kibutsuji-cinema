@@ -1,5 +1,5 @@
 import { type NextRequest } from 'next/server'
-import { ERRORS } from '@/constants/errors'
+import { ERRORS } from '@/shared/configs/errors.config'
 import { verify } from 'jsonwebtoken'
 import type { IUserTokenType } from '@/shared/types/user-token.type'
 

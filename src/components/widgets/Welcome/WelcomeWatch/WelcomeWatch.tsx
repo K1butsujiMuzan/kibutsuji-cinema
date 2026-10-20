@@ -1,4 +1,4 @@
-import WelcomeWatchSlider from '@/components/widgets/welcome/welcome-watch/WelcomeWatchSlider'
+import WelcomeWatchSlider from '@/components/widgets/Welcome/WelcomeWatch/WelcomeWatchSlider'
 
 export default function WelcomeWatch() {
   return (

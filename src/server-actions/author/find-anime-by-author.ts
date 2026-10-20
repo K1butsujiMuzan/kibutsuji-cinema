@@ -1,9 +1,9 @@
 'use server'
 
-import { ERRORS } from '@/constants/errors'
+import { ERRORS } from '@/shared/configs/errors.config'
 import prisma from '@/lib/prisma'
 import { type Anime, Prisma } from '@/generated/prisma'
-import { MAX_AUTHOR_ANIME } from '@/constants/limits'
+import { MAX_AUTHOR_ANIME } from '@/shared/constants/limits'
 
 export const findAnimeByAuthor = async (
   search: string,

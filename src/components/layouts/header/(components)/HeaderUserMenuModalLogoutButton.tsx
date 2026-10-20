@@ -2,7 +2,7 @@
 
 import { useTransition } from 'react'
 import { signOut } from '@/lib/auth-client'
-import { PAGES } from '@/configs/pages.config'
+import { PAGES } from '@/shared/configs/pages.config'
 import { useRouter } from 'next/navigation'
 import { memo } from 'react'
 

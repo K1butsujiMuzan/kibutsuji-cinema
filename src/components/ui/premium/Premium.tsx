@@ -4,7 +4,7 @@ import { useRef, useState, type KeyboardEvent } from 'react'
 import { cn } from '@/lib/utils'
 import { premium } from '@/components/ui/premium/premium.data'
 import PremiumTab from '@/components/ui/premium/PremiumTab'
-import { KEYCODES } from '@/constants/keycodes'
+import { KEYCODES } from '@/shared/constants/keycodes'
 
 interface Props {
   titleId: string

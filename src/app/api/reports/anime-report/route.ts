@@ -2,7 +2,7 @@ import { cors } from '@/lib/routes-helpers/cors'
 import { type NextRequest, NextResponse } from 'next/server'
 import { userAccessCheck } from '@/lib/routes-helpers/user-access-check'
 import prisma from '@/lib/prisma'
-import { ERRORS } from '@/constants/errors'
+import { ERRORS } from '@/shared/configs/errors.config'
 import { getReportParams } from '@/lib/routes-helpers/get-report-params'
 
 export async function GET(request: NextRequest) {

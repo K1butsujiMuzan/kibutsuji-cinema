@@ -1,6 +1,6 @@
 'use client'
 import Slider from '@/components/ui/slider/Slider'
-import { sliderIcons } from '@/components/widgets/welcome/welcome-more/welcome-more.data'
+import { sliderIcons } from '@/components/widgets/Welcome/WelcomeMore/welcome-more.data'
 
 export default function WelcomeMoreSlider() {
   return (

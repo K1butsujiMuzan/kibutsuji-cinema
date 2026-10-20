@@ -5,7 +5,7 @@ import {
   ThemeIconLight,
   ThemeIconSystem,
 } from '@/components/icons/ThemeIcons'
-import { THEMES } from '@/constants/theme'
+import { THEMES } from '@/shared/constants/theme'
 import { cn } from '@/lib/utils'
 import { useThemeChange } from '@/hooks/useThemeChange'
 import { useEffect, useState } from 'react'

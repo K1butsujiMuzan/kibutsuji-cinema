@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer'
 import type { TNodemailer } from '@/shared/types/nodemailer.type'
-import { NODEMAILER_TEMPLATES } from '@/constants/nodemailer-templates'
+import { NODEMAILER_TEMPLATES } from '@/shared/constants/nodemailer-templates'
 
 export const transporter = nodemailer.createTransport({
   service: 'gmail',

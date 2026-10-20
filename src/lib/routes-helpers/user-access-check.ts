@@ -2,7 +2,7 @@ import { tokenCheck } from '@/lib/routes-helpers/token-check'
 import { Role } from '@/generated/prisma'
 import { cors } from '@/lib/routes-helpers/cors'
 import { type NextRequest, NextResponse } from 'next/server'
-import { ERRORS } from '@/constants/errors'
+import { ERRORS } from '@/shared/configs/errors.config'
 import type { IUserTokenType } from '@/shared/types/user-token.type'
 
 export const userAccessCheck = (

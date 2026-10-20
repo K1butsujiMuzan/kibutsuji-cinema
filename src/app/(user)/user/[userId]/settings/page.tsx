@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { getServerSession } from '@/lib/get-server-session'
 import { redirect } from 'next/navigation'
-import { PAGES } from '@/configs/pages.config'
+import { PAGES } from '@/shared/configs/pages.config'
 
 export const metadata: Metadata = {
   title: 'User settings',

@@ -3,7 +3,7 @@
 import { getServerSession } from '@/lib/get-server-session'
 import prisma from '@/lib/prisma'
 import type { List, UserList } from '@/generated/prisma'
-import { ERRORS } from '@/constants/errors'
+import { ERRORS } from '@/shared/configs/errors.config'
 import type { TErrorResponse } from '@/shared/types/error-response.type'
 
 export const getAnimeBookmark = async (

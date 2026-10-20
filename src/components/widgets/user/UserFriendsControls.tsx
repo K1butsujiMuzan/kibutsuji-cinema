@@ -1,7 +1,7 @@
 'use client'
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { QUERY_KEYS } from '@/configs/query-keys.config'
+import { QUERY_KEYS } from '@/shared/configs/query-keys.config'
 import {
   acceptUserFriend,
   addUserFriend,
@@ -24,7 +24,7 @@ import { FriendListStatus } from '@/generated/prisma'
 import { useMemo } from 'react'
 import { useAddToast } from '@/stores/useToastsStore'
 import UserFriendLoading from '@/components/widgets/user/loaders/UserFriendLoading'
-import { ERRORS } from '@/constants/errors'
+import { ERRORS } from '@/shared/configs/errors.config'
 import type { TErrorResponse } from '@/shared/types/error-response.type'
 
 interface Props {

@@ -2,7 +2,7 @@ import Premium from '@/components/ui/premium/Premium'
 import {
   WELCOME_PREMIUM_ANCHOR,
   WELCOME_PREMIUM_TITLE,
-} from '@/components/widgets/welcome/welcome.data'
+} from '@/components/widgets/Welcome/welcome.data'
 
 export default function WelcomePremium() {
   return (

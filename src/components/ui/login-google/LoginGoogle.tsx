@@ -1,9 +1,9 @@
 'use client'
 
 import { signIn } from '@/lib/auth-client'
-import { ERRORS } from '@/constants/errors'
+import { ERRORS } from '@/shared/configs/errors.config'
 import { useState } from 'react'
-import { PAGES } from '@/configs/pages.config'
+import { PAGES } from '@/shared/configs/pages.config'
 import { useAddToast } from '@/stores/useToastsStore'
 
 export default function LoginGoogle() {

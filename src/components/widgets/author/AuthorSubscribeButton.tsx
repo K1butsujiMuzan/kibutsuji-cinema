@@ -11,7 +11,7 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query'
-import { QUERY_KEYS } from '@/configs/query-keys.config'
+import { QUERY_KEYS } from '@/shared/configs/query-keys.config'
 import {
   authorSubscriptionAction,
   getAuthorSubscription,

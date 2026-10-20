@@ -12,7 +12,7 @@ import LoginPassword from '@/components/ui/login-password/LoginPassword'
 import { useState } from 'react'
 import { resetPassword } from '@/lib/auth-client'
 import { useSearchParams } from 'next/navigation'
-import { ERRORS } from '@/constants/errors'
+import { ERRORS } from '@/shared/configs/errors.config'
 import NewPasswordSubmitted from '@/components/widgets/new-password/NewPasswordSubmitted'
 import NewPasswordTitle from '@/components/widgets/new-password/NewPasswordTitle'
 

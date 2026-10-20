@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import HeaderUserMenuModal from '@/components/layouts/header/(components)/HeaderUserMenuModal'
 import { memo } from 'react'
-import { KEYCODES } from '@/constants/keycodes'
+import { KEYCODES } from '@/shared/constants/keycodes'
 
 interface Props {
   userName: string

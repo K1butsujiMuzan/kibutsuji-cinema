@@ -1,7 +1,7 @@
 import prisma from '@/lib/prisma'
 import { cors } from '@/lib/routes-helpers/cors'
 import { NextResponse } from 'next/server'
-import { ERRORS } from '@/constants/errors'
+import { ERRORS } from '@/shared/configs/errors.config'
 
 export const userCheck = async (
   userId: string,

@@ -9,3 +9,5 @@ export const MIN_COMMENT_LENGTH = 10
 export const MIN_PASSWORD_LENGTH = 6
 export const MAX_PROFILE_RECORDS = 15
 export const MAX_AUTHOR_ANIME = 24
+
+export const POPULAR_ANIME_LIMIT = 20

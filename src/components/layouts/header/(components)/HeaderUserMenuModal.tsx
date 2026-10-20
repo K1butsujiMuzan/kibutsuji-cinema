@@ -6,7 +6,7 @@ import {
 import HeaderUserMenuModalLink from '@/components/layouts/header/(components)/HeaderUserMenuModalLink'
 import HeaderUserMenuModalTheme from '@/components/ui/theme-buttons/HeaderUserMenuModalTheme'
 import { SettingsIcon } from '@/components/icons/HeaderUserMenuModalIcons'
-import { PAGES } from '@/configs/pages.config'
+import { PAGES } from '@/shared/configs/pages.config'
 import HeaderUserMenuModalLogoutButton from '@/components/layouts/header/(components)/HeaderUserMenuModalLogoutButton'
 import Line from '@/components/ui/line/Line'
 

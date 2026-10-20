@@ -1,5 +1,5 @@
 import SearchButton from '@/components/layouts/header/(components)/SearchButton'
-import { PAGES } from '@/configs/pages.config'
+import { PAGES } from '@/shared/configs/pages.config'
 import { CatalogIcon, NewsIcon } from '@/components/icons/HeaderIcons'
 import { getServerSession } from '@/lib/get-server-session'
 import AccentLink from '@/components/ui/accent-link/AccentLink'

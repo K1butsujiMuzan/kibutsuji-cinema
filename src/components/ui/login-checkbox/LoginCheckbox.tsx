@@ -3,7 +3,7 @@ import {
   type InputHTMLAttributes,
   type KeyboardEvent,
 } from 'react'
-import { KEYCODES } from '@/constants/keycodes'
+import { KEYCODES } from '@/shared/constants/keycodes'
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   text: string

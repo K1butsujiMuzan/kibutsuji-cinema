@@ -1,5 +1,5 @@
 import type { TTextPageData } from '@/shared/types/text-page.type'
-import { LINKS } from '@/configs/links.config'
+import { LINKS } from '@/shared/configs/links.config'
 
 export const tosPreface: string[] = [
   '<b>These Terms of Service</b> govern the relationship between you and Kibutsuji regarding your access to and use of our website, streaming services, mobile applications, products, services, and any related features. By creating an account, clicking the <b>"I Agree"</b> button, or otherwise accessing or using any Service, you agree to be bound by these Terms. If you do not agree, you may not use any Kibutsuji Service.',

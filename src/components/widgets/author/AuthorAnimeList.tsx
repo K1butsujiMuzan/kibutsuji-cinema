@@ -2,7 +2,7 @@
 
 import AnimeCard from '@/components/ui/anime-card/AnimeCard'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { QUERY_KEYS } from '@/configs/query-keys.config'
+import { QUERY_KEYS } from '@/shared/configs/query-keys.config'
 import { findAnimeByAuthor } from '@/server-actions/author/find-anime-by-author'
 import AnimeCardLoaderList from '@/components/ui/anime-card/AnimeCardLoaderList'
 import RefetchErrorData from '@/components/ui/refetch-error-data/RefetchErrorData'
@@ -10,7 +10,7 @@ import Search from '@/components/ui/search/Search'
 import useSearch from '@/hooks/useSearch'
 import { useInView } from 'react-intersection-observer'
 import { useEffect } from 'react'
-import { MAX_AUTHOR_ANIME } from '@/constants/limits'
+import { MAX_AUTHOR_ANIME } from '@/shared/constants/limits'
 
 interface Props {
   authorSlug: string

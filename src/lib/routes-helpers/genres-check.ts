@@ -1,6 +1,6 @@
 import { cors } from '@/lib/routes-helpers/cors'
 import { NextResponse } from 'next/server'
-import { ERRORS } from '@/constants/errors'
+import { ERRORS } from '@/shared/configs/errors.config'
 import prisma from '@/lib/prisma'
 
 export const genresCheck = async (

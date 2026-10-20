@@ -3,7 +3,7 @@
 import CountAndTitle from '@/components/ui/count-and-title/CountAndTitle'
 import { useQuery } from '@tanstack/react-query'
 import { getAuthorTitles } from '@/server-actions/author/get-author-titles'
-import { QUERY_KEYS } from '@/configs/query-keys.config'
+import { QUERY_KEYS } from '@/shared/configs/query-keys.config'
 import BlockLoader from '@/components/ui/block-loader/BlockLoader'
 
 interface Props {

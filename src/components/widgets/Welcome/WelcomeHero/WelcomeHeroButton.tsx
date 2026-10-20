@@ -1,4 +1,5 @@
 'use client'
+
 import { onScrollToPremium } from '@/utils/scroll-to-premium'
 
 export default function WelcomeHeroButton() {

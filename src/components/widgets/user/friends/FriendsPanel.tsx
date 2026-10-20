@@ -5,9 +5,9 @@ import {
   FRIENDS_DATA,
   FRIENDS_PARAMS,
   type TFriendsType,
-} from '@/configs/friends.config'
+} from '@/shared/configs/friends.config'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { PAGES } from '@/configs/pages.config'
+import { PAGES } from '@/shared/configs/pages.config'
 
 interface Props {
   userId: string

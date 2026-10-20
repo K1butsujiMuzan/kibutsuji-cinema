@@ -1,9 +1,9 @@
-import { ERRORS } from '@/constants/errors'
+import { ERRORS } from '@/shared/configs/errors.config'
 import {
   ID_MIN_LENGTH,
   MAX_COMMENT_LENGTH,
   MIN_COMMENT_LENGTH,
-} from '@/constants/limits'
+} from '@/shared/constants/limits'
 import { z } from 'zod'
 
 export const updateCommentsSchema = z.object(

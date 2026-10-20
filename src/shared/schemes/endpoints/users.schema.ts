@@ -1,6 +1,6 @@
 import { z } from 'zod'
-import { ERRORS } from '@/constants/errors'
-import { ID_MIN_LENGTH, MIN_PASSWORD_LENGTH } from '@/constants/limits'
+import { ERRORS } from '@/shared/configs/errors.config'
+import { ID_MIN_LENGTH, MIN_PASSWORD_LENGTH } from '@/shared/constants/limits'
 import { $Enums } from '@/generated/prisma'
 import Role = $Enums.Role
 

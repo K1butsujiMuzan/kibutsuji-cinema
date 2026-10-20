@@ -1,7 +1,7 @@
 'use client'
 
 import { useThemeChange } from '@/hooks/useThemeChange'
-import { THEMES } from '@/constants/theme'
+import { THEMES } from '@/shared/constants/theme'
 import {
   ThemeIconDark,
   ThemeIconLight,

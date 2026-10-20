@@ -1,5 +1,5 @@
 import type { FC, SVGProps } from 'react'
-import { PAGES } from '@/configs/pages.config'
+import { PAGES } from '@/shared/configs/pages.config'
 import {
   AddIcon,
   CommentIcon,

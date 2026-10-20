@@ -1,7 +1,7 @@
 import { cors } from '@/lib/routes-helpers/cors'
 import { NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
-import { ERRORS } from '@/constants/errors'
+import { ERRORS } from '@/shared/configs/errors.config'
 
 export const animeCheck = async (
   animeId: string,

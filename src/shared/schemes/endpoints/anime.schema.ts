@@ -1,11 +1,11 @@
 import { z } from 'zod'
-import { ERRORS } from '@/constants/errors'
-import { SLUG_REGEXP } from '@/constants/regexp'
+import { ERRORS } from '@/shared/configs/errors.config'
+import { SLUG_REGEXP } from '@/shared/constants/regexp'
 import {
   ID_MIN_LENGTH,
   MAX_DESCRIPTION_LENGTH,
   MAX_INT,
-} from '@/constants/limits'
+} from '@/shared/constants/limits'
 import {
   AgeLimit,
   AnimeStatus,

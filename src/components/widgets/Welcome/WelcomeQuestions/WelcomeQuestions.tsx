@@ -1,4 +1,4 @@
-import { LINKS } from '@/configs/links.config'
+import { LINKS } from '@/shared/configs/links.config'
 
 export default function WelcomeQuestions() {
   return (

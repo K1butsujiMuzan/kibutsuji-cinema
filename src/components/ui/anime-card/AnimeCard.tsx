@@ -1,7 +1,7 @@
 import type { Anime } from '@/generated/prisma'
 import Link from 'next/link'
-import { PAGES } from '@/configs/pages.config'
-import { ANIME_TYPE_TEXT } from '@/constants/anime-type-text'
+import { PAGES } from '@/shared/configs/pages.config'
+import { ANIME_TYPE_TEXT } from '@/shared/constants/anime-type-text'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
 
@@ -18,19 +18,15 @@ export default function AnimeCard({
   sizes,
 }: Props) {
   return (
-    <article>
+    <article className={'h-full'}>
       <Link
         href={PAGES.ANIME(slug)}
         className={
-          'p-1.5 rounded-md flex flex-col relative hover:bg-pink-100 dark:hover:bg-gray-600 active:bg-pink-100 dark:active:bg-gray-600 transition duration-300'
+          'h-full p-1.5 rounded-md flex flex-col relative hover:bg-pink-100 dark:hover:bg-gray-600 active:bg-pink-100 dark:active:bg-gray-600 transition duration-300'
         }
       >
-        <figure>
-          <span
-            className={
-              'block rounded-md relative w-full aspect-5/7 overflow-hidden'
-            }
-          >
+        <div className={'flex flex-col gap-2 h-full'}>
+          <div className={'rounded-md relative w-full flex-1 overflow-hidden'}>
             <Image
               src={image ?? '/images/global/base-avatar.jpg'}
               alt={title}
@@ -38,20 +34,14 @@ export default function AnimeCard({
               sizes={sizes}
               className={'object-cover'}
             />
-          </span>
-          <figcaption className={'pt-2'}>
-            <span className={'font-medium text-18 line-clamp-2 leading-[1.25]'}>
-              {title}
-            </span>
-            <span
-              className={
-                'text-gray-650 dark:text-gray-150 leading-[1.25] block'
-              }
-            >
+          </div>
+          <div className={'flex flex-col'}>
+            <span className={'font-medium text-18 truncate'}>{title}</span>
+            <span className={'text-gray-650 dark:text-gray-150 text-sm'}>
               {ANIME_TYPE_TEXT[type]}
             </span>
-          </figcaption>
-        </figure>
+          </div>
+        </div>
         <span
           className={cn(
             'absolute top-1.5 left-1.5 text-xs font-semibold text-white h-5 w-8 flex justify-center items-center rounded-br-md',

@@ -1,6 +1,6 @@
 import { z } from 'zod'
-import { ERRORS } from '@/constants/errors'
-import { ID_MIN_LENGTH } from '@/constants/limits'
+import { ERRORS } from '@/shared/configs/errors.config'
+import { ID_MIN_LENGTH } from '@/shared/constants/limits'
 import { List } from '@/generated/prisma'
 
 export const updateListsSchema = z.object(

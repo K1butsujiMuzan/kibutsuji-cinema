@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import PageChangerIcon from '@/components/icons/PageChangerIcon'
 import { cn } from '@/lib/utils'
 import Loader from '@/components/ui/loader/Loader'
-import { KEYCODES } from '@/constants/keycodes'
+import { KEYCODES } from '@/shared/constants/keycodes'
 import { type FocusEvent, type KeyboardEvent } from 'react'
 
 interface Props<T extends string> {

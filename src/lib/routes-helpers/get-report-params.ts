@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from 'next/server'
 import { excelReportSchema } from '@/shared/schemes/endpoints/excel-report.schema'
 import { cors } from '@/lib/routes-helpers/cors'
-import { ERRORS } from '@/constants/errors'
+import { ERRORS } from '@/shared/configs/errors.config'
 
 export const getReportParams = (
   request: NextRequest,

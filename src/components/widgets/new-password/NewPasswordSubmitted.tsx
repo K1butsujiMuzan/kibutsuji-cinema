@@ -1,5 +1,5 @@
 import AccentLink from '@/components/ui/accent-link/AccentLink'
-import { PAGES } from '@/configs/pages.config'
+import { PAGES } from '@/shared/configs/pages.config'
 
 export default function NewPasswordSubmitted() {
   return (

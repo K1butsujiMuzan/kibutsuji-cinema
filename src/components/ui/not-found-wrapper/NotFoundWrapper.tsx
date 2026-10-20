@@ -3,7 +3,7 @@
 import { usePathname } from 'next/navigation'
 import Hime from '@/components/ui/hime/Hime'
 import AccentLink from '@/components/ui/accent-link/AccentLink'
-import { PAGES } from '@/configs/pages.config'
+import { PAGES } from '@/shared/configs/pages.config'
 import { useMemo } from 'react'
 
 export default function NotFoundWrapper() {

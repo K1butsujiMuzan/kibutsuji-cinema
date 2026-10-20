@@ -13,10 +13,10 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod'
 import LoginPassword from '@/components/ui/login-password/LoginPassword'
 import { useState } from 'react'
-import { ERRORS } from '@/constants/errors'
-import { PAGES } from '@/configs/pages.config'
+import { ERRORS } from '@/shared/configs/errors.config'
+import { PAGES } from '@/shared/configs/pages.config'
 import ErrorMessage from '@/components/ui/error-message/ErrorMessage'
-import { PRISMA_DEFAULT_NAME } from '@/constants/prisma-values'
+import { PRISMA_DEFAULT_NAME } from '@/shared/constants/prisma-values'
 import RegisterLinks from '@/components/widgets/register/RegisterLinks'
 import LoginSubmitted from '@/components/ui/login-submitted/LoginSubmitted'
 

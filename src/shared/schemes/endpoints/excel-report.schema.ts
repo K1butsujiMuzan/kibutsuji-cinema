@@ -1,6 +1,6 @@
 import { z } from 'zod'
-import { ERRORS } from '@/constants/errors'
-import { REPORT_LIMIT } from '@/constants/limits'
+import { ERRORS } from '@/shared/configs/errors.config'
+import { REPORT_LIMIT } from '@/shared/constants/limits'
 
 export const excelReportSchema = z.object(
   {

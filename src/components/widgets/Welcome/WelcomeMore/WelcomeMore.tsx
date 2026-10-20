@@ -1,5 +1,5 @@
-import WelcomeMoreSlider from '@/components/widgets/welcome/welcome-more/WelcomeMoreSlider'
-import WelcomeMoreButton from '@/components/widgets/welcome/welcome-more/WelcomeMoreButton'
+import WelcomeMoreSlider from '@/components/widgets/Welcome/WelcomeMore/WelcomeMoreSlider'
+import WelcomeMoreButton from '@/components/widgets/Welcome/WelcomeMore/WelcomeMoreButton'
 
 export default function WelcomeMore() {
   return (

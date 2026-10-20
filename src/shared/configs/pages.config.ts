@@ -1,4 +1,7 @@
-import { FRIENDS_PARAMS, type TFriendsType } from '@/configs/friends.config'
+import {
+  FRIENDS_PARAMS,
+  type TFriendsType,
+} from '@/shared/configs/friends.config'
 
 export const PAGES = {
   MAIN: '/',

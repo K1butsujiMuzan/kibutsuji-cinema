@@ -1,4 +1,4 @@
-import { PAGES } from '@/configs/pages.config'
+import { PAGES } from '@/shared/configs/pages.config'
 
 interface IFooterLink {
   name: string

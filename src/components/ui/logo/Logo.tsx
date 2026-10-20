@@ -1,4 +1,4 @@
-import { PAGES } from '@/configs/pages.config'
+import { PAGES } from '@/shared/configs/pages.config'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { memo } from 'react'

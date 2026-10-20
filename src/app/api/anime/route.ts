@@ -1,6 +1,6 @@
 import { cors } from '@/lib/routes-helpers/cors'
 import { type NextRequest, NextResponse } from 'next/server'
-import { ERRORS } from '@/constants/errors'
+import { ERRORS } from '@/shared/configs/errors.config'
 import prisma from '@/lib/prisma'
 import { userAccessCheck } from '@/lib/routes-helpers/user-access-check'
 import { genresCheck } from '@/lib/routes-helpers/genres-check'

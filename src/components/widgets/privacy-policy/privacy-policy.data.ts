@@ -1,5 +1,5 @@
 import type { TTextPageData } from '@/shared/types/text-page.type'
-import { LINKS } from '@/configs/links.config'
+import { LINKS } from '@/shared/configs/links.config'
 
 export const privacyPolicyPreface: string[] = [
   '<b>Last Updated:</b> April 8, 2026',

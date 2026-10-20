@@ -2,7 +2,7 @@ import { getServerSession } from '@/lib/get-server-session'
 import UserSettings from '@/components/widgets/user/UserSettings'
 import UserFriendsWrapper from '@/components/widgets/user/UserFriendsWrapper'
 import { notFound, redirect } from 'next/navigation'
-import { PAGES } from '@/configs/pages.config'
+import { PAGES } from '@/shared/configs/pages.config'
 
 interface Props {
   userId: string

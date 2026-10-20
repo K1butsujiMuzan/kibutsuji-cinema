@@ -4,7 +4,7 @@ import { userAccessCheck } from '@/lib/routes-helpers/user-access-check'
 import { getPageParams } from '@/lib/routes-helpers/get-page-params'
 import { Prisma } from '@/generated/prisma'
 import prisma from '@/lib/prisma'
-import { ERRORS } from '@/constants/errors'
+import { ERRORS } from '@/shared/configs/errors.config'
 import { deleteCheck } from '@/lib/routes-helpers/delete-check'
 import {
   createTransactionsSchema,

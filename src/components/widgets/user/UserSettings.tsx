@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { SettingsIcon } from '@/components/icons/HeaderUserMenuModalIcons'
-import { PAGES } from '@/configs/pages.config'
+import { PAGES } from '@/shared/configs/pages.config'
 
 interface Props {
   userId: string

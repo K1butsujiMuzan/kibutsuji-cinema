@@ -1,7 +1,7 @@
 import { z } from 'zod'
-import { ERRORS } from '@/constants/errors'
-import { ID_MIN_LENGTH } from '@/constants/limits'
-import { SLUG_REGEXP } from '@/constants/regexp'
+import { ERRORS } from '@/shared/configs/errors.config'
+import { ID_MIN_LENGTH } from '@/shared/constants/limits'
+import { SLUG_REGEXP } from '@/shared/constants/regexp'
 
 export const updateAuthorSchema = z.object(
   {

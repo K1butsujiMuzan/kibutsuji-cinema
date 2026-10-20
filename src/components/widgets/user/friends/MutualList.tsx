@@ -1,7 +1,7 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { QUERY_KEYS } from '@/configs/query-keys.config'
+import { QUERY_KEYS } from '@/shared/configs/query-keys.config'
 import { getMutualList } from '@/server-actions/friends-list'
 import PeopleCard from '@/components/widgets/user/friends/PeopleCard'
 import RefetchErrorData from '@/components/ui/refetch-error-data/RefetchErrorData'

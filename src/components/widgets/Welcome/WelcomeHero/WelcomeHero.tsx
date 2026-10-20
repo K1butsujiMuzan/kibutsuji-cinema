@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import WelcomeHeroButton from '@/components/widgets/welcome/welcome-hero/WelcomeHeroButton'
+import WelcomeHeroButton from '@/components/widgets/Welcome/WelcomeHero/WelcomeHeroButton'
 
 export default function WelcomeHero() {
   return (

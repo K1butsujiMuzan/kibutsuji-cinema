@@ -2,8 +2,8 @@
 
 import prisma from '@/lib/prisma'
 import { getServerSession } from '@/lib/get-server-session'
-import { ERRORS } from '@/constants/errors'
-import { MAX_PROFILE_RECORDS } from '@/constants/limits'
+import { ERRORS } from '@/shared/configs/errors.config'
+import { MAX_PROFILE_RECORDS } from '@/shared/constants/limits'
 import { type FriendList, Prisma, type User } from '@/generated/prisma'
 
 export type TFriend = Promise<

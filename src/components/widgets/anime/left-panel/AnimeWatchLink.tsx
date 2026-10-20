@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { PAGES } from '@/configs/pages.config'
+import { PAGES } from '@/shared/configs/pages.config'
 
 interface Props {
   animeSlug: string

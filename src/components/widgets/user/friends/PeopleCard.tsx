@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { dateTransformer } from '@/utils/date-utils'
 import Link from 'next/link'
-import { PAGES } from '@/configs/pages.config'
+import { PAGES } from '@/shared/configs/pages.config'
 import { memo } from 'react'
 
 interface Props {

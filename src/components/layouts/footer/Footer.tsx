@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { footerLinks } from '@/components/layouts/footer/footer.data'
 import MiniLogo from '@/components/ui/logo/MiniLogo'
-import { LINKS } from '@/configs/links.config'
+import { LINKS } from '@/shared/configs/links.config'
 
 export default function Footer() {
   return (

@@ -3,13 +3,13 @@ import type { Metadata } from 'next'
 import { findUserById } from '@/server-actions/find-user-by-id'
 import FriendsPanel from '@/components/widgets/user/friends/FriendsPanel'
 import { Suspense } from 'react'
-import { FRIENDS_DATA, FRIENDS_PARAMS } from '@/configs/friends.config'
+import { FRIENDS_DATA, FRIENDS_PARAMS } from '@/shared/configs/friends.config'
 import FriendsList from '@/components/widgets/user/friends/FriendsList'
 import RequestList from '@/components/widgets/user/friends/RequestList'
 import SentList from '@/components/widgets/user/friends/SentList'
 import MutualList from '@/components/widgets/user/friends/MutualList'
 import { notFound, redirect } from 'next/navigation'
-import { PAGES } from '@/configs/pages.config'
+import { PAGES } from '@/shared/configs/pages.config'
 
 export const metadata: Metadata = {
   title: 'friends',

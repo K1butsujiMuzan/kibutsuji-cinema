@@ -1,10 +1,10 @@
 import AnimeCatalogLink from '@/components/widgets/anime/left-panel/AnimeCatalogLink'
-import { ANIME_TYPE_TEXT } from '@/constants/anime-type-text'
+import { ANIME_TYPE_TEXT } from '@/shared/constants/anime-type-text'
 import { dateMonthYearTransformer } from '@/utils/date-utils'
 import AnimeEpisodesCount from '@/components/widgets/anime/left-panel/AnimeEpisodesCount'
-import { ANIME_STATUS_TEXT } from '@/constants/anime-status-text'
+import { ANIME_STATUS_TEXT } from '@/shared/constants/anime-status-text'
 import AnimeInformationContainer from '@/components/widgets/anime/left-panel/AnimeInformationContainer'
-import { PAGES } from '@/configs/pages.config'
+import { PAGES } from '@/shared/configs/pages.config'
 import type { TAnimePage } from '@/shared/types/anime-page.type'
 
 interface Props {

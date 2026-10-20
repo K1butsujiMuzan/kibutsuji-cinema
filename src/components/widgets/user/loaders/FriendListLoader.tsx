@@ -1,4 +1,4 @@
-import { MAX_PROFILE_RECORDS } from '@/constants/limits'
+import { MAX_PROFILE_RECORDS } from '@/shared/constants/limits'
 import BlockLoader from '@/components/ui/block-loader/BlockLoader'
 
 export default function FriendListLoader() {
