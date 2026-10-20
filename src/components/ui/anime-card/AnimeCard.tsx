@@ -37,7 +37,6 @@ export default function AnimeCard({
               fill={true}
               sizes={sizes}
               className={'object-cover'}
-              unoptimized={true}
             />
           </span>
           <figcaption className={'pt-2'}>
