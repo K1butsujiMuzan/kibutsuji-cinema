@@ -1,6 +1,8 @@
 'use client'
+
 import Slider from '@/components/ui/slider/Slider'
 import { sliderIcons } from '@/components/widgets/Welcome/WelcomeMore/welcome-more.data'
+import WelcomeMoreSlide from '@/components/widgets/Welcome/WelcomeMore/WelcomeMoreSlide'
 
 export default function WelcomeMoreSlider() {
   return (
@@ -10,17 +12,13 @@ export default function WelcomeMoreSlider() {
       }
       sliderAriaLabel={'Premium benefits'}
     >
-      {sliderIcons.map(({ text, icon: Icon }, index) => (
-        <li
-          aria-label={`${index + 1} of ${sliderIcons.length}`}
+      {sliderIcons.map(({ text, icon }, index) => (
+        <WelcomeMoreSlide
           key={text}
-          className={
-            'flex flex-col items-center gap-3 shrink-0 snap-start px-2 py-1.5'
-          }
-        >
-          <Icon />
-          <p className={'text-sm font-medium text-center'}>{text}</p>
-        </li>
+          ariaLabel={`${index + 1} of ${sliderIcons.length}`}
+          icon={icon}
+          text={text}
+        />
       ))}
     </Slider>
   )

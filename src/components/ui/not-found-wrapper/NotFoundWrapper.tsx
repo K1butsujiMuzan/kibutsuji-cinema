@@ -27,7 +27,7 @@ export default function NotFoundWrapper() {
       <div className={'flex flex-col items-center gap-2'}>
         <Hime text={pageText} type={'sad'} />
       </div>
-      <AccentLink text={'Back to main'} href={PAGES.MAIN} />
+      <AccentLink href={PAGES.MAIN}>Back to main</AccentLink>
     </main>
   )
 }

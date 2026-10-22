@@ -2,12 +2,12 @@ import SearchButton from '@/components/layouts/header/(components)/SearchButton'
 import { PAGES } from '@/shared/configs/pages.config'
 import { CatalogIcon, NewsIcon } from '@/components/icons/HeaderIcons'
 import { getServerSession } from '@/lib/get-server-session'
-import AccentLink from '@/components/ui/accent-link/AccentLink'
 import HeaderUserMenu from '@/components/layouts/header/(components)/HeaderMenu'
 import Logo from '@/components/ui/logo/Logo'
 import MiniLogo from '@/components/ui/logo/MiniLogo'
 import HeaderLink from './(components)/HeaderLink'
 import HeaderAvatarLink from '@/components/layouts/header/(components)/HeaderAvatarLink'
+import AccentLinkWithContainer from '@/components/ui/accent-link-with-container/AccentLinkWithContainer'
 
 export default async function Header() {
   const session = await getServerSession()
@@ -61,13 +61,12 @@ export default async function Header() {
             </>
           )}
           {!session && (
-            <>
-              <AccentLink
-                href={PAGES.LOGIN}
-                text={'Login'}
-                linkClassName={'py-1.5 md:py-2.5 px-1'}
-              />
-            </>
+            <AccentLinkWithContainer
+              href={PAGES.LOGIN}
+              className={'py-1.5 md:py-2.5 px-1'}
+            >
+              Login
+            </AccentLinkWithContainer>
           )}
         </div>
       </div>

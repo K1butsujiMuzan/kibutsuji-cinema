@@ -1,16 +1,16 @@
 'use client'
 
 import { onScrollToPremium } from '@/utils/scroll-to-premium'
+import Button from '@/components/ui/button/Button'
 
 export default function WelcomeMoreButton() {
   return (
-    <button
+    <Button
       onClick={onScrollToPremium}
-      className={
-        'w-full sn:w-auto flex items-center justify-center px-3.5 py-2 gap-1 text-white fill-white rounded-md font-medium bg-pink-400 hover:bg-pink-450 active:bg-pink-500 active:scale-97 transition duration-300'
-      }
+      variant={'accent'}
+      className={'w-[min(100%,14rem)] py-2'}
     >
-      <span className={'text-sm leading-4.5'}>Compare all plans</span>
+      <span>Compare all plans</span>
       <svg
         aria-hidden={true}
         width="24"
@@ -24,6 +24,6 @@ export default function WelcomeMoreButton() {
           fill="white"
         />
       </svg>
-    </button>
+    </Button>
   )
 }

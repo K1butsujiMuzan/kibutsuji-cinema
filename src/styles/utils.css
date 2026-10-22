@@ -1,0 +1,8 @@
+.container-flex {
+  --containerInlinePadding: 0.75rem;
+  padding-inline: var(--containerInlinePadding);
+  width: min(100%, 90rem + var(--containerInlinePadding) * 2);
+  display: flex;
+  flex-direction: column;
+  margin-inline: auto;
+}

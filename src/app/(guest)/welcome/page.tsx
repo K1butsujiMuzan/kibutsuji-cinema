@@ -22,7 +22,7 @@ export default function Welcome() {
         <WelcomeSubscription />
         <WelcomeMore />
         <WelcomeQuestions />
-        <p className={'font-semibold text-center text-sm md:text-base px-3'}>
+        <p className={'text-center text-sm md:text-base px-3'}>
           *Device and content availability may vary by country or region.
         </p>
       </main>

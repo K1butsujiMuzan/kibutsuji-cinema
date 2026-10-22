@@ -1,8 +1,8 @@
-import AccentLink from '@/components/ui/accent-link/AccentLink'
 import MainThemeButton from '@/components/ui/theme-buttons/MainThemeButton'
 import { PAGES } from '@/shared/configs/pages.config'
 import Logo from '@/components/ui/logo/Logo'
 import MiniLogo from '@/components/ui/logo/MiniLogo'
+import AccentLinkWithContainer from '@/components/ui/accent-link-with-container/AccentLinkWithContainer'
 
 export default function GuestHeader() {
   return (
@@ -18,11 +18,12 @@ export default function GuestHeader() {
         <MiniLogo className={'lg:hidden py-1.5 md:py-2.5 px-1'} />
         <div className={'flex gap-2 items-center'}>
           <MainThemeButton className={'py-1.5 md:py-2.5 px-1'} />
-          <AccentLink
+          <AccentLinkWithContainer
             href={PAGES.LOGIN}
-            text={'Login'}
-            linkClassName={'py-1.5 md:py-2.5 px-1'}
-          />
+            className={'py-1.5 md:py-2.5 px-1'}
+          >
+            Login
+          </AccentLinkWithContainer>
         </div>
       </div>
     </header>

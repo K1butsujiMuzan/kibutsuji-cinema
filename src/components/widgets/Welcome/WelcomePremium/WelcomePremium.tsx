@@ -1,26 +1,20 @@
 import Premium from '@/components/ui/premium/Premium'
-import {
-  WELCOME_PREMIUM_ANCHOR,
-  WELCOME_PREMIUM_TITLE,
-} from '@/components/widgets/Welcome/welcome.data'
+import { WELCOME_PREMIUM_ANCHOR } from '@/components/widgets/Welcome/welcome.data'
+import WelcomeTitleH2 from '@/components/widgets/Welcome/WelcomeTitleH2/WelcomeTitleH2'
+import { useId } from 'react'
 
 export default function WelcomePremium() {
+  const titleId = useId()
+
   return (
     <section
       id={WELCOME_PREMIUM_ANCHOR}
       className={
-        'flex flex-col items-center gap-8 md:gap-14 scroll-mt-13 md:scroll-mt-15 main-container'
+        'items-center gap-5 scroll-mt-13 md:scroll-mt-15 container-flex'
       }
     >
-      <h2
-        id={WELCOME_PREMIUM_TITLE}
-        className={
-          'text-28 md:text-54 leading-9 md:leading-16 text-center font-bold'
-        }
-      >
-        Choose your Premium
-      </h2>
-      <Premium titleId={WELCOME_PREMIUM_TITLE} />
+      <WelcomeTitleH2 title={'Choose your Premium'} titleId={titleId} />
+      <Premium titleId={titleId} />
     </section>
   )
 }

@@ -3,26 +3,14 @@ import { PAGES } from '@/shared/configs/pages.config'
 
 export default function NewPasswordSubmitted() {
   return (
-    <>
-      <h1
-        className={
-          'text-2xl leading-8 md:text-34 md:leading-11 font-medium mb-5 text-center'
-        }
-      >
-        New password has been set!
-      </h1>
-      <p
-        className={
-          'md:leading-6.5 md:text-18 max-w-104 text-center font-medium'
-        }
-      >
+    <div className={'flex flex-col gap-5 items-center text-center'}>
+      <h1 className={'text-2xl font-medium'}>New password has been set!</h1>
+      <p className={'md:text-18 max-w-104'}>
         You can now log into your account with your new password.
       </p>
-      <AccentLink
-        text={'Login'}
-        href={PAGES.LOGIN}
-        divClassName={'py-1 md:py-2 w-full text-center max-w-104 mt-2'}
-      />
-    </>
+      <AccentLink href={PAGES.LOGIN} className={'w-[min(100%,14rem)]'}>
+        Login
+      </AccentLink>
+    </div>
   )
 }

@@ -38,7 +38,7 @@ export default function Slider({
         onClick={() => scrollSlider('left')}
         aria-label={'Previous slide'}
         aria-controls={sliderListId}
-        className={cn('absolute left-0 top-1/2 z-10 -translate-y-1/2', {
+        className={cn('absolute left-0 top-1/2 z-10 -translate-y-1/2 p-2.5', {
           hidden: !isLeftButtonShown,
         })}
       >
@@ -49,7 +49,7 @@ export default function Slider({
         onScroll={onScroll}
         ref={sliderRef}
         className={cn(
-          'overflow-x-auto snap-x snap-mandatory snap-always no-scrollbar w-full',
+          'overflow-x-auto snap-x snap-mandatory snap-always no-scrollbar w-full py-2',
           className,
         )}
         id={sliderListId}
@@ -62,7 +62,7 @@ export default function Slider({
         }}
         aria-label={'Next slide'}
         aria-controls={sliderListId}
-        className={cn('absolute right-0 top-1/2 z-10 -translate-y-1/2', {
+        className={cn('absolute right-0 top-1/2 z-10 -translate-y-1/2 p-2.5', {
           hidden: !isRightButtonShown,
         })}
       >

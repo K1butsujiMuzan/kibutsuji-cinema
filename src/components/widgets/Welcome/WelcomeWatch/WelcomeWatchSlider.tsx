@@ -21,7 +21,7 @@ export default function WelcomeWatchSlider() {
     return (
       <div
         className={
-          'grid grid-cols-[12.5rem] auto-cols-[12.5rem] grid-rows-[20rem] gap-2 grid-flow-col w-full max-w-full overflow-x-clip'
+          'grid grid-cols-[13rem] auto-cols-[13rem] grid-rows-[20rem] gap-2 grid-flow-col w-full max-w-full overflow-x-clip py-2'
         }
       >
         <span className={'sr-only'}>loading</span>
@@ -34,7 +34,7 @@ export default function WelcomeWatchSlider() {
 
   if (isError || !response) {
     return (
-      <div className={'h-80 flex items-center'}>
+      <div className={'h-84 flex items-center'}>
         <RefetchErrorData
           error={ERRORS.INTERNAL_ERROR}
           onClick={refetch}
@@ -46,7 +46,7 @@ export default function WelcomeWatchSlider() {
 
   if (!response.success) {
     return (
-      <div className={'h-80 flex items-center'}>
+      <div className={'h-84 flex items-center'}>
         <RefetchErrorData
           error={response.error.message}
           onClick={refetch}
@@ -60,7 +60,7 @@ export default function WelcomeWatchSlider() {
 
   if (data.length === 0) {
     return (
-      <div className={'text-xl h-80 flex items-center text-center'}>
+      <div className={'text-xl h-84 flex items-center text-center'}>
         Nothing found
       </div>
     )
@@ -69,7 +69,7 @@ export default function WelcomeWatchSlider() {
   return (
     <Slider
       className={
-        'grid grid-cols-[12.5rem] auto-cols-[12.5rem] grid-rows-[20rem] gap-2 grid-flow-col'
+        'grid grid-cols-[13rem] auto-cols-[13rem] grid-rows-[20rem] gap-2 grid-flow-col'
       }
       sliderAriaLabel={'Top anime'}
     >
