@@ -25,9 +25,9 @@ export default function Button({
         'disabled:cursor-not-allowed! py-2.5 px-4 font-medium disabled:opacity-75 rounded-md flex justify-center items-center gap-2 not-disabled:active:scale-97 transition duration-300',
         className,
         {
-          'bg-pink-50 dark:bg-gray-750 not-disabled:hover:bg-pink-100 not-disabled:dark:hover:bg-gray-600 not-disabled:active:bg-pink-100 not-disabled:dark:active:bg-gray-600':
+          'bg-base-button not-disabled:hover:bg-base-button-hover not-disabled:active:bg-base-button-hover':
             variant === 'normal',
-          'text-white bg-pink-400 not-disabled:hover:bg-pink-450 not-disabled:active:bg-pink-500':
+          'text-light bg-accent not-disabled:hover:bg-accent-dark not-disabled:active:bg-accent-dark':
             variant === 'accent',
         },
       )}

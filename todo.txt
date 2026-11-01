@@ -12,17 +12,13 @@
 seo
 header
 footer
-class css container!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-welcome in 1 container!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 тест font-base вместо font-medium!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-WelcomeTitleH2!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-Premium rework!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 Button paddings
 После регистр добавить ссылку "Main" или "Login"
 providers в components!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 цвета!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 удалить класс main-container
-border
+border цвета
 добавить новую подписку в бд
 
 '/images/global/base-avatar.jpg' в одном месте сделать

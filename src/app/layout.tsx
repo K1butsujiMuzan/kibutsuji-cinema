@@ -12,10 +12,6 @@ export const metadata: Metadata = {
     default: 'Kibutsuji',
   },
   description: 'Online-cinema Kibutsuji',
-  robots: 'index follow',
-  authors: [{ name: 'K1butsujiMuzan' }],
-  creator: 'K1butsujiMuzan',
-  publisher: 'K1butsujiMuzan',
 }
 
 export default function RootLayout({
@@ -27,7 +23,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={'bg-gray-50 text-gray-700 dark:bg-gray-950 dark:text-gray-100'}
+      className={'bg-base-bg text-base-text'}
     >
       <body className={`${fontAtyp.variable} antialiased font-main`}>
         <ThemeProvider>

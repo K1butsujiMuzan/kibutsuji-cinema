@@ -5,7 +5,7 @@ import { LINKS } from '@/shared/configs/links.config'
 
 export default function Footer() {
   return (
-    <footer className={'bg-pink-50 dark:bg-gray-800'}>
+    <footer className={'bg-base-second-bg'}>
       <div
         className={
           'max-w-370 mx-auto flex justify-center lg:justify-between items-center p-3 xl:py-4 text-sm text-center'

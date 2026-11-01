@@ -1,0 +1,28 @@
+:root {
+  --color-dark: #0a0a0a;
+  --color-light-silver: #bfbfbf;
+  --color-light: #f2f2f3;
+  --color-dark-gray: #212529;
+  --color-button-dark: #252527;
+  --color-button-dark-hover: #3a3a3c;
+  --color-button: #ede7f6;
+  --color-button-hover: #d1c4e8;
+  --color-gray: #2d2d2f;
+  --color-light-pink: #ded8f1;
+  --color-accent: #5e35b1;
+  --color-accent-dark: #513094;
+
+  --color-base-bg: var(--color-light);
+  --color-base-text: var(--color-dark-gray);
+  --color-base-button: var(--color-button);
+  --color-base-button-hover: var(--color-button-hover);
+  --color-base-second-bg: var(--color-light-pink);
+}
+
+html.dark {
+  --color-base-bg: var(--color-dark);
+  --color-base-text: var(--color-light-silver);
+  --color-base-button: var(--color-button-dark);
+  --color-base-button-hover: var(--color-button-dark-hover);
+  --color-base-second-bg: var(--color-gray);
+}

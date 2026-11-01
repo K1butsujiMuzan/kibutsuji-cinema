@@ -25,18 +25,14 @@ export default function MainThemeButton({ className }: Props) {
 
   if (!theme || !isMounted) {
     return (
-      <button
-        type="button"
-        className={cn('group disabled:cursor-not-allowed!', className)}
-        aria-label={'change theme'}
-        disabled={true}
-      >
-        <span
+      <div>
+        <span className={'sr-only'}>Loading</span>
+        <div
           className={
-            'block w-8 aspect-square rounded-md group-hover:bg-pink-100 dark:group-hover:bg-gray-600 group-active:bg-pink-100 dark:group-active:bg-gray-600 transition duration-300'
+            'w-10 aspect-square rounded-md bg-base-button animate-pulse'
           }
-        ></span>
-      </button>
+        />
+      </div>
     )
   }
 
@@ -49,7 +45,7 @@ export default function MainThemeButton({ className }: Props) {
     >
       <span
         className={
-          'flex justify-center items-center p-2 rounded-md group-hover:bg-pink-100 dark:group-hover:bg-gray-600 group-active:bg-pink-100 dark:group-active:bg-gray-600 group-active:scale-97 transition duration-300'
+          'flex justify-center items-center p-2 rounded-md bg-base-button group-hover:bg-base-button-hover group-active:bg-base-button-hover group-active:scale-97 transition duration-300'
         }
       >
         {theme === THEMES.DARK ? (

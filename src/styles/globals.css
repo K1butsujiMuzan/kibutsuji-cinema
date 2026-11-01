@@ -1,5 +1,6 @@
 @import './normalize.css';
 @import './utils.css';
+@import './variables.css';
 @import 'tailwindcss';
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -25,6 +26,15 @@
   --text-80: 5rem;
 
   --radius-100: 6.25rem;
+
+  --color-base-bg: var(--color-base-bg);
+  --color-base-text: var(--color-base-text);
+  --color-base-button: var(--color-base-button);
+  --color-base-button-hover: var(--color-base-button-hover);
+  --color-base-second-bg: var(--color-base-second-bg);
+  --color-accent: var(--color-accent);
+  --color-accent-dark: var(--color-accent-dark);
+  --color-light: var(--color-light);
 
   --color-pink-50: #ede7f6;
   --color-pink-60: #eeeef0;

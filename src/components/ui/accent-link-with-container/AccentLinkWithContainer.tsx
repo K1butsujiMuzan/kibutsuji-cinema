@@ -18,7 +18,7 @@ export default function AccentLinkWithContainer({
     <Link href={href} className={cn('group', className)}>
       <span
         className={
-          'py-2.5 px-4 flex justify-center items-center text-white rounded-md font-medium bg-pink-400 group-hover:bg-pink-450 group-active:bg-pink-500 group-active:scale-97 transition duration-300'
+          'py-2.5 px-4 flex justify-center items-center rounded-md font-medium text-light bg-accent group-hover:bg-accent-dark group-active:bg-accent-dark group-active:scale-97 transition duration-300'
         }
       >
         {children}

@@ -12,7 +12,7 @@ export default function AccentLink({ href, children, className }: Props) {
     <Link
       href={href}
       className={cn(
-        'py-2.5 px-4 flex justify-center items-center text-white rounded-md font-medium bg-pink-400 hover:bg-pink-450 active:bg-pink-500 active:scale-97 transition duration-300',
+        'py-2.5 px-4 flex justify-center items-center rounded-md font-medium text-light bg-accent hover:bg-accent-dark active:bg-accent-dark active:scale-97 transition duration-300',
         className,
       )}
     >
