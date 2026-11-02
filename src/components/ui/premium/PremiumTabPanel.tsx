@@ -30,7 +30,7 @@ export default function PremiumTabPanel({
       aria-labelledby={tabId}
       tabIndex={0}
       className={cn(
-        'hidden flex-col items-center gap-3 p-3 border border-pink-400 rounded-2xl',
+        'hidden flex-col items-center gap-3 p-3 border border-accent rounded-2xl',
         {
           flex: isSelected,
         },
@@ -39,7 +39,7 @@ export default function PremiumTabPanel({
       {isMostPopular && (
         <div
           className={
-            'flex flex-col gap-2 items-center uppercase text-sm text-pink-400 dark:text-pink-200'
+            'flex flex-col gap-2 items-center uppercase text-sm text-base-accent'
           }
         >
           <PremiumCrownIcon />
@@ -56,7 +56,7 @@ export default function PremiumTabPanel({
         </span>
         <span className={'text-18 md:text-xl'}>
           <span>or </span>
-          <span className={'text-pink-400 dark:text-pink-200'}>
+          <span className={'text-base-accent'}>
             save 25% with annual billing
           </span>
         </span>
@@ -77,7 +77,7 @@ export default function PremiumTabPanel({
           <li key={`paragraph-${index}`} className={'flex items-center gap-1'}>
             <span
               className={
-                'flex items-center justify-center p-0.5 rounded-full border border-pink-400'
+                'flex items-center justify-center p-0.5 rounded-full border border-accent'
               }
             >
               <PremiumAdvantageIcon />

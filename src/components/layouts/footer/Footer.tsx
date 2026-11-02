@@ -1,7 +1,7 @@
-import Link from 'next/link'
 import { footerLinks } from '@/components/layouts/footer/footer.data'
 import MiniLogo from '@/components/ui/logo/MiniLogo'
 import { LINKS } from '@/shared/configs/links.config'
+import TextLink from '@/components/ui/text-link/TextLink'
 
 export default function Footer() {
   return (
@@ -14,29 +14,21 @@ export default function Footer() {
         <div className={'flex flex-col gap-2.5 xl:gap-1.5'}>
           <div>
             In case of copyright infringement, please contact{' '}
-            <a
-              className={
-                'border-b hover:text-pink-400 hover:dark:text-pink-200 active:text-pink-400 active:dark:text-pink-200 transition duration-300 whitespace-nowrap'
-              }
-              href={LINKS.EMAIL_INFO.href}
-            >
+            <TextLink type={'a'} href={LINKS.EMAIL_INFO.href}>
               {LINKS.EMAIL_INFO.label}
-            </a>
+            </TextLink>
           </div>
           <nav>
             <ul
-              className={'flex flex-wrap justify-center lg:justify-start gap-4'}
+              className={
+                'flex flex-wrap justify-center lg:justify-start gap-2.5'
+              }
             >
               {footerLinks.map((link) => (
                 <li key={link.name}>
-                  <Link
-                    className={
-                      'border-b whitespace-nowrap hover:text-pink-400 hover:dark:text-pink-200 active:text-pink-400 active:dark:text-pink-200 transition duration-300'
-                    }
-                    href={link.href}
-                  >
+                  <TextLink type={'link'} href={link.href}>
                     {link.name}
-                  </Link>
+                  </TextLink>
                 </li>
               ))}
             </ul>

@@ -1,5 +1,6 @@
 import { LINKS } from '@/shared/configs/links.config'
 import WelcomeTitleH2 from '@/components/widgets/Welcome/WelcomeTitleH2/WelcomeTitleH2'
+import TextLink from '@/components/ui/text-link/TextLink'
 
 export default function WelcomeQuestions() {
   return (
@@ -7,14 +8,9 @@ export default function WelcomeQuestions() {
       <WelcomeTitleH2 title={'Any questions?'} />
       <span className={'md:text-18 text-center'}>
         <span>Contact us </span>
-        <a
-          className={
-            'text-pink-400 dark:text-pink-200 hover:text-gray-700 dark:hover:text-gray-100 hover:underline active:text-gray-700 dark:active:text-gray-100 active:underline transition duration-300'
-          }
-          href={LINKS.EMAIL_INFO.href}
-        >
+        <TextLink type={'a'} href={LINKS.EMAIL_INFO.href}>
           {LINKS.EMAIL_INFO.label}
-        </a>
+        </TextLink>
       </span>
     </section>
   )

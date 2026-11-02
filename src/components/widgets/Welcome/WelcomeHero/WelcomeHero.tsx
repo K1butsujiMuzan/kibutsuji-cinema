@@ -1,12 +1,16 @@
 import Image from 'next/image'
 import WelcomeHeroButton from '@/components/widgets/Welcome/WelcomeHero/WelcomeHeroButton'
+import { cn } from '@/lib/utils'
 
 export default function WelcomeHero() {
   return (
     <section
-      className={
-        'overflow-hidden relative px-3 w-full before:content-[""] before:absolute before:inset-0 before:block before:bg-gray-50/50 dark:before:bg-gray-950/75 md:before:bg-black/0 md:before:bg-linear-to-l before:from-[-15%] before:from-black/0 before:via-40% before:via-white/50 dark:before:via-black/50 before:to-75% before:to-white/80 dark:before:to-black/80 before:z-10'
-      }
+      className={cn(
+        'overflow-hidden relative px-3 w-full',
+        'before:content-[""] before:absolute before:inset-0 before:block before:z-10 md:before:bg-linear-to-l before:from-[-15%] before:via-40% before:to-75%',
+        'before:bg-white/50 md:before:bg-black/0 before:from-black/0 before:via-white/50 before:to-white/80',
+        'dark:before:bg-black/75 dark:before:via-black/50 dark:before:to-black/80',
+      )}
     >
       <Image
         className={'object-cover scale-125 md:scale-100'}

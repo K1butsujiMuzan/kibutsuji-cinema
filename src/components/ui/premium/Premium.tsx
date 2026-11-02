@@ -10,8 +10,6 @@ import PremiumTabPanel from '@/components/ui/premium/PremiumTabPanel'
 
 type Props = {
   titleId: string
-  tabId: string
-  panelId: string
 }
 
 export default function Premium({ titleId }: Props) {
@@ -24,7 +22,7 @@ export default function Premium({ titleId }: Props) {
         aria-labelledby={titleId}
         role={'tablist'}
         onKeyDown={onTabListKeyDown}
-        className={'flex gap-2 p-3 border border-pink-400 rounded-4xl'}
+        className={'flex gap-2 p-3 border border-accent rounded-4xl'}
       >
         {premiumTabs.map((item, index) => {
           const isCurrent = currentTab === index

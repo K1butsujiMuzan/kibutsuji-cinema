@@ -105,7 +105,7 @@ export default function RequestList() {
               createdAt={createdAt}
             >
               <Button
-                className={'text-green-400'}
+                className={'text-green'}
                 aria-label={'accept friend'}
                 onClick={() => acceptMutation.mutate(id)}
                 disabled={acceptMutation.isPending || declineMutation.isPending}
@@ -113,7 +113,7 @@ export default function RequestList() {
                 <AcceptFriendIcon />
               </Button>
               <Button
-                className={'text-red-400'}
+                className={'text-red'}
                 aria-label={'decline friend'}
                 onClick={() => declineMutation.mutate(id)}
                 disabled={acceptMutation.isPending || declineMutation.isPending}

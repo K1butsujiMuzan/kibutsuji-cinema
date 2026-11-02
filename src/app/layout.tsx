@@ -28,10 +28,8 @@ export default function RootLayout({
       <body className={`${fontAtyp.variable} antialiased font-main`}>
         <ThemeProvider>
           <MainQueryProvider>
-            <div className="root">
-              {children}
-              <Footer />
-            </div>
+            {children}
+            <Footer />
             <div id="toasts-box" className={'toasts-box'}>
               <ToastBox />
             </div>

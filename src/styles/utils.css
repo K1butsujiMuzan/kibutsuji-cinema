@@ -6,3 +6,7 @@
   flex-direction: column;
   margin-inline: auto;
 }
+
+.no-scrollbar {
+  scrollbar-width: none;
+}

@@ -120,23 +120,23 @@ export default function AnimeBookmark({ animeId }: Props) {
         options={[
           {
             value: List.WATCHING,
-            color: 'text-orange-400',
+            color: 'text-orange',
           },
           {
             value: List.PLANNED,
-            color: 'text-blue-500',
+            color: 'text-blue',
           },
           {
             value: List.ABANDONED,
-            color: 'text-red-400',
+            color: 'text-red',
           },
           {
             value: List.COMPLETED,
-            color: 'text-green-400',
+            color: 'text-green',
           },
           {
             value: List.FAVORITE,
-            color: 'text-red-250',
+            color: 'text-light-red',
           },
         ]}
         Icon={list === null ? <AddIcon /> : <BookmarkIcon />}
@@ -147,7 +147,7 @@ export default function AnimeBookmark({ animeId }: Props) {
           disabled={
             isFetching || upsertMutation.isPending || removeMutation.isPending
           }
-          className={'p-2.5 text-red-400 shrink-0'}
+          className={'p-2.5 text-red shrink-0'}
           onClick={() => removeMutation.mutate()}
           aria-label={'remove from list'}
         >

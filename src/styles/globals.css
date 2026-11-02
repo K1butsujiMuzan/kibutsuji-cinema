@@ -32,9 +32,16 @@
   --color-base-button: var(--color-base-button);
   --color-base-button-hover: var(--color-base-button-hover);
   --color-base-second-bg: var(--color-base-second-bg);
+  --color-base-accent: var(--color-base-accent);
   --color-accent: var(--color-accent);
   --color-accent-dark: var(--color-accent-dark);
   --color-light: var(--color-light);
+  --color-dark-gray: var(--color-dark-gray);
+  --color-green: var(--color-green);
+  --color-red: var(--color-red);
+  --color-light-red: var(--color-light-red);
+  --color-orange: var(--color-orange);
+  --color-blue: var(--color-blue);
 
   --color-pink-50: #ede7f6;
   --color-pink-60: #eeeef0;
@@ -65,14 +72,6 @@
   --color-gray-750: #252527;
   --color-gray-800: #1c1c1c;
   --color-gray-950: #0a0a0a;
-
-  --color-green-400: #3cce7b;
-  --color-green-600: #45b745;
-  --color-orange-400: #ff9b40;
-}
-
-.no-scrollbar {
-  scrollbar-width: none;
 }
 
 .main-container {

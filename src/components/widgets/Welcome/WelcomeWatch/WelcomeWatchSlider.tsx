@@ -21,7 +21,7 @@ export default function WelcomeWatchSlider() {
     return (
       <div
         className={
-          'grid grid-cols-[13rem] auto-cols-[13rem] grid-rows-[20rem] gap-2 grid-flow-col w-full max-w-full overflow-x-clip py-2'
+          'w-full max-w-full grid auto-cols-[13rem] grid-rows-[20rem] gap-2 grid-flow-col overflow-hidden py-2'
         }
       >
         <span className={'sr-only'}>loading</span>
@@ -68,9 +68,7 @@ export default function WelcomeWatchSlider() {
 
   return (
     <Slider
-      className={
-        'grid grid-cols-[13rem] auto-cols-[13rem] grid-rows-[20rem] gap-2 grid-flow-col'
-      }
+      className={'grid auto-cols-[13rem] grid-rows-[20rem] gap-2 grid-flow-col'}
       sliderAriaLabel={'Top anime'}
     >
       {data.map(({ id, slug, type, rating, image, title }, index) => (

@@ -10,13 +10,20 @@
   --color-gray: #2d2d2f;
   --color-light-pink: #ded8f1;
   --color-accent: #5e35b1;
+  --color-accent-light: #b388ff;
   --color-accent-dark: #513094;
+  --color-green: #45b745;
+  --color-red: #ed1818;
+  --color-light-red: #ff6666;
+  --color-orange: #ff9b40;
+  --color-blue: #3b82f6;
 
   --color-base-bg: var(--color-light);
   --color-base-text: var(--color-dark-gray);
   --color-base-button: var(--color-button);
   --color-base-button-hover: var(--color-button-hover);
   --color-base-second-bg: var(--color-light-pink);
+  --color-base-accent: var(--color-accent);
 }
 
 html.dark {
@@ -25,4 +32,5 @@ html.dark {
   --color-base-button: var(--color-button-dark);
   --color-base-button-hover: var(--color-button-dark-hover);
   --color-base-second-bg: var(--color-gray);
+  --color-base-accent: var(--color-accent-light);
 }
