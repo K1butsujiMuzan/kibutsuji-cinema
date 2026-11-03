@@ -69,7 +69,6 @@ export default function LoginForm() {
         firstText={'Forgot your password?'}
         secondHref={PAGES.REGISTER}
         secondText={'Create an Account'}
-        className={'pt-1'}
       />
     </>
   )

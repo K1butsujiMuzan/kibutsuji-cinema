@@ -20,7 +20,7 @@ providers в components!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 удалить класс main-container
 border цвета
 добавить новую подписку в бд
-убрать font-bold/font-semibold
-isValid prop
+убрать font-semibold
+убрать font-bold
 
 '/images/global/base-avatar.jpg' в одном месте сделать

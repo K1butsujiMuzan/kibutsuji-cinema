@@ -1,56 +1,25 @@
 'use client'
 
-import { Controller, type SubmitHandler, useForm } from 'react-hook-form'
 import ErrorMessage from '@/components/ui/error-message/ErrorMessage'
 import LoginButton from '@/components/ui/login-button/LoginButton'
-import {
-  newPasswordSchema,
-  type TNewPassword,
-} from '@/shared/schemes/register.scheme'
-import { zodResolver } from '@hookform/resolvers/zod'
 import LoginPassword from '@/components/ui/login-password/LoginPassword'
-import { useState } from 'react'
-import { resetPassword } from '@/lib/auth-client'
-import { useSearchParams } from 'next/navigation'
-import { ERRORS } from '@/shared/configs/errors.config'
 import NewPasswordSubmitted from '@/components/widgets/new-password/NewPasswordSubmitted'
-import NewPasswordTitle from '@/components/widgets/new-password/NewPasswordTitle'
+import { useNewPassword } from '@/components/widgets/new-password/useNewPassword'
+import { useId } from 'react'
 
 export default function NewPasswordForm() {
-  const params = useSearchParams()
-
   const {
-    control,
-    formState: { isValid, errors, isSubmitting, dirtyFields },
+    isSubmitted,
     handleSubmit,
-  } = useForm<TNewPassword>({
-    defaultValues: {
-      password: '',
-      passwordRepeat: '',
-    },
-    mode: 'onChange',
-    resolver: zodResolver(newPasswordSchema),
-  })
-
-  const [isSubmitted, setIsSubmitted] = useState<boolean>(false)
-  const [error, setError] = useState<string | null>(null)
-
-  const onFormSubmit: SubmitHandler<TNewPassword> = async (data) => {
-    setError(null)
-    try {
-      const response = await resetPassword({
-        newPassword: data.password,
-        token: params.get('token') || '',
-      })
-      if (response.error) {
-        return setError(response.error?.message || ERRORS.SOMETHING_WRONG)
-      }
-      setIsSubmitted(true)
-    } catch (error) {
-      setError(ERRORS.SOMETHING_WRONG)
-      console.error(error)
-    }
-  }
+    onFormSubmit,
+    errors,
+    dirtyFields,
+    error,
+    isSubmitting,
+    isValid,
+    register,
+  } = useNewPassword()
+  const passwordHintId = useId()
 
   if (isSubmitted) {
     return <NewPasswordSubmitted />
@@ -58,46 +27,39 @@ export default function NewPasswordForm() {
 
   return (
     <>
-      <NewPasswordTitle />
+      <h1 className={'text-2xl md:text-34 font-semibold text-center'}>
+        Create a new password
+      </h1>
+      <p className={'md:text-18 max-w-104 text-center font-medium'}>
+        For security, your password must be 6 or more characters long.
+      </p>
       <form
         className={'w-full max-w-104 flex flex-col gap-5'}
         onSubmit={handleSubmit(onFormSubmit)}
       >
         <div className={'flex flex-col gap-8 py-5 md:py-10'}>
-          <div className={'flex flex-col gap-4'}>
-            <Controller
-              name={'password'}
-              control={control}
-              render={({ field }) => (
-                <LoginPassword
-                  {...field}
-                  autoComplete={'new-password'}
-                  maxLength={50}
-                  isValid={!errors.password?.message}
-                  isDirty={!!dirtyFields.password}
-                  labelText={'New password'}
-                />
-              )}
-            />
-            {error && <ErrorMessage message={error} />}
-          </div>
-          <Controller
-            name={'passwordRepeat'}
-            control={control}
-            render={({ field }) => (
-              <LoginPassword
-                {...field}
-                autoComplete={'new-password'}
-                maxLength={50}
-                isValid={!errors.passwordRepeat?.message}
-                isDirty={!!dirtyFields.passwordRepeat}
-                labelText={'Enter the new password again'}
-              />
-            )}
+          <LoginPassword
+            {...register('password')}
+            autoComplete={'new-password'}
+            maxLength={50}
+            isValid={!errors.password?.message}
+            isDirty={!!dirtyFields.password}
+            labelText={'New password'}
+            aria-describedby={passwordHintId}
           />
-          <small className={'text-xs leading-4 font-semibold py-1'}>
+          <LoginPassword
+            {...register('passwordRepeat')}
+            autoComplete={'new-password'}
+            maxLength={50}
+            isValid={!errors.passwordRepeat?.message}
+            isDirty={!!dirtyFields.passwordRepeat}
+            labelText={'Enter the new password again'}
+            aria-describedby={passwordHintId}
+          />
+          <small className={'text-xs font-medium'} id={passwordHintId}>
             The password must contain at least 6 characters without spaces
           </small>
+          {error && <ErrorMessage message={error} />}
         </div>
         <LoginButton
           text={isSubmitting ? 'Reset...' : 'Reset password'}

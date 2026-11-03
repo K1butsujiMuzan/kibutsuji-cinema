@@ -1,4 +1,3 @@
-import { cn } from '@/lib/utils'
 import TextLink from '@/components/ui/text-link/TextLink'
 
 interface Props {
@@ -6,7 +5,6 @@ interface Props {
   firstText: string
   secondHref: string
   secondText: string
-  className?: string
 }
 
 export default function LoginLinks({
@@ -14,23 +12,18 @@ export default function LoginLinks({
   firstText,
   secondHref,
   secondText,
-  className,
 }: Props) {
   return (
-    <div className={cn('flex gap-2 justify-center items-center', className)}>
-      <TextLink
-        type={'link'}
-        href={firstHref}
-        className={'text-sm font-semibold uppercase'}
-      >
+    <div
+      className={
+        'flex gap-2 justify-center flex-wrap items-center text-sm font-medium uppercase'
+      }
+    >
+      <TextLink type={'link'} href={firstHref}>
         {firstText}
       </TextLink>
-      <span className={'text-sm font-bold leading-4.5'}> | </span>
-      <TextLink
-        type={'link'}
-        href={secondHref}
-        className={'text-sm font-semibold uppercase'}
-      >
+      <span aria-hidden={true}>|</span>
+      <TextLink type={'link'} href={secondHref}>
         {secondText}
       </TextLink>
     </div>
