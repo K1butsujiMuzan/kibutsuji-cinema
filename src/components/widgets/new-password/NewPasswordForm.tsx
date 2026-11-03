@@ -73,10 +73,9 @@ export default function NewPasswordForm() {
                   {...field}
                   autoComplete={'new-password'}
                   maxLength={50}
-                  isValid={!!errors.password?.message}
+                  isValid={!errors.password?.message}
                   isDirty={!!dirtyFields.password}
                   labelText={'New password'}
-                  id={'password'}
                 />
               )}
             />
@@ -90,10 +89,9 @@ export default function NewPasswordForm() {
                 {...field}
                 autoComplete={'new-password'}
                 maxLength={50}
-                isValid={!!errors.passwordRepeat?.message}
+                isValid={!errors.passwordRepeat?.message}
                 isDirty={!!dirtyFields.passwordRepeat}
                 labelText={'Enter the new password again'}
-                id={'passwordRepeat'}
               />
             )}
           />

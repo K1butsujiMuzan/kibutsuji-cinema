@@ -13,7 +13,7 @@ export default function TextLink({ type, href, children, className }: Props) {
     return (
       <a
         className={cn(
-          'text-base-accent hover:text-base-text hover:underline active:text-base-text active:underline transition duration-300 whitespace-nowrap',
+          'text-base-accent hover:text-base-text hover:underline active:text-base-text active:underline whitespace-nowrap transition duration-300',
           className,
         )}
         href={href}
@@ -26,7 +26,7 @@ export default function TextLink({ type, href, children, className }: Props) {
   return (
     <Link
       className={cn(
-        'text-base-accent hover:text-base-text hover:underline active:text-base-text active:underline transition duration-300 whitespace-nowrap',
+        'text-base-accent hover:text-base-text hover:underline active:text-base-text active:underline whitespace-nowrap transition duration-300',
         className,
       )}
       href={href}

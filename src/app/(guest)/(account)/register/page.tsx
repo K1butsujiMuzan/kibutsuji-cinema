@@ -7,8 +7,8 @@ export const metadata: Metadata = {
 
 export default function Register() {
   return (
-    <main className={'pb-8 pt-4 md:pt-35'}>
-      <div className={'flex flex-col items-center gap-4 main-container'}>
+    <main className={'pb-8 pt-4 md:pt-24'}>
+      <div className={'items-center gap-4 container-flex'}>
         <RegisterForm />
       </div>
     </main>

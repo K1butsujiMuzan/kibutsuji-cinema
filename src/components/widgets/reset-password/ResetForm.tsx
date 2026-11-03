@@ -71,9 +71,8 @@ export default function ResetForm() {
               <LoginInput
                 {...field}
                 autoComplete={'email'}
-                isValid={!!errors.email?.message}
+                isValid={!errors.email?.message}
                 labelText={'Email'}
-                id={'email'}
                 type={'email'}
               />
             )}

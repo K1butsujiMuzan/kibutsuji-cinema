@@ -1,4 +1,6 @@
-interface Props {
+import { cn } from '@/lib/utils'
+
+type Props = {
   text: string
   disabled?: boolean
 }
@@ -9,9 +11,11 @@ export default function LoginButton({ text, disabled }: Props) {
       disabled={disabled}
       aria-disabled={disabled}
       type="submit"
-      className={
-        'uppercase py-2 text-white disabled:!cursor-default disabled:text-gray-200 border border-transparent disabled:bg-transparent disabled:border-gray-200 rounded-md font-medium bg-pink-400 hover:bg-pink-450 active:bg-pink-500 not-disabled:active:scale-97 transition duration-300'
-      }
+      className={cn(
+        'uppercase py-2.25 px-4 text-light border border-transparent rounded-md font-medium bg-accent',
+        'disabled:!cursor-default disabled:text-base-text disabled:bg-transparent disabled:border-base-text',
+        'not-disabled:hover:bg-accent-dark not-disabled:active:bg-accent-dark not-disabled:active:scale-97 transition duration-300',
+      )}
     >
       {text}
     </button>
