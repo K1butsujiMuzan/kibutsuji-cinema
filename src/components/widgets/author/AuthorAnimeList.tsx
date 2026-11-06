@@ -12,7 +12,7 @@ import { useInView } from 'react-intersection-observer'
 import { useEffect } from 'react'
 import { MAX_AUTHOR_ANIME } from '@/shared/constants/limits'
 
-interface Props {
+type Props = {
   authorSlug: string
 }
 

@@ -10,7 +10,7 @@ import { cn } from '@/lib/utils'
 import { useThemeChange } from '@/hooks/useThemeChange'
 import { useEffect, useState } from 'react'
 
-interface Props {
+type Props = {
   className?: string
 }
 

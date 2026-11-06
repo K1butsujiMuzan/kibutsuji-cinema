@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { memo } from 'react'
 
-interface Props {
+type Props = {
   className?: string
 }
 

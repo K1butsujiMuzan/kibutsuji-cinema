@@ -1,6 +1,6 @@
 import Hime from '@/components/ui/hime/Hime'
 
-interface Props {
+type Props = {
   email: string
   text: string
 }

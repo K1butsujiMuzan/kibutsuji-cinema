@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils'
 
-interface Props {
+type Props = {
   className?: string
 }
 

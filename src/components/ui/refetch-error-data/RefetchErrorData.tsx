@@ -1,6 +1,6 @@
 import Button from '@/components/ui/button/Button'
 
-interface Props {
+type Props = {
   error: string
   onClick: () => void
   disabled: boolean

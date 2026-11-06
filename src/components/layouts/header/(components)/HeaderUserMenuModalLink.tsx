@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { memo } from 'react'
 
-interface Props {
+type Props = {
   href: string
   text: string
   onClick: () => void

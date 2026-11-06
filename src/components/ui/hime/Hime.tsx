@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { cn } from '@/lib/utils'
 
-interface Props {
+type Props = {
   text: string
   type: 'sad' | 'happy'
   className?: string

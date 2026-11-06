@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-interface Props {
+type Props = {
   href: string
   text: string
   title: string

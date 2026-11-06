@@ -8,7 +8,7 @@ import UserInformation from '@/components/widgets/user/UserInformation'
 import UserInformationController from '@/components/widgets/user/UserInformationController'
 import UserFriendLoading from '@/components/widgets/user/loaders/UserFriendLoading'
 
-interface Props {
+type Props = {
   children: React.ReactNode
   params: Promise<{ userId: string }>
 }

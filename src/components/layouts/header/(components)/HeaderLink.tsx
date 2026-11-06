@@ -2,7 +2,7 @@ import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import { memo } from 'react'
 
-interface Props {
+type Props = {
   children: React.ReactNode
   href: string
   text: string

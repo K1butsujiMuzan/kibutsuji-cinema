@@ -2,43 +2,46 @@
 
 import LoginInput from '@/components/ui/login-input/LoginInput'
 import LoginButton from '@/components/ui/login-button/LoginButton'
-import LoginGoogle from '@/components/ui/login-google/LoginGoogle'
-import LoginPassword from '@/components/ui/login-password/LoginPassword'
-import { PAGES } from '@/shared/configs/pages.config'
 import ErrorMessage from '@/components/ui/error-message/ErrorMessage'
+import { PAGES } from '@/shared/configs/pages.config'
 import LoginLinks from '@/components/ui/login-links/LoginLinks'
 import LoginSubmitted from '@/components/ui/login-submitted/LoginSubmitted'
-import { useLoginForm } from '@/components/widgets/login/useLoginForm'
+import { useResetPassword } from '@/components/widgets/ResetPassword/useResetPassword'
 
-export default function LoginForm() {
+export default function ResetForm() {
   const {
-    isVerificationSent,
+    isSubmitted,
     getValues,
     handleSubmit,
     onFormSubmit,
-    isSubmitting,
-    isValid,
     errors,
     error,
-    dirtyFields,
+    isSubmitting,
+    isValid,
     register,
-  } = useLoginForm()
+  } = useResetPassword()
 
-  if (isVerificationSent) {
+  if (isSubmitted) {
     return (
       <LoginSubmitted
         email={getValues('email')}
-        text={'Email confirmation link sent'}
+        text={'Password reset link sent'}
       />
     )
   }
 
   return (
     <>
-      <h1 className={'text-2xl md:text-34 font-semibold text-center'}>Login</h1>
+      <h1 className={'text-2xl md:text-34 font-semibold text-center'}>
+        Reset password
+      </h1>
+      <p className={'md:text-18 max-w-104 text-center font-medium'}>
+        A password reset link will be sent to your email. Your IP address may be
+        logged for security purposes.
+      </p>
       <form
-        onSubmit={handleSubmit(onFormSubmit)}
         className={'w-full max-w-104 flex flex-col gap-5'}
+        onSubmit={handleSubmit(onFormSubmit)}
       >
         <div className={'flex flex-col gap-4 py-5 md:py-10'}>
           <LoginInput
@@ -48,25 +51,16 @@ export default function LoginForm() {
             labelText={'Email'}
             type={'email'}
           />
-          <LoginPassword
-            {...register('password')}
-            autoComplete={'current-password'}
-            maxLength={50}
-            isValid={!errors.password?.message}
-            isDirty={!!dirtyFields.password}
-            labelText={'Password'}
-          />
           {error && <ErrorMessage message={error} />}
         </div>
-        <LoginGoogle />
         <LoginButton
-          text={isSubmitting ? 'Logging in...' : 'Login'}
+          text={isSubmitting ? 'Sending...' : 'Send'}
           disabled={!isValid || isSubmitting}
         />
       </form>
       <LoginLinks
-        firstHref={PAGES.RESET}
-        firstText={'Forgot your password?'}
+        firstHref={PAGES.LOGIN}
+        firstText={'Login'}
         secondHref={PAGES.REGISTER}
         secondText={'Create an Account'}
       />

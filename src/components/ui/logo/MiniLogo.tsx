@@ -1,9 +1,8 @@
 import Link from 'next/link'
 import { PAGES } from '@/shared/configs/pages.config'
-import { cn } from '@/lib/utils'
 import { memo } from 'react'
 
-interface Props {
+type Props = {
   className?: string
 }
 

@@ -2,7 +2,7 @@ import { PAGES } from '@/shared/configs/pages.config'
 import Link from 'next/link'
 import { memo } from 'react'
 
-interface Props {
+type Props = {
   userName: string
   userId: string
   onClick: () => void

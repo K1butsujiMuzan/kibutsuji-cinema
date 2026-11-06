@@ -6,7 +6,7 @@ import HeaderUserMenuModal from '@/components/layouts/header/(components)/Header
 import { memo } from 'react'
 import { KEYCODES } from '@/shared/constants/keycodes'
 
-interface Props {
+type Props = {
   userName: string
   userId: string
   className?: string

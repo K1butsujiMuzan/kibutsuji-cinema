@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import RegisterForm from '@/components/widgets/register/RegisterForm'
+import RegisterForm from '@/components/widgets/Register/RegisterForm'
 
 export const metadata: Metadata = {
   title: 'Register',

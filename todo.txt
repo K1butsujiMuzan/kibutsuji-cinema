@@ -17,10 +17,10 @@ Button paddings
 После регистр добавить ссылку "Main" или "Login"
 providers в components!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 цвета!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-удалить класс main-container
 border цвета
 добавить новую подписку в бд
 убрать font-semibold
 убрать font-bold
+баг с скролом снизу вверх
 
 '/images/global/base-avatar.jpg' в одном месте сделать

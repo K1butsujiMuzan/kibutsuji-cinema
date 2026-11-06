@@ -10,7 +10,7 @@ import { PAGES } from '@/shared/configs/pages.config'
 import HeaderUserMenuModalLogoutButton from '@/components/layouts/header/(components)/HeaderUserMenuModalLogoutButton'
 import Line from '@/components/ui/line/Line'
 
-interface Props {
+type Props = {
   userName: string
   userId: string
   isPrivate: boolean

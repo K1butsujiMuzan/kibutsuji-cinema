@@ -1,6 +1,6 @@
 import { PAGES } from '@/shared/configs/pages.config'
 
-interface IFooterLink {
+type IFooterLink = {
   name: string
   href: string
 }

@@ -1,20 +1,10 @@
-import TextPage from '@/components/ui/text-page/TextPage'
-import {
-  privacyPolicyData,
-  privacyPolicyPreface,
-} from '@/components/widgets/privacy-policy/privacy-policy.data'
 import type { Metadata } from 'next'
+import PrivacyPolicyPage from '@/components/widgets/PrivacyPolicy/PrivacyPolicyPage'
 
 export const metadata: Metadata = {
   title: 'Privacy policy',
 }
 
 export default function PrivacyPolicy() {
-  return (
-    <TextPage
-      title={'Privacy Policy'}
-      preface={privacyPolicyPreface}
-      textPageData={privacyPolicyData}
-    />
-  )
+  return <PrivacyPolicyPage />
 }

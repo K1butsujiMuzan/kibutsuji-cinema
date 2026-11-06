@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   title: 'friends',
 }
 
-interface Props {
+type Props = {
   params: Promise<{ userId: string }>
   searchParams: Promise<{ type?: string }>
 }

@@ -2,7 +2,7 @@ import type { TTextPageData } from '@/shared/types/text-page.type'
 import parse from 'html-react-parser'
 import { Fragment } from 'react'
 
-interface Props {
+type Props = {
   title: string
   preface: string[]
   textPageData: TTextPageData[]
@@ -11,14 +11,13 @@ interface Props {
 export default function TextPage({ title, preface, textPageData }: Props) {
   return (
     <main className={'pb-8 pt-4'}>
-      <section className={'flex flex-col gap-5 md:gap-10 main-container'}>
-        <h1 className={'text-22 md:text-28 font-medium'}>{title}</h1>
+      <section className={'flex flex-col gap-5 md:gap-10 container-flex'}>
+        <h1 className={'text-2xl md:text-34 font-semibold text-center'}>
+          {title}
+        </h1>
         <div className={'flex flex-col gap-4 md:gap-6'}>
           {preface.map((item, index) => (
-            <p
-              key={`preface-${index}`}
-              className={'text-sm md:text-base font-medium'}
-            >
+            <p key={`preface-${index}`} className={'text-sm md:text-base'}>
               {parse(item)}
             </p>
           ))}
@@ -32,14 +31,14 @@ export default function TextPage({ title, preface, textPageData }: Props) {
                   <Fragment
                     key={`${item.label.toLowerCase()}-paragraph-${index}`}
                   >
-                    <p className={'text-sm md:text-base font-medium'}>
+                    <p className={'text-sm md:text-base'}>
                       {parse(paragraph.text)}
                     </p>
                     {!!paragraph.list && (
                       <ul className={'list-disc pl-5 md:pl-10'}>
                         {paragraph.list.map((listItem, index) => (
                           <li
-                            className={'text-sm md:text-base font-medium'}
+                            className={'text-sm md:text-base'}
                             key={`${item.label.toLowerCase()}-list-item-${index}`}
                           >
                             {parse(listItem)}
@@ -62,14 +61,14 @@ export default function TextPage({ title, preface, textPageData }: Props) {
                       <Fragment
                         key={`${subparagraph.label.toLowerCase()}-paragraph-${index}`}
                       >
-                        <p className={'text-sm md:text-base font-medium'}>
+                        <p className={'text-sm md:text-base'}>
                           {parse(paragraph.text)}
                         </p>
                         {!!paragraph.list && (
                           <ul className={'list-disc pl-5 md:pl-10'}>
                             {paragraph.list.map((listItem, index) => (
                               <li
-                                className={'text-sm md:text-base font-medium'}
+                                className={'text-sm md:text-base'}
                                 key={`${subparagraph.label.toLowerCase()}-list-item-${index}`}
                               >
                                 {parse(listItem)}

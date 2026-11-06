@@ -5,7 +5,7 @@ import AnimeRightPanel from '@/components/widgets/anime/right-panel/AnimeRightPa
 import { getServerSession } from '@/lib/get-server-session'
 import Image from 'next/image'
 
-interface Props {
+type Props = {
   params: Promise<{ slug: string }>
 }
 

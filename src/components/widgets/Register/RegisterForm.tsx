@@ -6,9 +6,9 @@ import LoginGoogle from '@/components/ui/login-google/LoginGoogle'
 import LoginCheckbox from '@/components/ui/login-checkbox/LoginCheckbox'
 import LoginPassword from '@/components/ui/login-password/LoginPassword'
 import ErrorMessage from '@/components/ui/error-message/ErrorMessage'
-import RegisterLinks from '@/components/widgets/register/RegisterLinks'
+import RegisterLinks from '@/components/widgets/Register/RegisterLinks'
 import LoginSubmitted from '@/components/ui/login-submitted/LoginSubmitted'
-import { useRegisterForm } from '@/components/widgets/register/useRegisterForm'
+import { useRegisterForm } from '@/components/widgets/Register/useRegisterForm'
 import { useId } from 'react'
 
 export default function RegisterForm() {

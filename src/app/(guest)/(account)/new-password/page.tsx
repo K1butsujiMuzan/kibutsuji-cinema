@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import NewPasswordForm from '@/components/widgets/new-password/NewPasswordForm'
+import NewPasswordForm from '@/components/widgets/NewPassword/NewPasswordForm'
 import { Suspense } from 'react'
 
 export const metadata: Metadata = {

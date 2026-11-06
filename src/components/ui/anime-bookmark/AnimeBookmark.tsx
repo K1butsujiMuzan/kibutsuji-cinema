@@ -22,7 +22,7 @@ import { useOnSuccess } from '@/hooks/useOnSuccess'
 import Button from '@/components/ui/button/Button'
 import { RemoveFriendIcon } from '@/components/icons/UserFriendsIcons'
 
-interface Props {
+type Props = {
   animeId: string
 }
 

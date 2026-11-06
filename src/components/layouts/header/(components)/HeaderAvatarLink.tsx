@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { cn } from '@/lib/utils'
 import { memo } from 'react'
 
-interface Props {
+type Props = {
   userId: string
   userName: string
   userImage: string | null | undefined

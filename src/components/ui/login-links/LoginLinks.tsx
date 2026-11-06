@@ -1,6 +1,6 @@
 import TextLink from '@/components/ui/text-link/TextLink'
 
-interface Props {
+type Props = {
   firstHref: string
   firstText: string
   secondHref: string

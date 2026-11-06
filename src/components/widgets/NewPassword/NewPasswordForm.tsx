@@ -3,8 +3,8 @@
 import ErrorMessage from '@/components/ui/error-message/ErrorMessage'
 import LoginButton from '@/components/ui/login-button/LoginButton'
 import LoginPassword from '@/components/ui/login-password/LoginPassword'
-import NewPasswordSubmitted from '@/components/widgets/new-password/NewPasswordSubmitted'
-import { useNewPassword } from '@/components/widgets/new-password/useNewPassword'
+import NewPasswordSubmitted from '@/components/widgets/NewPassword/NewPasswordSubmitted'
+import { useNewPassword } from '@/components/widgets/NewPassword/useNewPassword'
 import { useId } from 'react'
 
 export default function NewPasswordForm() {

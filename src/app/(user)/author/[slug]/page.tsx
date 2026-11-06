@@ -4,7 +4,7 @@ import AuthorInformation from '@/components/widgets/author/AuthorInformation'
 import AuthorAnimeList from '@/components/widgets/author/AuthorAnimeList'
 import Image from 'next/image'
 
-interface Props {
+type Props = {
   params: Promise<{ slug: string }>
 }
 

@@ -2,7 +2,7 @@ import Button from '@/components/ui/button/Button'
 import { memo } from 'react'
 import PageChangerIcon from '@/components/icons/PageChangerIcon'
 
-interface Props {
+type Props = {
   hasNext: boolean
   isFetching: boolean
   page: number

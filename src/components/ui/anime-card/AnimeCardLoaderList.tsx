@@ -1,6 +1,6 @@
 import AnimeCardLoader from '@/components/ui/anime-card/AnimeCardLoader'
 
-interface Props {
+type Props = {
   count: number
 }
 
