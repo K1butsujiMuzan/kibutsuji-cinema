@@ -1,11 +1,7 @@
 import { PAGES } from '@/shared/configs/pages.config'
+import type { TFooterLink } from '@/components/layouts/footer/footer.types'
 
-type IFooterLink = {
-  name: string
-  href: string
-}
-
-export const footerLinks: IFooterLink[] = [
+export const footerLinks: TFooterLink[] = [
   {
     name: 'Terms of Use',
     href: PAGES.TOS,
